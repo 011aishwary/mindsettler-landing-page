@@ -257,7 +257,7 @@ const ShatterSection = forwardRef<HTMLDivElement>((props, ref) => {
           );
         })}
       </div>
-      <div ref={section2} className="relative inset-0 h-full flex flex-col items-center justify-start  z-30">
+      <div ref={section2} className="relative inset-0 h-full lg:h-screen flex flex-col items-center justify-start  z-30">
         <div className="Heading1 relative top-0 pt-10 text-center  text-pink-600 font-medium tracking-wider uppercase text-sm mb-2">
           What is MindSettler
         </div>

@@ -46,17 +46,11 @@ const MindsettlerHero = ({ divRef }: { divRef: React.RefObject<HTMLDivElement | 
     const ctaRef = useRef(null);
     const circleRef = useRef(null);
 
-    // 1. Move Preload Outside to prevent memory leaks
-    // useLayoutEffect(() => {
-    //     useGLTF.preload('/3ds/base_basic_pbr.glb')
-    // }, [])
-
     function Model({ url }: { url: string }) {
-        // 1. Load the data from the cache
+
         const { scene: originalScene } = useGLTF(url);
 
-        // 2. CLONE IT. This creates a unique instance for this component.
-        // If we don't clone, we are modifying the global cached object.
+       
         const scene = useMemo(() => originalScene.clone(true), [originalScene]);
 
         const meshRef = useRef<THREE.Group>(null);
@@ -90,8 +84,6 @@ const MindsettlerHero = ({ divRef }: { divRef: React.RefObject<HTMLDivElement | 
                     }
                 });
 
-                // Optional: If you want to force clear the global cache as well
-                // useGLTF.clear(url); 
             };
         }, [scene, url]);
 
@@ -161,16 +153,14 @@ const MindsettlerHero = ({ divRef }: { divRef: React.RefObject<HTMLDivElement | 
             // Text...
             tl.to(headlineRef.current, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, "-=1")
                 .to(subheadRef.current, { y: 0, opacity: 1, duration: 1, ease: "power3.out" }, "-=1.2")
-                .to(ctaRef.current, { y: 0, opacity: 1, duration: 2, ease: "power3.out" }, "-=0.8"); // Fixed opacity typo
-
-            // Float animation removed - handled by ScrollPage component
+                .to(ctaRef.current, { y: 0, opacity: 1, duration: 2, ease: "power3.out" }, "-=0.8"); 
 
         }, comp);
         return () => ctx.revert();
     }, []);
 
     return (
-        <div ref={comp} className="relative w-screen h-full  text-white font-sans">
+        <div ref={comp} className="relative w-screen h-full lg:h-screen text-white font-sans">
             <div className="absolute  w-screen h-full ">
                 <Image
                     ref={heroImageRef}
@@ -248,13 +238,6 @@ const MindsettlerHero = ({ divRef }: { divRef: React.RefObject<HTMLDivElement | 
                         </div>
                     </div>
                 </div>
-
-                {/* --- 3D SECTION --- */}
-
-                {/* 3. CSS FIX: Added min-h-[500px] and w-full so ScrollTrigger has a valid height to measure */}
-                {/* <div ref={divRef} className="wrapper relative w-[50vw] bg-softBlosssom rounded-full h-fit  flex items-center justify-center z-20 order-1 lg:order-2"> */}
-
-                {/* 4. CSS FIX: Changed absolute positioning to relative or ensured parent has height */}
 
             </div>
 

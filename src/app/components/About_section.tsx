@@ -63,19 +63,19 @@ const AboutMindSettler = () => {
         {
             id: 2,
             title: "Processing",
-            content: "As you scroll, we transition smoothly to the next context.",
+            content: "lorem2024 ipsum dolor sit amet, consectetur adipiscing elit.",
             style: "bg-blue-900 text-white",
         },
         {
             id: 3,
             title: "Analysis",
-            content: "The previous step fades away, replaced by critical insights.",
+            content: "lorem3024 ipsum dolor sit amet, consectetur adipiscing elit.",
             style: "bg-indigo-900 text-teal-300",
         },
         {
             id: 4,
             title: "Completion",
-            content: "Once this step is done, we release the scroll lock.",
+            content: "lorem2024 ipsum dolor sit amet, consectetur adipiscing elit.",
             style: "bg-emerald-900 text-white",
         },
     ];
