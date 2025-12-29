@@ -280,6 +280,7 @@ const AboutMindSettler = () => {
                 scale: 1,
                 top: "0vh",
                 borderRadius: "0%",
+          
                 y: 0,
                 duration: 1.5,
                 ease: "power3.out",
@@ -291,7 +292,8 @@ const AboutMindSettler = () => {
                     toggleActions: "play none none reverse", // Plays on scroll down, reverses on scroll up
                     scrub: true,
                     // markers: true,
-                }
+                },
+                
             });
         })
         return () => crtx2.revert();
@@ -336,11 +338,11 @@ const AboutMindSettler = () => {
                     {/* <div className='cove bg-white/30 absolute backdrop-blur-[2px] rounded inset-0 z-2' /> */}
 
                     {/* </div> */}
-                    <section className="py-5 lg:py-10 bg-white relative z-20">
-                        <div className="container mx-auto px-6 md:px-12">
+                    <section className="py-5 lg:py-10 h-full  bg-white relative z-20">
+                        <div className="container mx-auto relative px-6 md:px-12">
 
                             {/* Flex Container: Stacks on mobile (col), Side-by-side on desktop (row) */}
-                            <div className="flex flex-col lg:flex-row items-center  gap-12 lg:gap-20">
+                            <div className="flex flex-col lg:flex-row items-center justify-between relative h-[120vh] gap-12 max-sm:gap-2  lg:gap-20">
 
                                 {/* ============ LEFT SIDE: IMAGE ============ */}
                                 {/* We use w-full lg:w-1/2 to take half space on desktop */}
@@ -363,10 +365,10 @@ const AboutMindSettler = () => {
 
 
                                 {/* ============ RIGHT SIDE: CONTENT ============ */}
-                                <div className="w-full lg:w-1/2 inset-0 relative h-[-webkit-fill-available] max-lg:scale-75 flex flex-col justify-center items-start">
+                                <div className="w-full max-sm:w-screen  lg:w-1/2  relative  h-[-webkit-fill-available] max-lg:scale-75 flex flex-col justify-around items-start">
 
                                     {/* Small Overline Tag */}
-                                    <span ref={mainHead} className="inline-block   absolute top-0 mt-10  text-pink-600 font-medium tracking-wider uppercase text-sm mb-4">
+                                    <span ref={mainHead} className="inline-block   absolute  mx-auto -top-10 max-sm:  sm:mt-10  text-pink-600 font-medium tracking-wider uppercase text-sm mb-4">
                                         About MindSettler
                                     </span>
 
@@ -375,7 +377,7 @@ const AboutMindSettler = () => {
                                         <div
                                             key={step.id}
                                             ref={(el) => {panelsRef.current[i] = el;}}
-                                            className="absolute"
+                                            className="absolute max-sm:h-fit "
                                         >
                                             <h2 className="text-3xl relative   lg:text-5xl font-serif font-bold text-purple-900 mb-6 leading-tight">
                                                 {step.title}

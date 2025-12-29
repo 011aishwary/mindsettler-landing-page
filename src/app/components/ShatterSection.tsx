@@ -107,12 +107,6 @@ const ShatterSection = forwardRef<HTMLDivElement>((props, ref) => {
         ease: "power3.out", // Smooth deceleration
         markers: true,
       })
-      // .to(".Card",
-      //   {
-      //     position: "relative",
-      //     duration: 1,
-      //   }
-      // )
       .fromTo(".Card1",
         {
           opacity: 0,
@@ -128,13 +122,18 @@ const ShatterSection = forwardRef<HTMLDivElement>((props, ref) => {
 
         }
       )
-      .fromTo(".Card2",
+      tl.fromTo(".Card2",
         {
           opacity: 0,
           x: -100,          // Start 100px lower
           skewY: 2        // Slight tilt for a more dynamic feel
         },
         {
+          scrollTrigger:{
+            trigger: ".card1",
+            start:"top 50%"
+
+          },
           opacity: 1,
           x: 0,
           skewY: 0,
@@ -264,11 +263,11 @@ const ShatterSection = forwardRef<HTMLDivElement>((props, ref) => {
         <h2 className="SubHeading1 text-3xl relative  text-center lg:text-5xl font-serif font-bold text-purple-900 mb-2 leading-tight">
           First Step is Awareness
         </h2>
-        <div className="text-blueGray text-center max-w-[60vw] mx-auto mb- text-md font-medium leading-relaxed">
+        <div className="text-blueGray text-center max-w-[60vw] max-sm:max-w-screen max-sm:text-xs max-sm:px-5 mx-auto  text-md font-medium leading-relaxed">
           MindSettler is a psycho-education and counseling service designed to help individuals understand their mental health, build awareness, and receive personalized guidance in a safe, confidential environment.            </div>
-        <div ref={containerRef} className="CarHead  flex Heading1 flex-col  min-[600px]:flex-row gap-5 min-[960px]:[5vw] items-center justify-evenly min-[850px]:justify-center w-full  my-10 p-6 m-4 ">
+        <div ref={containerRef} className="CarHead  flex Heading1 flex-col  min-[600px]:flex-row gap-5 min-[960px]:[5vw] items-center justify-evenly min-[850px]:justify-center w-full  my-10 max-sm:my-2 p-6 m-4 ">
           {card.map((card, index) => (
-            <div key={index} className="Card overflow-hidden transition-all duration-300 hover:-bg-conic-330 hover:scale-95  flex flex-col max-[600px]:w-[50vw] w-[30vw] min-[960px]:w-[22vw] min-[1050px]:w-[20vw]  bg-Primary-purple/20 backdrop-blur-sm rounded-2xl border-0  shadow-md items-center  text-center justify-start space-y-4 px-4 py-4 h-[-webkit-fill-available]">
+            <div key={index} className="Card overflow-hidden max-sm:w-[70vw] transition-all duration-300 hover:-bg-conic-330 hover:scale-95  flex flex-col max-[600px]:w-[50vw] w-[30vw] min-[960px]:w-[22vw] min-[1050px]:w-[20vw]  bg-Primary-purple/20 backdrop-blur-sm rounded-2xl border-0  shadow-md items-center  text-center justify-start space-y-4 px-4 py-4 h-[-webkit-fill-available]">
               <div className="Card1 bg-purple3/40 rounded-2xl p-2 text-center">
                 <Image
                   src={card.image}
