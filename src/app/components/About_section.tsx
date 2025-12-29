@@ -365,7 +365,7 @@ const AboutMindSettler = () => {
 
 
                                 {/* ============ RIGHT SIDE: CONTENT ============ */}
-                                <div className="w-full max-sm:w-screen  lg:w-1/2  relative  h-[-webkit-fill-available] max-lg:scale-75 flex flex-col justify-centers items-start">
+                                <div className="w-full max-sm:w-screen  lg:w-1/2  relative  h-[-webkit-fill-available] max-lg:scale-75 flex flex-col justify-around items-start">
 
                                     {/* Small Overline Tag */}
                                     <span ref={mainHead} className="inline-block   absolute  mx-auto max-sm:-top-10 top-0 max-sm:  sm:mt-10  text-pink-600 font-medium tracking-wider uppercase text-sm mb-4">
