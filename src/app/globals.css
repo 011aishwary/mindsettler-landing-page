@@ -111,13 +111,32 @@
   }
 }
 
+@keyframes upndown{
+  0%, 100% {
+    transform: translateY(-10px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+
 .spin-slow {
   animation: spin1 10s linear infinite;
 }
 .spin-slow2 {
   animation: spin1 12s linear infinite;
 }
-
+.upndown{
+  animation: upndown 3s ease-in-out infinite ;
+}
+.particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: pink;
+  border-radius: 50%;
+  pointer-events: none;
+}
 
 
 @layer utilities {

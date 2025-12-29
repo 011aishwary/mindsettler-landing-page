@@ -325,13 +325,13 @@ const AboutMindSettler = () => {
         <>
             <div className='h-fit overflow-hidden relative w-screen '>
                 {/* <div className="h-screen w-screen"> */}
-
+{/* 
                 <Image src="/gradient2rev.png" alt="About Mindsettler Background"
                     className="h-[50vh] w-screen absolute z-1 "
                     height={500}
                     width={500}
                 />
-                <div className='bg-white/30 absolute backdrop-blur-[2px] inset-0 m-0 p-0 z-2' />
+                <div className='bg-white/30 absolute backdrop-blur-[2px] inset-0 m-0 p-0 z-2' /> */}
                 <div ref={aboutref} className="h-fit overflow-hidden  relative   inset-0 w-screen z-5 ">
                     {/* <div className='cove bg-white/30 absolute backdrop-blur-[2px] rounded inset-0 z-2' /> */}
 
