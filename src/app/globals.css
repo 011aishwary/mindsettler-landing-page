@@ -18,7 +18,10 @@
   --star-sparkly-color: #b8d7ff;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
+
 .backface-hidden {
   backface-visibility: hidden;
 }
@@ -55,7 +58,9 @@
   --color-Primary-purple: #3F2965;
   --color-purple2: #573f7a;
   --color-purple3: #6e5a8e;
-  --color-purple4: #998bb5; --color-purple5:#bfb6d3; --color-sand: #DAD7CD;
+  --color-purple4: #998bb5;
+  --color-purple5: #bfb6d3;
+  --color-sand: #DAD7CD;
   /* #DAD7CD - Warm Sand (comfort & safety) */
   --color-mist: #E6EEF0;
   /* #E6EEF0 - Misty Blue-Grey (emotional softness) */
@@ -65,19 +70,23 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   /* Gradients */
-  --gradient-soft-calm:linear-gradient(to top,#bfb6d3 0%,#f2bfc9 100%);
-  --gradient-calm-soft:linear-gradient(to top, #f2bfc9 0%, #bfb6d3 100%);
-  --gradient-gentle-blush: linear-gradient(to bottom, #E0B1cb , #f9b5c7);
- 
+  --gradient-soft-calm: linear-gradient(to top, #bfb6d3 0%, #f2bfc9 100%);
+  --gradient-calm-soft: linear-gradient(to top, #f2bfc9 0%, #bfb6d3 100%);
+  --gradient-gentle-blush: linear-gradient(to bottom, #E0B1cb, #f9b5c7);
+
   --gradient-light-wash: linear-gradient(to bottom, #f7f3fa, #bfb6d3);
 
-  --gradient-True-sunset: linear-gradient(to top ,#ffe65a 0%,  #fa709a 100%);
-  --gradient-cloudy-Apple: linear-gradient(to top ,#f3e7e9 0%,  #ffffff 100%);
-  --gradient-cloudy-AppleRev: linear-gradient(to top ,#ffffff  0%,#f3e7e9  100%);
-  --gradient-cloudy-AppleHero: radial-gradient(to bottom  ,#ffa5be  0%,#f1f1f1  100%);
-  
+  --gradient-True-sunset: linear-gradient(to top, #ffe65a 0%, #fa709a 100%);
+  --gradient-cloudy-Apple: linear-gradient(to top, #f3e7e9 0%, #ffffff 100%);
+  --gradient-cloudy-AppleRev: linear-gradient(to top, #ffffff 0%, #f3e7e9 100%);
+  --gradient-cloudy-AppleHero: radial-gradient(to bottom, #ffa5be 0%, #f1f1f1 100%);
+
 
 }
+
+
+
+
 
 /* body{
   background-color: plum;
@@ -88,9 +97,12 @@
 }
 
 @keyframes calmLeftRight {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateX(-5px);
   }
+
   50% {
     transform: translateX(5px);
   }
@@ -111,10 +123,13 @@
   }
 }
 
-@keyframes upndown{
-  0%, 100% {
+@keyframes upndown {
+
+  0%,
+  100% {
     transform: translateY(-10px);
   }
+
   50% {
     transform: translateY(10px);
   }
@@ -123,12 +138,15 @@
 .spin-slow {
   animation: spin1 10s linear infinite;
 }
+
 .spin-slow2 {
   animation: spin1 12s linear infinite;
 }
-.upndown{
-  animation: upndown 3s ease-in-out infinite ;
+
+.upndown {
+  animation: upndown 3s ease-in-out infinite;
 }
+
 .particle {
   position: absolute;
   width: 8px;
@@ -140,15 +158,18 @@
 
 
 @layer utilities {
-  .calmTil{
-    animation: calmTilt 2s ease-in-out infinite ;
+  .calmTil {
+    animation: calmTilt 2s ease-in-out infinite;
   }
-  .calmLR{
+
+  .calmLR {
     animation: calmLeftRight 3s ease-in-out infinite;
   }
+
   .bg-soft-calm {
     background: var(--gradient-soft-calm);
   }
+
   .bg-calm-soft {
     background: var(--gradient-calm-soft);
   }
@@ -160,12 +181,15 @@
   .bg-light-wash {
     background: var(--gradient-light-wash);
   }
+
   .bg-cloudy-Apple {
     background: var(--gradient-cloudy-Apple);
   }
+
   .bg-cloudy-AppleRev {
     background: var(--gradient-cloudy-AppleRev);
   }
+
   .bg-cloudy-AppleHero {
     background: var(--gradient-cloudy-AppleHero);
   }
@@ -191,7 +215,8 @@ body {
 
 .animation-container {
   position: relative;
-  height: 300vh; /* Extra height to give room for the scroll animation */
+  height: 300vh;
+  /* Extra height to give room for the scroll animation */
 }
 
 .moving-div {
@@ -202,7 +227,8 @@ body {
   width: 150px;
   height: 150px;
   background: #ff4757;
-  z-index: 10; /* Stays above the assembling pieces initially */
+  z-index: 10;
+  /* Stays above the assembling pieces initially */
 }
 
 .shatter-section {
@@ -221,7 +247,7 @@ body {
   /* Each tile will show a specific part of the image */
 }
 
-canvas{
+canvas {
   opacity: 1;
 }
 
@@ -230,12 +256,15 @@ canvas{
   0% {
     transform: translate(0px, 0px) scale(1);
   }
+
   33% {
     transform: translate(30px, -50px) scale(1.1);
   }
+
   66% {
     transform: translate(-20px, 20px) scale(0.9);
   }
+
   100% {
     transform: translate(0px, 0px) scale(1);
   }
@@ -251,4 +280,24 @@ canvas{
 
 .font-handwriting {
   font-family: 'Dancing Script', cursive;
+}
+
+
+/* backend  */
+.shad-error {
+  color: #f87171 !important;
+}
+
+.PhoneInputInput {
+  outline: none;
+  margin-left: 4px;
+  background: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6e5a8e;
+ 
+}
+
+.PhoneInputInput::placeholder {
+  color: #1a1d21;
 }

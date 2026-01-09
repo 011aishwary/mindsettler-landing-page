@@ -17,7 +17,7 @@ function Navbar({ className }: { className?: string }) {
   const [active, setActive] = useState<string | null>(null);
   return (
     <div
-      className={cn("absolute inset-x-0 max-w-screeen mx-auto z-100", className)}
+      className={cn("relative inset-x-0 max-w-screen w-screen mx-auto z-100", className)}
     >
       <Menu setActive={setActive}>
         <div className="">

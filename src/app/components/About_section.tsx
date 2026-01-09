@@ -334,11 +334,11 @@ const AboutMindSettler = () => {
                     width={500}
                 />
                 <div className='bg-white/30 absolute backdrop-blur-[2px] inset-0 m-0 p-0 z-2' /> */}
-                <div ref={aboutref} className="h-fit overflow-hidden  relative   inset-0 w-screen z-5 ">
+                <div ref={aboutref} className="h-full overflow-hidden  relative   inset-0 w-screen z-5 ">
                     {/* <div className='cove bg-white/30 absolute backdrop-blur-[2px] rounded inset-0 z-2' /> */}
 
                     {/* </div> */}
-                    <section className="py-5 lg:py-10 h-full  bg-white relative z-20">
+                    <section className="py-1 lg:py-10 h-full  bg-white relative z-20">
                         <div className="container mx-auto relative px-6 md:px-12">
 
                             {/* Flex Container: Stacks on mobile (col), Side-by-side on desktop (row) */}
