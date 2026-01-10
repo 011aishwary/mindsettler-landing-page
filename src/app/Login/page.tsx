@@ -96,7 +96,7 @@ const page = () => {
     </Form>
       <div className="max-h-screen">
         <Image
-          src="/portrait.png"
+          src="/LoginPage.jpeg"
           alt="loginimg"
           width={500}
           height={500}

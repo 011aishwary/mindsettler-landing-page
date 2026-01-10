@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { HoveredLink, Menu, MenuItem, ProductItem } from "./ui/navbar-menu";
 import {cn} from "../../../lib/utils";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export function NavbarDemo() {
   return (
@@ -14,6 +15,10 @@ export function NavbarDemo() {
 }
 
 function Navbar({ className }: { className?: string }) {
+  const path = usePathname();
+  if (path && path.startsWith('/admin')) {
+    return null; // Do not render the navbar on admin routes
+  }
   const [active, setActive] = useState<string | null>(null);
   return (
     <div

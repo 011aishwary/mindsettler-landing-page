@@ -20,7 +20,7 @@ const Register = async ({ params }: { params: Promise<{ userId: string }> }) => 
 
                 <div className="max-h-screen overflow-hidden">
                     <Image
-                        src="/portrait.png"
+                        src="/Register.jpeg"
                         alt="loginimg"
                         width={500}
                         height={500}

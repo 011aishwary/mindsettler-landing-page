@@ -5,6 +5,7 @@ import "./globals.css";
 import { Poppins, Inter } from "next/font/google";
 import { NavbarDemo } from "./components/Navbar";
 import { Fredoka } from 'next/font/google';
+
 // const fredoka = Fredoka({ weight: '400', subsets: ['latin'] , variable: "--font-Fredroka_one", });
 
 export const poppins = Poppins({
@@ -31,12 +32,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   return (
     <html lang="en" className="scroll-smooth">
       <body
         className={`${poppins.variable} ${inter.variable} antialiased `}
       >
-        <NavbarDemo />
+        <NavbarDemo  />
         <div className="overflow-x-clip max-h-screen">
         {children}
         </div>

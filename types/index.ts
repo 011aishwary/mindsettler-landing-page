@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 
+import { Patient } from "./appwrite.types";
+
 declare type Appointment = {
   reason: string;
   schedule: Date;
@@ -47,9 +49,9 @@ declare interface RegisterUserParams extends CreateUserParams {
   privacyConsent: boolean;
 }
 
-declare type CreateAppointmentParams = {
+export declare type CreateAppointmentParams = {
   userId: string;
-  patient: string;
+  patients: Patient;
   // primaryPhysician: string;
   reason: string;
   schedule: Date;
@@ -57,9 +59,10 @@ declare type CreateAppointmentParams = {
   note: string | undefined;
 };
 
-declare type UpdateAppointmentParams = {
+export declare type UpdateAppointmentParams = {
   appointmentId: string;
   userId: string;
+  timeZone: string;
   appointment: Appointment;
   type: string;
 };

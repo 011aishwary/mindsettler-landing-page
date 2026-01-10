@@ -7,7 +7,8 @@ import { TextGenerateEffect } from './text_generate_effect';
 import { Canvas, useThree } from '@react-three/fiber'
 import { OrbitControls, useGLTF, Center, Environment, PerspectiveCamera } from '@react-three/drei'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import * as THREE from 'three'
+import * as THREE from 'three';
+import Link from 'next/link';
 
 
 // Register plugin immediately
@@ -305,8 +306,15 @@ const MindsettlerHero = ({ divRef }: { divRef: React.RefObject<HTMLDivElement | 
                         </div>
                         <div ref={ctaRef} className="flex w-fit max-w-[80vw] relative max-sm:mx-auto max-sm:w-screen
                          flex-col sm:flex-row gap-4 justify-center max-sm:items-center">
-                            <button className="px-6  md:px-8 py-3 md:py-4 max-sm:w-[80vw]  min-w-fit w-60 bg-purple5 hover:bg-purple4 text-slate-900 font-bold rounded-lg transition-all transform hover:scale-105 shadow-md shadow-black/10">Book Consultation</button>
-                            <button className="px-6 md:px-8 py-3 md:py-4 max-sm:w-[80vw]  min-w-fit w-60 bg-purple5 hover:bg-purple4 text-slate-900 font-bold rounded-lg transition-all transform hover:scale-105 shadow-md shadow-black/10">Know More</button>
+                            <Link href='/Login' >
+                                <button className="px-6  md:px-8 py-3 md:py-4 max-sm:w-[80vw]  min-w-fit w-60 bg-purple5 hover:bg-purple4 text-slate-900 font-bold rounded-lg transition-all transform hover:scale-105 shadow-md shadow-black/10">
+                                    Book Consultation
+                                </button>
+                            </Link>
+                            <Link href='/about'>
+                                <button className="px-6 md:px-8 py-3 md:py-4 max-sm:w-[80vw]  min-w-fit w-60 bg-purple5 hover:bg-purple4 text-slate-900 font-bold rounded-lg transition-all transform hover:scale-105 shadow-md shadow-black/10">Know More</button>
+                            </Link>
+                            
                         </div>
                     </div>
                 </div>

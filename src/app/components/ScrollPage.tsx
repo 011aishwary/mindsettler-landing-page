@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import ShatterSection from "./ShatterSection";
 import MindsettlerHero from "./StoryJourney";
+import Link from "next/link";
 
 export default function Home() {
   const movingDivRef = useRef<HTMLDivElement | null>(null);

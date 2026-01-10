@@ -1,5 +1,6 @@
 import { Models } from "node-appwrite";
 
+
 export interface Patient extends Models.Document {
   userId: string;
   name: string;
@@ -27,7 +28,7 @@ export interface Patient extends Models.Document {
 }
 
 export interface Appointment extends Models.Document {
-  patient: Patient;
+  patients: Patient;
   schedule: Date;
   status: Status;
   // primaryPhysician: string;
@@ -36,3 +37,4 @@ export interface Appointment extends Models.Document {
   userId: string;
   cancellationReason: string | null;
 }
+export type Status = "pending" | "scheduled" | "cancelled";
