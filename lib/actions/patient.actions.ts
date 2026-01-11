@@ -46,9 +46,12 @@ export const getPatient = async (userId:string) => {
             [Query.equal("userId", userId)]
 
         );
+        if (!patients.documents || patients.documents.length === 0) {
+            throw new Error("Patient not found");
+        }
         return parseStringify(patients.documents[0]);
     } catch (error) {
-        console.log("Error fetching user:", error);
+        console.log("Error fetching patient:", error);
         throw error;
     }   
 }

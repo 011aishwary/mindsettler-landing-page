@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { int, set, z } from "zod"
 import Image from "next/image"
-import { createUser } from "../../../../lib/actions/patient.actions"
+import { createUser, getPatient } from "../../../../lib/actions/patient.actions"
 import { Button } from "../ui/Button"
 import { Form, FormControl } from "../ui/Form"
 import { Input } from "../ui/Input"
@@ -18,6 +18,7 @@ import { createAppointment, updateAppointment } from "../../../../lib/actions/ap
 import { Appointment } from "../../../../types/appwrite.types"
 import { Status } from "../../../../types/appwrite.types"
 import { Patient } from "../../../../types/appwrite.types"
+import { get } from "http"
 
 
 export const AppointmentForm = ({
@@ -71,9 +72,15 @@ export const AppointmentForm = ({
 
     try {
       if (type === "create" && patientId) {
+        const patient= await getPatient(userId);
+        console.log("Fetched patient data:", patient.name);
+        console.log("Creating appointment for patientId:", patientId);
+        console.log('Raw schedule value:', values.schedule);
+        console.log('Parsed date:', new Date(values.schedule)); 
         const appointment = {
           userId,
-          patients: patientId as unknown as Patient,
+          patients:  patient.name,
+          patname:patient.name,
         //   primaryPhysician: values.primaryPhysician,
           schedule: new Date(values.schedule),
           reason: values.reason!,

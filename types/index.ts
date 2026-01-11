@@ -51,7 +51,7 @@ declare interface RegisterUserParams extends CreateUserParams {
 
 export declare type CreateAppointmentParams = {
   userId: string;
-  patients: Patient;
+  patients: string;
   // primaryPhysician: string;
   reason: string;
   schedule: Date;

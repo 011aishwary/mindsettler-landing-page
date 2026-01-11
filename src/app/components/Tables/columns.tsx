@@ -7,6 +7,8 @@ import Image from "next/image";
 import { formatDateTime } from "../../../../lib/utils";
 import { Appointment } from "../../../../types/appwrite.types";
 
+
+
 import { AppointmentModal } from "../../components/AppointmenModal";
 import {StatusBadge} from "../../components/StatusBadge"
 
@@ -20,8 +22,12 @@ export const columns: ColumnDef<Appointment>[] = [
   {
     accessorKey: "patient",
     header: "Patient",
-    cell: ({ row }) => {
+    cell:  ({ row }) => {
       const appointment = row.original;
+      // const patientName =await getPatient(appointment.patients);
+      const patientId = appointment.patients;
+      // const pat = patientId.toString();
+      // const patient = await getPatient(pat);
       return <p className="text-14-medium ">{appointment.patients}</p>;
     },
   },
@@ -55,6 +61,8 @@ export const columns: ColumnDef<Appointment>[] = [
     header: () => <div className="pl-4">Actions</div>,
     cell: ({ row }) => {
       const appointment = row.original;
+      const p = {...appointment};
+      console.log("Appointment in row actions:", p);
 
       return (
         <div className="flex gap-1">
