@@ -5,6 +5,7 @@ import "./globals.css";
 import { Poppins, Inter } from "next/font/google";
 import { NavbarDemo } from "./components/Navbar";
 import { Fredoka } from 'next/font/google';
+import Chatbot from "./components/Chatbot";
 
 // const fredoka = Fredoka({ weight: '400', subsets: ['latin'] , variable: "--font-Fredroka_one", });
 
@@ -39,6 +40,7 @@ export default function RootLayout({
         className={`${poppins.variable} ${inter.variable} antialiased `}
       >
         <NavbarDemo  />
+        <Chatbot />
         <div className="overflow-x-clip max-h-screen">
         {children}
         </div>

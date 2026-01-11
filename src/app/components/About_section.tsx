@@ -62,20 +62,20 @@ const AboutMindSettler = () => {
         },
         {
             id: 2,
-            title: "Processing",
-            content: "lorem2024 ipsum dolor sit amet, consectetur adipiscing elit.",
+            title: "Settle your mind.",
+            content: "MindSettler helps you understand your mental health and navigate life's challenges through structured, confidential sessions focused on awareness, guidance, and personalized support.",
             style: "bg-blue-900 text-white",
         },
         {
             id: 3,
-            title: "Analysis",
-            content: "lorem3024 ipsum dolor sit amet, consectetur adipiscing elit.",
+            title: "Understanding Your Path to Mental Clarity",
+            content: "Whether you're dealing with stress, anxiety, relationship challenges, or simply seeking personal growth, MindSettler provides a structured approach to help you find balance and clarity.",
             style: "bg-indigo-900 text-teal-300",
         },
         {
             id: 4,
-            title: "Completion",
-            content: "lorem2024 ipsum dolor sit amet, consectetur adipiscing elit.",
+            title: "What Makes MindSettler Different",
+            content: "We combine professional expertise with genuine care to create an experience that truly supports your mental well-being",
             style: "bg-emerald-900 text-white",
         },
     ];
