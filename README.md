@@ -13,7 +13,8 @@ Think of it as a calm starting point for conversations that matter.
 ## 🚀 Getting started
 1. Log in
 2. Pick a time that works for you
-3. Book your session (you’ll see it as *pending* until confirmed)
+3. Book the right session for you.
+   
 That’s it. No pressure, just a step towards healthier living.
 
 
