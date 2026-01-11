@@ -1,3 +1,23 @@
+🧠 MindSettler
+
+MindSettler is a mental well-being platform that helps people make sense of their thoughts, emotions, and life challenenges through professional support.
+
+Think of it as a calm starting point for conversations that matter.
+
+## ✨ What’s inside?
+- Online & offline therapy sessions
+- Easy booking with calendar integration
+- Support for individuals, couples, families & kids (5+)
+- A friendly chatbot to guide you through it all
+
+## 🚀 Getting started
+1. Log in
+2. Pick a time that works for you
+3. Book the right session for you.
+   
+That’s it. No pressure, just a step towards healthier living.
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
@@ -16,21 +36,8 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## ⚠️ Note
+MindSettler isn’t for emergencies. If you need immediate help, please contact local emergency services.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
