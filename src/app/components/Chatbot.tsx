@@ -69,7 +69,7 @@ const Chatbot = () => {
       {/* Chat Toggle Button */}
       <button
         onClick={toggleChat}
-        className="fixed bottom-4 right-4 bg-Primary-purple text-white p-4 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 z-50"
+        className="fixed bottom-4 cursor-pointer right-4 bg-Primary-purple text-white p-4 rounded-full shadow-lg hover:bg-Primary-purple/80 hover:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-purple3 focus:ring-offset-1 z-50"
         aria-label="Toggle Chatbot"
       >
         {isOpen ? (
@@ -77,7 +77,7 @@ const Chatbot = () => {
           <svg className="w-fit h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
-          <span className="text-center">Helpbot</span>
+          <span className="text-center">Assistant</span>
           </div>
           
         ) : (
@@ -85,20 +85,20 @@ const Chatbot = () => {
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
           </svg>
-          <span className="text-center">Helpbot</span>
+          <span className="text-center">Assistant</span>
           </div>
         )}
       </button>
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-16 right-4 w-80 h-96 bg-white border border-gray-200 rounded-lg shadow-xl z-40 flex flex-col">
+        <div className="fixed bottom-16 right-4 w-80 h-96 bg-[#f1f1f1] border border-gray-200 rounded-lg shadow-xl z-40 flex flex-col">
           {/* Header */}
-          <div className="bg-blue-600 text-white px-4 py-3 rounded-t-lg flex justify-between items-center">
+          <div className="bg-purple3 text-white px-4 py-3 rounded-t-lg flex justify-between items-center">
             <h1 className="text-lg font-semibold">MindSettler Assistant</h1>
             <button
               onClick={toggleChat}
-              className="text-white hover:text-gray-200 focus:outline-none"
+              className="text-white hover:text-gray-400 hover:scale-95 cursor-pointer focus:outline-none"
               aria-label="Close Chat"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -115,9 +115,9 @@ const Chatbot = () => {
                 className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-[70%] px-3 py-2 rounded-lg text-sm ${
+                  className={`max-w-[70%] px-3 py-2 hover:purple3/90 hover:scale-97 rounded-lg text-sm ${
                     message.sender === 'user'
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-purple3 text-white'
                       : 'bg-gray-100 text-gray-800'
                   }`}
                 >
@@ -147,13 +147,13 @@ const Chatbot = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type your message..."
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                className="flex-1 px-3 py-2 border text-Primary-purple border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple3/30 focus:border-transparent text-sm"
                 disabled={loading}
               />
               <button
                 type="submit"
                 disabled={loading || !input.trim()}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
+                className="px-4 py-2 bg-purple3 cursor-pointer text-white rounded-lg hover:bg-pruple3 hover:scale-97 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
               >
                 Send
               </button>

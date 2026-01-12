@@ -1,25 +1,39 @@
+"use client"
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import { useEffect, useState } from 'react'
 import { getAppointment } from '../../../../../../lib/actions/appointment.actions'
 import { formatDateTime } from '../../../../../../lib/utils';
-interface SearchParamProps {
-    params: { userId: string };
-    searchParams?: { [key: string]: string | string[] | undefined };
-}
+import { useSearchParams } from 'next/navigation';
+import { get } from 'http'
 
-const Success = async ({ params : {userId} , searchParams} : SearchParamProps) => {
-    const  appointmentId  =  searchParams?.appointmentId as string || "";
-       
-    const appointmentIdd = await getAppointment(appointmentId);
-    // console.log("searchParams:", searchParams?.appointmentId);  // Debug log
-    // const appointmentId = searchParams?.appointmentId as string || "";
-    // console.log("appointmentId:", appointmentId);  // Debug log
-    if (!appointmentIdd) return <div>Error: No appointment ID</div>;
-    // const appointment = await getAppointment(appointmentId);
 
-        const appointment = await getAppointment(appointmentId);
-     
+
+const Success =  () => {
+    const searchParams = useSearchParams();
+    const appointmentId = searchParams.get('appointmentId') || '';
+    console.log("Appointment ID from URL:", appointmentId);
+    const [appointment, setAppointment] = useState([]);
+
+    async function getData(appointmentId: string) {
+        const id =   await getAppointment(appointmentId);
+        console.log("Fetched appointment data:", id);
+        setAppointment(id)
+        return 
+    }
+    useEffect(() => {
+        if (appointmentId) {
+            getData(appointmentId);
+        }
+        console.log("Fetching data for appointment ID:", appointment);
+    }, [appointmentId]);
+    // getData(appointmentId);
+    
+    
+
+    if (!appointmentId) return <div>Error: No appointment ID</div>;
+    if (!appointment) return <div>Loading...</div>;
+
     return (
         <div className="flex bg-white h-screen max-h-screen px-[5%]">
 
@@ -41,7 +55,7 @@ const Success = async ({ params : {userId} , searchParams} : SearchParamProps) =
                     <p className="">Requested appointment details.</p>
                     <div className="flex items-center gap-3">
                         <span className="font-semibold">Date & Time:</span>
-                        <span>{formatDateTime(appointment.documents[0].schedule).dateTime}</span>
+                        <span>{formatDateTime(appointment.schedule).dateTime}</span>
 
                     </div>
                 </section>

@@ -6,11 +6,21 @@ import Image from "next/image";
 // import { Doctors } from "@/constants";
 import { formatDateTime } from "../../../../lib/utils";
 import { Appointment } from "../../../../types/appwrite.types";
+import { getPatient } from "../../../../lib/actions/patient.actions";
 
 
 
 import { AppointmentModal } from "../../components/AppointmenModal";
 import {StatusBadge} from "../../components/StatusBadge"
+const fetchPatient = async (userId: string): Promise<string> => {
+  try {
+    const patient = await getPatient(userId);
+    return patient.$id;
+  } catch (error) {
+    console.error("Error fetching patient name:", error);
+    return "Unknown Patient";
+  }
+}
 
 export const columns: ColumnDef<Appointment>[] = [
   {
@@ -25,10 +35,10 @@ export const columns: ColumnDef<Appointment>[] = [
     cell:  ({ row }) => {
       const appointment = row.original;
       // const patientName =await getPatient(appointment.patients);
-      const patientId = appointment.patients;
+      // const patientId = appointment.patients;
       // const pat = patientId.toString();
       // const patient = await getPatient(pat);
-      return <p className="text-14-medium ">{appointment.patients}</p>;
+      return <p className="text-14-medium ">{appointment.patname}</p>;
     },
   },
   {
@@ -61,13 +71,12 @@ export const columns: ColumnDef<Appointment>[] = [
     header: () => <div className="pl-4">Actions</div>,
     cell: ({ row }) => {
       const appointment = row.original;
-      const p = {...appointment};
-      console.log("Appointment in row actions:", p);
+      
 
       return (
         <div className="flex gap-1">
           <AppointmentModal
-            patientId={appointment.patients.$id}
+            patientId={appointment.patient}
             userId={appointment.userId}
             appointment={appointment}
             type="schedule"
@@ -75,7 +84,7 @@ export const columns: ColumnDef<Appointment>[] = [
             description="Please confirm the following details to schedule."
           />
           <AppointmentModal
-            patientId={appointment.patients.$id}
+            patientId={appointment.patient}
             userId={appointment.userId}
             appointment={appointment}
             type="cancel"

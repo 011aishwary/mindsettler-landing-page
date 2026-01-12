@@ -4,7 +4,7 @@ import * as React from "react"
 import { ChevronDownIcon } from "lucide-react"
 
 import { Button } from "../ui/Button"
-import { Calendar } from "../ui/Calender"
+import { Calendar  } from "../ui/Calender"
 import { Input } from "../ui/Input"
 import { Label } from "../ui/Label"
 import {
@@ -12,6 +12,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "../ui/Popover"
+
 
 export default function Calendar24() {
   const [open, setOpen] = React.useState(false)
@@ -34,11 +35,15 @@ export default function Calendar24() {
               <ChevronDownIcon />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+          <PopoverContent className="w-auto scale-75 overflow-hidden p-0" align="start">
             <Calendar
               mode="single"
               selected={date}
               captionLayout="dropdown"
+              classNames={{
+                month: "bg-white p-4",
+                weekday: "text-Primary-purple/80 px-2 border-b",
+              }}
               onSelect={(date) => {
                 setDate(date)
                 setOpen(false)
@@ -48,9 +53,7 @@ export default function Calendar24() {
         </Popover>
       </div>
       <div className="flex flex-col gap-3 m-1">
-        {/* <Label htmlFor="time-picker" className="px-1 mt-1 text-Primary-purple">
-          Time
-        </Label> */}
+        
         <Input
           type="time"
           id="time-picker"

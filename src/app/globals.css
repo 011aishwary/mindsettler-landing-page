@@ -1,6 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 @import "tailwindcss";
+
+.nunito-font {
+  font-family: "Nunito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200 400 600 800 900;
+  font-style: normal;
+}
+
+body {
+  font-family: nunito-font, sans-serif;
+}
 
 
 
@@ -19,6 +31,7 @@
 }
 
 * {
+
   box-sizing: border-box;
 }
 
@@ -39,6 +52,17 @@
 }
 
 
+/* @theme{
+  --color
+} */
+/* .soft-glow-gradient {
+    /* 1. Direction: Bottom-Left to Top-Right (to-tr)
+      2. Start: Primary color at 15% opacity (very subtle)
+      3. End: Lavender Medium (Solid)
+    */
+
+
+
 
 @theme inline {
   --color-sage: #A3B18A;
@@ -48,7 +72,25 @@
   --color-pink4: #ec97aa;
   --color-pink5: #f2bfc9;
   --color-newPink: #E0B1cb;
-
+  --shadow-soft: 0 4px 20px -4px rgba(41, 21, 63, 0.08);
+  --shadow-medium: 0 8px 30px -6px rgba(41, 21, 63, 0.12);
+  --shadow-glow: 0 0 40px rgba(223, 22, 100, 0.15);
+  --shadow-card: 0 2px 24px -4px rgba(41, 21, 63, 0.06);
+  --sidebar-background: #fbfafc;
+  /* 270 30% 98% */
+  --color-sidebar-foreground: #29153f;
+  /* 267 43% 28% */
+  --color-sidebar-primary: #29153f;
+  /* 267 43% 28% */
+  --color-sidebar-primary-foreground: #fbfafc;
+  /* 270 30% 98% */
+  --color-sidebar-accent: #f6f3fa;
+  /* 270 40% 95% */
+  --color-sidebar-accent-foreground: #29153f;
+  /* 267 43% 28% */
+  --color-sidebar-border: #e9e4ec;
+  /* 270 30% 90% */
+  --color-sidebar-ring: #29153f;
   --color-frozenWater: #e5fcf5;
   --color-blueGray: #7192be;
   --color-softBlosssom: #e2b4bd;
@@ -66,7 +108,68 @@
   /* #E6EEF0 - Misty Blue-Grey (emotional softness) */
   --color-gold: #C9A24D;
   /* #C9A24D - Muted Gold (hope, clarity) */
-  --color-foreground: var(--foreground);
+  /* --color-foreground: var(--foreground); */
+  --color-background: #fbfafc;
+  /* converted from 270 30% 98% */
+  --color-foreground: #29153f;
+  /* converted from 267 43% 28% */
+
+  --color-card: #fdfcfd;
+  /* converted from 270 40% 99% */
+  --color-card-foreground: #29153f;
+  /* converted from 267 43% 28% */
+
+  --color-popover: #fdfcfd;
+  /* converted from 270 40% 99% */
+  --color-popover-foreground: #29153f;
+  /* converted from 267 43% 28% */
+
+  /* Primary - Deep Purple */
+  --color-primary: #29153f;
+  /* converted from 267 43% 28% */
+  --color-primary-foreground: #fbfafc;
+  /* converted from 270 30% 98% */
+
+  /* Secondary - Soft Lavender */
+  --color-secondary: #f6f3fa;
+  /* converted from 270 40% 95% */
+  --color-secondary-foreground: #29153f;
+  /* converted from 267 43% 28% */
+
+  /* Muted - Gentle grays with lavender undertone */
+  --color-muted: #f2edf4;
+  /* converted from 270 20% 94% */
+  --color-muted-foreground: #665c6e;
+  /* converted from 267 20% 45% */
+
+  /* Accent - Vibrant Pink */
+  --color-accent: #df1664;
+  /* converted from 338 82% 48% */
+  --color-accent: #df1664;
+  --color-accent-foreground: #ffffff;
+  /* converted from 0 0% 100% */
+
+  --color-destructive: #f44336;
+  /* converted from 0 84% 60% (Approx standard red) */
+  --color-destructive-foreground: #ffffff;
+
+  --color-border: #e9e4ec;
+  /* converted from 270 30% 90% */
+  --color-input: #e9e4ec;
+  /* converted from 270 30% 90% */
+  --color-ring: #29153f;
+  /* converted from 267 43% 28% */
+
+  --radius: 1rem;
+
+  /* Custom MindSettler Tokens */
+  --color-lavender-soft: #fbf6fe;
+  /* converted from 270 50% 97% */
+  --color-lavender-medium: #f2ebf7;
+  /* converted from 270 40% 92% */
+  --color-pink-soft: #fcebf3;
+  /* converted from 338 60% 95% */
+  --color-pink-medium: #f7d9e6;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   /* Gradients */
@@ -80,11 +183,19 @@
   --gradient-cloudy-Apple: linear-gradient(to top, #f3e7e9 0%, #ffffff 100%);
   --gradient-cloudy-AppleRev: linear-gradient(to top, #ffffff 0%, #f3e7e9 100%);
   --gradient-cloudy-AppleHero: radial-gradient(to bottom, #ffa5be 0%, #f1f1f1 100%);
+  --gradient-calm: linear-gradient(135deg, hsl(270 50% 97%) 0%, hsl(338 60% 97%) 50%, hsl(270 40% 96%) 100%);
+  --gradient-hero: linear-gradient(180deg, hsl(270 50% 98%) 0%, hsl(270 40% 96%) 100%);
+  --gradient-journey: linear-gradient(135deg, hsl(267 43% 28%) 0%, hsl(280 40% 35%) 100%);
+  --gradient-accent: linear-gradient(135deg, hsl(338 82% 48%) 0%, hsl(320 70% 55%) 100%);
+  --gradient-card: linear-gradient(145deg, hsl(270 40% 99%) 0%, hsl(270 50% 97%) 100%);
+  --gradient-hero-overlay: linear-gradient(180deg, hsl(270 30% 98%) 0%, hsl(270 30% 98% / 0) 100%);
+  --gradient-mindsettler: linear-gradient(135deg, hsla(338, 98%, 51%, 0.514) 0%, hsl(338 60% 95%) 100%);
+  --gradient-soft-glow: linear-gradient(135deg, hsl(267 43% 28% / 0.1) 0%, hsl(338 82% 48% / 0.1) 100%);
+
+
 
 
 }
-
-
 
 
 
@@ -156,8 +267,100 @@
   pointer-events: none;
 }
 
+@layer components {
+  .gradient-calm {
+    background: var(--gradient-calm);
+  }
+
+  .gradient-soft-glow {
+    background: var(--gradient-soft-glow);
+  }
+  .gradient-journey {
+    background: var(--gradient-journey);
+  }
+  .gradient-accent {
+    background: var(--gradient-accent);
+  }
+  .gradient-card {
+    background: var(--gradient-card);
+  }
+  .gradient-hero-overlay {
+    background: var(--gradient-hero-overlay);
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .gradient-mindsettler {
+    background: var(--gradient-mindsettler);
+  }
+
+  .gradient-hero-overlay {
+    background: var(--gradient-hero-overlay);
+  }
+
+  .gradient-journey {
+    background: var(--gradient-journey);
+  }
+
+  .gradient-accent {
+    background: var(--gradient-accent);
+  }
+
+  .gradient-card {
+    background: var(--gradient-card);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-medium {
+    box-shadow: var(--shadow-medium);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Breathing animation for calm effect */
+  .breathe {
+    animation: breathe 6s ease-in-out infinite;
+  }
+
+  /* Gentle float animation */
+  .float {
+    animation: float 8s ease-in-out infinite;
+  }
+
+  /* Soft pulse for CTAs */
+  .pulse-soft {
+    animation: pulse-soft 3s ease-in-out infinite;
+  }
+
+  /* Organic blob shape */
+  .blob {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+
+  /* Calm section divider */
+  .section-divider {
+    @apply w-24 h-1 rounded-full mx-auto;
+    background: var(--gradient-accent);
+    opacity: 0.6;
+  }
+}
 
 @layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
   .calmTil {
     animation: calmTilt 2s ease-in-out infinite;
   }
@@ -194,6 +397,7 @@
     background: var(--gradient-cloudy-AppleHero);
   }
 }
+
 
 
 
@@ -295,9 +499,52 @@ canvas {
   font-size: 14px;
   font-weight: 500;
   color: #6e5a8e;
- 
+
 }
 
 .PhoneInputInput::placeholder {
   color: #1a1d21;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-soft {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 hsl(338 82% 48% / 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 20px 8px hsl(338 82% 48% / 0);
+  }
+}
+
+/* Smooth scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.5);
 }

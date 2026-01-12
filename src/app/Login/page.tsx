@@ -58,7 +58,7 @@ const page = () => {
 
   }
   return (
-    <div className="flex relative h-[90vh] overflow-hidden bg-white justify-between items-center min gap-10 w-screen ">
+    <div className="flex relative mt-14 h-[90vh] overflow-hidden bg-white justify-between items-center min gap-10 w-screen ">
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 relative flex  mx-10 flex-col md:max-w-[40vw] flex-1">
         <section className="flex flex-col justify-start">

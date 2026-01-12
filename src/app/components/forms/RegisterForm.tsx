@@ -21,12 +21,15 @@ import { Label } from "../ui/Label"
 import { SelectItem } from "../ui/select"
 import FileUploader from "../ui/FileUploader"
 import { registerPatient } from "../../../../lib/actions/patient.actions";
+import {useQRCode} from "next-qrcode";
 
 
 
 const RegisterForm = ({ user }: { user: User }) => {
+    const {Canvas} = useQRCode();
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
+    
 
     const form = useForm<z.infer<typeof PatientFormValidation>>({
         resolver: zodResolver(PatientFormValidation),
@@ -182,7 +185,7 @@ const RegisterForm = ({ user }: { user: User }) => {
                         />
 
                     </div>
-                    <div className="flex flex-col gap-6 lg:flex-row ">
+                    {/* <div className="flex flex-col gap-6 lg:flex-row ">
 
                         <CustomFormField
                             fieldtype={FormFeildType.INPUT}
@@ -203,7 +206,7 @@ const RegisterForm = ({ user }: { user: User }) => {
                             iconAlt="call"
                         />
 
-                    </div>
+                    </div> */}
                     <section className="flex flex-col items-start my-2">
 
                         <h2 className="text-purple4 text-xl">Medical Information</h2>

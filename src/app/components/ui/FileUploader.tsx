@@ -4,6 +4,7 @@ import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 import Image from 'next/image';
 import { convertFileToUrl } from '../../../../lib/utils';
+import { Upload } from 'lucide-react';
 
 type FileUploaderProps = {
     files: File[] | undefined;
@@ -25,7 +26,8 @@ const FileUploader = ({ files, onChange }: FileUploaderProps) => {
                  />
             ):(
                 <>
-                <Image src={"/assets/upload-cloud.svg"} alt="upload" width={40} height={40} />
+                {/* <Image src={"/assets/upload-cloud.svg"} alt="upload" width={40} height={40} /> */}
+                <Upload className='w-6 h-6 text-purple3'/>
                 <div className=" flex flex-col justify-center gap-2 text-center text-dark-600">
                     <p className="text-[14px] leading-[18px] font-normal">
                         <span className="text-green-500">

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono , Nunito} from "next/font/google";
 
 import "./globals.css";
 import { Poppins, Inter } from "next/font/google";
@@ -21,6 +21,19 @@ export const inter = Inter({
   variable: "--font-inter",
 });
 
+export const nunito = Nunito({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  variable: "--font-nunito",
+});
+
+// .nunito-<uniquifier> {
+//   font-family: "Nunito", sans-serif;
+//   font-optical-sizing: auto;
+//   font-weight: <weight>;
+//   font-style: normal;
+// }
+
 
 
 export const metadata: Metadata = {
@@ -37,7 +50,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${poppins.variable} ${inter.variable} antialiased `}
+        className={`${nunito.variable} nunito-font antialiased `}
       >
         <NavbarDemo  />
         <Chatbot />
