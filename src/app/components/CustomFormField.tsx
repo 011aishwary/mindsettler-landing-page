@@ -60,6 +60,7 @@ const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
                     )}
                     <FormControl>
                         <Input
+                            disabled={props.disabled}
                             placeholder={placeholder}
                             {...field}
                             className="border-0 bg-white placeholder:text-purple4 border-dark-500 h-8 focus-visible:ring-0 focus-visible:ring-offset-0 !important"
@@ -72,6 +73,7 @@ const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
             return (
                 <FormControl>
                     <PhoneInput
+                        disabled={props.disabled}
                         defaultCountry="IN"
                         placeholder={placeholder}
                         className=" PhoneInputInput mt-0 h-8 rounded-md outline-0 px-3 text-sm border bg-white placeholder:text-purple4 border-dark-500 !important"
@@ -96,7 +98,7 @@ const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
                     />
                     <FormControl>
 
-                        <Calendar22 />
+                        <Calendar22 value={field.value} onChange={field.onChange} />
                             
                     </FormControl>
 
@@ -109,7 +111,7 @@ const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
                     
                     <FormControl>
 
-                        <Calendar24 />
+                        <Calendar24 value={field.value} onChange={field.onChange} />
                             
                     </FormControl>
 
@@ -172,21 +174,23 @@ const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
 }
 
 const CustomFormField = (props: CustomProps) => {
-    const { control, fieldtype, name, label, placeholder, iconSrc, iconAlt } = props;
+    const { control, fieldtype, name, label, placeholder, iconSrc, iconAlt, disabled } = props;
     return (
         <div>
             <FormField
+            
                 control={control}
                 name={name}
                 render={({ field }) => (
-                    <FormItem className="flex-1 my-0 py-0">
+                    <FormItem  className="flex-1 my-0 py-0">
+                        
                         {fieldtype !== FormFeildType.CHECKBOX && label && (
                             <FormLabel>{label}</FormLabel>
 
 
                         )}
 
-                        <RenderField field={field} props={props} />
+                        <RenderField  field={field} props={props} />
                         <FormMessage className="shad-error" />
 
 

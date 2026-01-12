@@ -12,9 +12,19 @@ import {
   PopoverTrigger,
 } from "../ui/Popover"
 
-export function Calendar22() {
+export function Calendar22({ value, onChange }: { value?: Date; onChange?: (date: Date | undefined) => void }) {
   const [open, setOpen] = React.useState(false)
   const [date, setDate] = React.useState<Date | undefined>(undefined)
+  
+  React.useEffect(() => {
+    setDate(value)
+  }, [value])
+
+  const handleSelect = (selectedDate: Date | undefined) => {
+    setDate(selectedDate)
+    onChange?.(selectedDate)
+    setOpen(false)
+  }
 
   return (
     <div className="flex flex-col gap-3">
@@ -37,10 +47,7 @@ export function Calendar22() {
             mode="single"
             selected={date}
             captionLayout="dropdown"
-            onSelect={(date) => {
-              setDate(date)
-              setOpen(false)
-            }}
+            onSelect={handleSelect}
           />
         </PopoverContent>
       </Popover>

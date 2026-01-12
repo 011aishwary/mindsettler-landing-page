@@ -35,6 +35,8 @@ export interface Appointment extends Models.Document {
   reason: string;
   note: string;
   userId: string;
+  paymentType: string;
+  paymentProof: FormData | undefined;
   cancellationReason: string | null;
 }
 export type Status = "pending" | "scheduled" | "cancelled";

@@ -14,9 +14,18 @@ import {
 } from "../ui/Popover"
 
 
-export default function Calendar24() {
+export default function Calendar24({ value, onChange }: { value?: Date; onChange?: (date: Date | undefined) => void }) {
   const [open, setOpen] = React.useState(false)
   const [date, setDate] = React.useState<Date | undefined>(undefined)
+  React.useEffect(() => {
+      setDate(value)
+    }, [value])
+  
+    const handleSelect = (selectedDate: Date | undefined) => {
+      setDate(selectedDate)
+      onChange?.(selectedDate)
+      setOpen(false)
+    }
 
   return (
     <div className="flex gap-4">
@@ -44,10 +53,7 @@ export default function Calendar24() {
                 month: "bg-white p-4",
                 weekday: "text-Primary-purple/80 px-2 border-b",
               }}
-              onSelect={(date) => {
-                setDate(date)
-                setOpen(false)
-              }}
+              onSelect={handleSelect}
             />
           </PopoverContent>
         </Popover>

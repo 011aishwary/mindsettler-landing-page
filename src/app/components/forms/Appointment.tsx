@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { email, int, set, z } from "zod"
+import { any, email, int, set, z } from "zod"
 import Image from "next/image"
 import { createUser, getPatient } from "../../../../lib/actions/patient.actions"
 import { Button } from "../ui/Button"
@@ -20,9 +20,13 @@ import { Status } from "../../../../types/appwrite.types"
 import { Patient } from "../../../../types/appwrite.types"
 import { get } from "http"
 import sendMail from "../MailSender"
+import { storage, BUCKET_ID, ENDPOINT, PROJECT_ID } from "../../../../lib/appwrite.config"
+// import { InputFile } from "node-appwrite/file"  // Removed: Use client-side upload instead
 import { SelectItem } from "../ui/select"
 import FileUploader from "../ui/FileUploader"
 import {useQRCode} from "next-qrcode";
+import { ID ,InputFile } from "node-appwrite"
+// import { InputFile } from "node-appwrite/file"
 
 
 export const AppointmentForm = ({
@@ -64,7 +68,29 @@ export const AppointmentForm = ({
   const onSubmit = async (
     values: z.infer<typeof AppointmentFormValidation>
   ) => {
-    setIsLoading(true);
+    // setIsLoading(true);
+    // let formData;
+    //     if (values.identificationDocument && values.identificationDocument.length > 0) {
+    //         const blobFile = new Blob([values.identificationDocument[0]], {
+    //             type: values.identificationDocument[0].type
+    //         })
+    //         formData = new FormData();
+    //         formData.append('blobFile', blobFile);
+    //         formData.append("fileName", values.identificationDocument[0].name);
+    //     }
+    let paymentProofUrl;
+    if ("paymentProof" in values && values.paymentProof && values.paymentProof.length > 0) {
+        if (values.paymentProof[0].size > 1024 * 1024) {  // 1 MB limit
+            alert('File size exceeds 1 MB. Please choose a smaller file.');
+            return;
+        }
+        const blobFile = new Blob([values.paymentProof[0]], {
+            type: values.paymentProof[0].type
+        });
+        const inputFile = InputFile.fromBuffer(blobFile, values.paymentProof[0].name);  // Create InputFile from Blob
+        const file = await storage.createFile(process.env.NEXT_PUBLIC_BUCKET_ID!, ID.unique(), inputFile);  // Upload blobFile directly (client-side)
+        paymentProofUrl = `${ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_BUCKET_ID}/files/${file.$id}/view?project=${PROJECT_ID}`;
+    }
 
     let status;
     switch (type) {
@@ -85,6 +111,10 @@ export const AppointmentForm = ({
         console.log("Creating appointment for patientId:", patientId);
         console.log('Raw schedule value:', values.schedule);
         console.log('Parsed date:', new Date(values.schedule));
+        // console.log('file type:', formData);  // Removed: formData no longer exists  
+        if ('paymentProof' in values && values.paymentProof) {
+          console.log('Payment proof file:', values.paymentProof[0]?.name);  // Example: Log file name if present
+        }
         // const paymentFormData = new FormData();
         
         const appointment = {
@@ -98,6 +128,7 @@ export const AppointmentForm = ({
           status: status as Status,
           note: values.note,
           paymentType: paymentType,
+          paymentProof: paymentProofUrl,
 
         };
 
@@ -259,7 +290,7 @@ export const AppointmentForm = ({
             <CustomFormField
               fieldtype={FormFeildType.SKELETON}
               control={form.control}
-              name="paymrentProof"
+              name="paymentProof"
               label="Upload the screenshot of payment proof"
               renderSkeleton={(field) => (
                 <FormControl>
