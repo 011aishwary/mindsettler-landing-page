@@ -1,24 +1,48 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { HoveredLink, Menu, MenuItem, ProductItem } from "./ui/navbar-menu";
-import {cn} from "../../../lib/utils";
+import { cn } from "../../../lib/utils";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { Button } from "./ui/Button";
+import { logout } from "../../../lib/actions/patient.actions";
+import FetchUser from "./FetchUser";
+import { log } from "console";
+import { set } from "zod";
+import Link from "next/link";
+
+export const fetchUserData = async () => {
+  const userData = await FetchUser()
+  return userData;
+};
+
 
 export function NavbarDemo() {
   return (
     <div className="relative w-full flex items-center justify-center">
-      <Navbar className="fixed top-0"/>
-      
+      <Navbar className="fixed top-0" />
+
     </div>
   );
 }
 
 function Navbar({ className }: { className?: string }) {
   const path = usePathname();
+  // const [userDetails, setUserDetails] = useState<any>(null);
   if (path && path.startsWith('/admin')) {
     return null; // Do not render the navbar on admin routes
   }
+  const logoutButton = async () => {
+    setUser(null)
+    await logout();
+
+  }
+  const [user, setUser] = useState<any>(null);
+  useEffect(() => {
+    fetchUserData().then(setUser);
+  }, [path]);
+
+
   const [active, setActive] = useState<string | null>(null);
   return (
     <div
@@ -26,13 +50,13 @@ function Navbar({ className }: { className?: string }) {
     >
       <Menu setActive={setActive}>
         <div className="">
-            <Image 
+          <Image
             src={"/Mindsettler_logoFinal.png"}
             alt="Mindsettler Logo"
             width={120}
             height={80}
             className="absolute left-0 ml-4"
-            />
+          />
         </div>
         <MenuItem setActive={setActive} active={active} item="Services">
           <div className="flex flex-col space-y-4 text-sm">
@@ -78,6 +102,35 @@ function Navbar({ className }: { className?: string }) {
             <HoveredLink href="/enterprise">Enterprise</HoveredLink>
           </div>
         </MenuItem>
+        <div className="absolute right-0 mr-4  ">
+          {!user ? (
+            <div className={`flex flex-col space-y-4  text-sm `}>
+              <div className="rounded-xl border border-white/30 px-4 py-2">
+                <Link href="/Login">Login</Link>
+              </div>
+
+            </div>
+          ) : (
+
+            <MenuItem setActive={setActive} active={active} item={user ? user.name : "Login"}>
+
+
+              <div className={`flex flex-col space-y-4  text-sm ${user ? "" : "hidden"}`}>
+                <div>{user ? user.name : "User"}</div>
+                <div >{user ? user.email : "Email"}</div>
+                <div className="">
+                  <Button onClick={logoutButton}>Logout</Button>
+                </div>
+                {/* <div>Dashboard</div> */}
+              </div>
+            </MenuItem>
+          )}
+
+
+
+
+
+        </div>
       </Menu>
     </div>
   );

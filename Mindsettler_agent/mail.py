@@ -20,24 +20,18 @@ SENDER_PASSWORD = os.getenv("MINDSETTLER_PASS")
 SUBJECT1 = "Your MindSettler Session is Confirmed"
 SUBJECT2 = "Important: Cancellation & Rescheduling your MindSettler Session"
 SUBJECT3 = "We’ve received your request | MindSettler"
-TEST_MODE = False  # Set False to actually send
+
 
 # ============ EMAIL TEMPLATE ============
 
-<<<<<<< HEAD
-EMAIL_TEMPLATE_HTML = """
-<html>
-<body>
-<p>Dear {name},</p>
-=======
-EMAIL_TEMPLATE1 = """<!DOCTYPE html>
+EMAIL_TEMPLATE1 = """
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Appointment Request Received</title>
+<title>Session Confirmed – MindSettler</title>
 </head>
 <body style="margin:0; padding:0; background-color:#f4f7f6; font-family:Arial, Helvetica, sans-serif; color:#333333;">
->>>>>>> 4e2db466e4894fa11c79fe531bd4678061305213
 
 <div style="max-width:600px; margin:20px auto; background-color:#ffffff; border-radius:8px; overflow:hidden; border:1px solid #e0e0e0;">
 
@@ -51,34 +45,36 @@ EMAIL_TEMPLATE1 = """<!DOCTYPE html>
 
         <p>Dear <strong>{name}</strong>,</p>
 
-        <p>Thank you for reaching out to us. We have successfully received your request for an appointment.</p>
+        <p>
+            We’re happy to inform you that your session with MindSettler has been successfully confirmed.
+        </p>
 
-        <p>Taking this step is a vital part of your journey toward clarity and growth. Our team is currently reviewing the therapist's availability to finalize your slot.</p>
-
-        <!-- Details box -->
+        <!-- Details Box -->
         <div style="background-color:#f0f4f8; border-left:4px solid #769fcd; padding:20px; margin:20px 0;">
 
-            <h3 style="margin-top:0; color:#769fcd; font-size:18px;">Requested Details:</h3>
+            <h3 style="margin-top:0; color:#769fcd; font-size:18px;">Session Details:</h3>
 
             <ul style="list-style:none; padding:0; margin:0;">
                 <li style="margin-bottom:8px;"><strong>Date:</strong> {date}</li>
                 <li style="margin-bottom:8px;"><strong>Time:</strong> {time}</li>
                 <li style="margin-bottom:8px;"><strong>Mode:</strong> {mode}</li>
+                <li style="margin-bottom:8px;"><strong>Therapist:</strong> Parnika Bajaj</li>
             </ul>
-        </div>
-
-        <!-- Next steps -->
-        <div style="background-color:#fff9e6; padding:15px; border-radius:5px; margin-top:20px;">
-
-            <p style="margin:0;">
-                <strong>What happens next?</strong><br>
-                One of our team members will reach out to you within 24 hours to officially confirm your appointment.
-                Once confirmed, you will receive a final confirmation email with all necessary links and instructions.
-            </p>
 
         </div>
 
-        <p>If you have any urgent questions, feel free to reply to this email.</p>
+        <p>
+            Please make sure you’re available a few minutes before the scheduled time so the session can begin smoothly.
+            If this is an online session, the meeting link will be shared shortly before your appointment.
+        </p>
+
+        <p>
+            Your well-being matters to us, and we’re glad to be a part of your journey toward clarity and growth.
+        </p>
+
+        <p>
+            If you need to reschedule or have any questions, feel free to reply to this email.
+        </p>
 
         <p>
             Warm regards,<br>
@@ -143,7 +139,7 @@ EMAIL_TEMPLATE2 = """
                 To reschedule at your convenience, please click the button below to choose a new time that works for you:
             </p>
 
-            <a href="{reschedule_link}"
+            <a href="localhost:3000/Login"
                style="display:inline-block; padding:12px 20px; background-color:#769fcd; color:#ffffff; text-decoration:none; border-radius:4px; font-weight:bold;">
                 Reschedule Your Appointment
             </a>
@@ -279,7 +275,7 @@ EMAIL_TEMPLATE3 = """
 
 def create_email(to_email, name, date, time, mode, status):
     
-    if status == "Scheduled":
+    if status == "schedule":
         msg = EmailMessage()
         msg["Subject"] = SUBJECT1
         msg["From"] = SENDER_EMAIL
@@ -293,7 +289,7 @@ def create_email(to_email, name, date, time, mode, status):
             ),
             subtype = "html"
         )
-    elif status == "Cancelled":
+    elif status == "cancel":
         msg = EmailMessage()
         msg["Subject"] = SUBJECT2
         msg["From"] = SENDER_EMAIL
@@ -307,7 +303,7 @@ def create_email(to_email, name, date, time, mode, status):
             ),
             subtype = "html"
         )
-    elif status == "Waiting":
+    elif status == "pending":
         msg = EmailMessage()
         msg["Subject"] = SUBJECT3
         msg["From"] = SENDER_EMAIL
@@ -327,23 +323,20 @@ def create_email(to_email, name, date, time, mode, status):
 def main(email, name, date, timee, mode, status):
     print("=== MindSettler Email Sender ===")
 
-    if not TEST_MODE:
-        context = ssl.create_default_context()
-        server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, context=context)
-        server.login(SENDER_EMAIL, SENDER_PASSWORD)
-    else:
-        server = None
+    
+    context = ssl.create_default_context()
+    server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, context=context)
+    server.login(SENDER_EMAIL, SENDER_PASSWORD)
+    
 
     count = 0
 
     try:
         msg = create_email(email, name, date, timee, mode, status)
 
-        if TEST_MODE:
-            print("   TEST MODE — not sent\n")
-        else:
-            server.send_message(msg)
-            print(f"   ✅ Sent email to {name} <{email}>")
+        
+        server.send_message(msg)
+        print(f"   ✅ Sent email to {name} <{email}>")
 
         count += 1
         print("-" * 40)
@@ -381,7 +374,7 @@ if __name__ == "__main__":
         mode = input_data.get("mode", "").strip()
         status = input_data.get("status", "").strip()
         print(email)
-        print(f"Preparing email for {name} <{email}> on {date} at {timee} ({mode})")
+        print(f"Preparing email for {name} <{email}> on {date} at {timee} ({mode}) and status: {status}")
 
         main(email, name, date, timee, mode, status)
 

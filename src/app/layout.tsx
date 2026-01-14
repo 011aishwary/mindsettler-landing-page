@@ -4,8 +4,10 @@ import { Geist, Geist_Mono , Nunito} from "next/font/google";
 import "./globals.css";
 import { Poppins, Inter } from "next/font/google";
 import { NavbarDemo } from "./components/Navbar";
-import { Fredoka } from 'next/font/google';
+import React from "react";
 import Chatbot from "./components/Chatbot";
+
+
 
 // const fredoka = Fredoka({ weight: '400', subsets: ['latin'] , variable: "--font-Fredroka_one", });
 
@@ -45,7 +47,8 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>)
+ {
   
   return (
     <html lang="en" className="scroll-smooth">

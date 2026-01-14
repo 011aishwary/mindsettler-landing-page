@@ -1,25 +1,82 @@
 "use server";
 import { ID, Query } from "node-appwrite";
-import {BUCKET_ID, DATABASE_ID, databases, ENDPOINT, PATIENT_COLLECTION_ID, PROJECT_ID, storage, users} from "../appwrite.config";
-import {parseStringify} from "../utils"
-import {InputFile} from "node-appwrite/file";
+import { account, BUCKET_ID, DATABASE_ID, databases, ENDPOINT, PATIENT_COLLECTION_ID, PROJECT_ID, storage, users } from "../appwrite.config";
+import { parseStringify } from "../utils"
+import { InputFile } from "node-appwrite/file";
+import { string } from "zod";
+import { cookies } from "next/headers";
+// import {  CreateUserParams } from "../../types";
 
 
+import { Client, Account } from "node-appwrite";
+import { redirect } from "next/navigation";
 
+export async function logout() {
+  // 1. Get the session cookie name
+  const projectId = process.env.PROJECT_ID;
+  const cookieName = `a_session_${projectId?.toLowerCase()}`;
+  
+  // 2. Get the session token from the cookie
+  const cookieStore = await cookies();
+  const sessionToken = cookieStore.get(cookieName)?.value;
 
-export const createUser = async (user:CreateUserParams) => {
+  if (sessionToken) {
     try {
-        const newUser = await users.create({
+      // 3. Create a Session Client (to tell Appwrite we are logging out)
+      const client = new Client()
+        .setEndpoint(process.env.NEXT_PUBLIC_ENDPOINT!)
+        .setProject(projectId!)
+        .setSession(sessionToken); // <--- Authenticate as the user
+
+      const account = new Account(client);
+
+      // 4. Delete the session on Appwrite's server
+      await account.deleteSession('current');
+    } catch (error) {
+      // Ignore error if session is already invalid
+      console.error("Logout error (Appwrite):", error);
+    }
+  }
+
+  // 5. CRITICAL: Delete the cookie from the browser
+  cookieStore.delete(cookieName);
+
+  // 6. Redirect to login page
+  redirect("/");
+}
+
+export const createCookieSession = async (userLog: any) => {
+    (await cookies()).set("a_session_" + process.env.PROJECT_ID?.toLowerCase(), userLog.secret, {
+            path: "/",
+            httpOnly: true,
+            sameSite: "strict",
+            secure: true,
+        });
+    }
+
+
+export const createUser = async (user: CreateUserParams) => {
+    try {
+        const newUser = await account.create({
             userId: ID.unique(),
             email: user.email,
-            phone: String(user.phone),
-            password: undefined,
+            password: user.password,
             name: user.name,
+            // phone: String(user.phone),
         });
-        console.log("New user created:", {newUser});    
+        // auto-login after signup
+        const userLog = await account.createEmailPasswordSession(user.email.trim(), user.password);
+        (await cookies()).set("a_session_" + process.env.PROJECT_ID?.toLowerCase(), userLog.secret, {
+            path: "/",
+            httpOnly: true,
+            sameSite: "strict",
+            secure: true,
+        });
+
+        console.log("New user created:", { newUser });
         return parseStringify(newUser);
-        
-    } catch (error : any) {
+
+    } catch (error: any) {
         if (error && error?.code === 409) {
             const existingUser = await users.list({
                 queries: [Query.equal("email", user.email)]
@@ -30,16 +87,16 @@ export const createUser = async (user:CreateUserParams) => {
     }
 }
 
-export const getUser = async (userId:string) => {
+export const getUser = async (userId: string) => {
     try {
-        const user = await users.get({userId});
+        const user = await users.get({ userId });
         return parseStringify(user);
     } catch (error) {
         console.log("Error fetching user:", error);
         throw error;
-    }   
+    }
 }
-export const getPatient = async (userId:string) => {
+export const getPatient = async (userId: string) => {
     try {
         const patients = await databases.listDocuments(
             DATABASE_ID!,
@@ -54,20 +111,20 @@ export const getPatient = async (userId:string) => {
     } catch (error) {
         console.log("Error fetching patient:", error);
         throw error;
-    }   
+    }
 }
 
-export const registerPatient = async ({identificationDocument , ...patient}: RegisterUserParams) => {
+export const registerPatient = async ({ identificationDocument, ...patient }: RegisterUserParams) => {
     try {
         let file;
-        if(identificationDocument){
+        if (identificationDocument) {
             const inputFIle = InputFile.fromBuffer(
                 identificationDocument?.get('BlobFile') as Blob,
                 identificationDocument?.get('fileName') as string,
             )
             file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFIle);
         }
-        
+
 
         const newPatient = await databases.createDocument(
             DATABASE_ID!,
@@ -89,14 +146,14 @@ export const registerPatient = async ({identificationDocument , ...patient}: Reg
                 identificationType: patient.identificationType,
                 identificationNumber: patient.identificationNumber,
                 identificationDocumentId: file?.$id || null,
-                identificationDocumentUrl : `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}`,
+                identificationDocumentUrl: `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}`,
                 treatmentConsent: patient.treatmentConsent,
                 disclosureConsent: patient.disclosureConsent,
                 privacyConsent: patient.privacyConsent,
             });
-{
+        {
 
-}        
+        }
     } catch (error) {
         console.log("Error registering patient:", error);
         throw error;

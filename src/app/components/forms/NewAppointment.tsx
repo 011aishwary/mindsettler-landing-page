@@ -13,7 +13,7 @@ import SubmitButton from "../ui/SubmitButton"
 import { Dispatch, SetStateAction, useState } from "react"
 import { getAppointmentSchema } from "../../../../lib/validation"
 import { useRouter } from "next/navigation"
-import { FormFeildType } from "@/app/Login/page"
+import { FormFeildType } from "@/app/Signup/page"
 import { createAppointment, updateAppointment } from "../../../../lib/actions/appointment.actions"
 import { Appointment } from "../../../../types/appwrite.types"
 import { Status } from "../../../../types/appwrite.types"
@@ -224,12 +224,12 @@ export const AppointmentForm = ({
     // };
 
     const form = useForm<z.infer<typeof AppointmentFormValidation>>({
-        
+
         resolver: zodResolver(AppointmentFormValidation),
         defaultValues: {
             //   primaryPhysician: appointment ? appointment?.primaryPhysician : "",
             schedule: selectedDate ? format(selectedDate, "yyyy-MM-dd") : "",
-            time:selectedTime ? selectedTime : "",
+            time: selectedTime ? selectedTime : "",
             reason: appointment ? appointment.reason : "",
             note: appointment?.note || "",
             cancellationReason: appointment?.cancellationReason || "",
@@ -237,12 +237,12 @@ export const AppointmentForm = ({
             paymentProof: undefined,
         },
     });
-    
+
     const onSubmit = async (
         values: z.infer<typeof AppointmentFormValidation>
     ) => {
         console.log("Form default values:", form.getValues());
-        if ((!selectedDate || !selectedTime ) && type == "create") {
+        if ((!selectedDate || !selectedTime) && type == "create") {
             toast({
                 title: "Error",
                 description: "Please select a date and time for the appointment.",
@@ -278,7 +278,7 @@ export const AppointmentForm = ({
                 console.log("Fetched patient data:", proof);
                 console.log("Creating appointment for patientId:", patientId);
                 console.log('Raw schedule value:', values.schedule);
-                console.log('Parsed date:', new Date(values.schedule));
+                // console.log('Parsed date:', new Date(values.schedule));
                 // console.log('file type:', formData);  // Removed: formData no longer exists  
                 if ('paymentProof' in values && values.paymentProof) {
                     // console.log('Payment proof file:', values.paymentProof[0]?.name);  // Example: Log file name if present
@@ -298,7 +298,6 @@ export const AppointmentForm = ({
                     note: values.note,
                     paymentType: paymentType,
                     paymentProof: values.paymentProof ? values.paymentProof[0] : undefined,
-
                 };
                 // setAppointments((prev) => [...prev, appointment]);
                 setSubmitStatus("success");
@@ -309,7 +308,6 @@ export const AppointmentForm = ({
                 setTimeout(() => {
                     setSelectedDate(null);
                     setSelectedTime(null);
-                    // setFormData({ fullName: "", email: "", reason: "", notes: "" });
                     setSubmitStatus("idle");
                 }, 2000);
 
@@ -318,6 +316,28 @@ export const AppointmentForm = ({
 
                 if (newAppointment) {
                     form.reset();
+                    try {
+                        console.log("Attempting to send email notification...", type);
+                        const patientData = await getPatient(userId);
+                        console.log("Fetched patient data for email:", patientData);
+                        const email = patientData.email;
+                        const date = selectedDate ? format(selectedDate, "yyyy-MM-dd") : "";
+                        const time = selectedTime || "";
+                        const mode = paymentType;
+                        const name = patientData.name;
+                        const mailData = { "email": email, "name": name, "date": date, "time": time, "mode": mode , status: type};
+                        console.log("Mail data prepared:", mailData);
+                        const result = await sendMail(mailData);
+                        if (result.success) {
+                            console.log('Mail sent successfully!');
+                            // Add success logic, e.g., show a success message or redirect
+                        } else {
+                            console.error('Failed to send mail:', result.message);
+                            // Add error logic, e.g., show an error message
+                        }
+                    } catch (error) {
+                        console.error('Unexpected error:', error);
+                    }
                     router.push(
                         `/patient/${userId}/new-appointment/success?appointmentId=${newAppointment.$id}`
                     );
@@ -357,13 +377,8 @@ export const AppointmentForm = ({
                     const date = selectedDate ? format(selectedDate, "yyyy-MM-dd") : "";
                     const time = selectedTime || "";
                     const mode = paymentType;
-                    // const date = dateObj.toLocaleDateString('en-US', {
-                    //     year: 'numeric',
-                    //     month: '2-digit',
-                    //     day: '2-digit',
-                    // });
                     const name = patientData.name;
-                    const mailData = { "email": email, "name": name, "date": date, "time": time, "mode": mode };
+                    const mailData = { "email": email, "name": name, "date": date, "time": time, "mode": mode , status: type};
                     console.log("Mail data prepared:", mailData);
                     const result = await sendMail(mailData);
                     if (result.success) {

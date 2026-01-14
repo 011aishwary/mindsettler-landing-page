@@ -4,14 +4,6 @@
 import MindsettlerHero from "./StoryJourney";
 import ScrollPage from "./ScrollPage";
 
-// export default function HeroSection() {
-//   return (
-//     <>
-//         
-//     </>
-
-//   );
-// }
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight,  Play } from "lucide-react";
@@ -20,9 +12,25 @@ import heroJourney from "@/assets/hero-journey.jpg";
 import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import FetchUser from "./FetchUser";
+
+export const fetchUserData = async () => {
+  const userData = await FetchUser()
+  console.log("User data fetched on home page.", userData);
+  return userData;
+};
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [user, setUser] = useState<any>(null);
+    useEffect(() => {
+      fetchUserData().then(setUser);
+      if (user) {
+        console.log("User data fetched on home page:", user);
+        console.log("User email:", user.$id);  // Access values here
+      }
+    }, []);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
@@ -208,7 +216,7 @@ export default function HeroSection() {
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
-                  <Link href="/Login">
+                  <Link href={`${user ? `/patient/${user.$id}/new-appointment` : '/Signup'}`}>
                 <Button variant="hero" className="group relative overflow-hidden">
                   <motion.span
                     className="absolute inset-0 bg-gradient-to-r from-accent/20 to-transparent"

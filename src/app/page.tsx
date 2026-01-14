@@ -1,6 +1,6 @@
 "use client";
 import HeroSection from "./components/hero_section";
-import { useRef, useLayoutEffect } from "react";
+import { useRef, useState, useLayoutEffect, useEffect, use } from "react";
 import gsap from "gsap";
 import AboutMindSettler from "./components/About_section";
 import Process from "./components/Process";
@@ -9,10 +9,16 @@ import Footer from "./components/Footer";
 import Faq from "./components/Faq";
 import Booking from "./components/Booking";
 
+
+
+
 export default function Home() {
   const comp = useRef(null);
   const overlayTopRef = useRef(null);
   const overlayBottomRef = useRef(null);
+  
+  
+
 
   useLayoutEffect(() => {
 

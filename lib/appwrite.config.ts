@@ -20,6 +20,7 @@ const key = "standard_0cf877bef0eaec54c452da3cebc5c28612acc11e32ef07bd7468024e37
 
 client.setEndpoint(endpoint!).setProject("695ea265002a468182f5").setKey(key!);
 
+export const account = new sdk.Account(client);
 export const databases = new sdk.Databases(client);
 export const storage = new sdk.Storage(client); 
 export const messaging = new sdk.Messaging(client);

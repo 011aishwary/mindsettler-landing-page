@@ -12,7 +12,7 @@ import {
     FormMessage,
 } from "../components/ui/Form"
 import { Input } from "../components/ui/Input"
-import { FormFeildType } from "../Login/page"
+import { FormFeildType } from "../Signup/page"
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import React, { useState } from "react"

@@ -13,7 +13,7 @@ import SubmitButton from "../ui/SubmitButton"
 import { use, useState } from "react"
 import { PatientFormValidation } from "../../../../lib/validation"
 import { useRouter } from "next/navigation"
-import { FormFeildType } from "@/app/Login/page"
+import { FormFeildType } from "@/app/Signup/page"
 import { RadioGroup } from "@radix-ui/react-radio-group"
 import { GenderOptions, PatientFormDefaultValues } from "../../../../constants"
 import { RadioGroupItem } from "../ui/radio-group"
@@ -176,7 +176,7 @@ const RegisterForm = ({ user }: { user: User }) => {
                                 iconAlt="email"
                             />
                             <CustomFormField
-                                disabled={true}
+                                // disabled={true}
                                 fieldtype={FormFeildType.PHONE_INPUT}
                                 control={form.control}
                                 name="phone"
