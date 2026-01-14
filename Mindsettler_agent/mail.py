@@ -17,58 +17,314 @@ SENDER_EMAIL = os.getenv("MINDSETTLER_EMAIL")
 SENDER_PASSWORD = os.getenv("MINDSETTLER_PASS")
  # App password
 
-SUBJECT = "Your MindSettler Session is Confirmed"
+SUBJECT1 = "Your MindSettler Session is Confirmed"
+SUBJECT2 = "Important: Cancellation & Rescheduling your MindSettler Session"
+SUBJECT3 = "We’ve received your request | MindSettler"
 TEST_MODE = False  # Set False to actually send
 
 # ============ EMAIL TEMPLATE ============
 
+<<<<<<< HEAD
 EMAIL_TEMPLATE_HTML = """
 <html>
 <body>
 <p>Dear {name},</p>
+=======
+EMAIL_TEMPLATE1 = """<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Appointment Request Received</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f4f7f6; font-family:Arial, Helvetica, sans-serif; color:#333333;">
+>>>>>>> 4e2db466e4894fa11c79fe531bd4678061305213
 
-<p>We’re happy to inform you that your session with MindSettler has been successfully confirmed.</p>
+<div style="max-width:600px; margin:20px auto; background-color:#ffffff; border-radius:8px; overflow:hidden; border:1px solid #e0e0e0;">
 
-<p><strong>Session Details:</strong><br>
-Date: {date}<br>
-Time: {time}<br>
-Mode: {mode}<br>
-Therapist: Parnika Bajaj</p>
+    <!-- Header -->
+    <div style="background-color:#769fcd; color:#ffffff; padding:30px; text-align:center;">
+        <h1 style="margin:0; font-size:24px; letter-spacing:1px;">MindSettler</h1>
+    </div>
 
-<p>Please make sure you’re available a few minutes before the scheduled time so the session can begin smoothly. If this is an online session, the meeting link will be shared shortly before your appointment.</p>
+    <!-- Content -->
+    <div style="padding:30px; line-height:1.6;">
 
-<p>Your well-being matters to us, and we’re glad to be a part of your journey toward clarity and growth.</p>
+        <p>Dear <strong>{name}</strong>,</p>
 
-<p>If you need to reschedule or have any questions, feel free to reply to this email.</p>
+        <p>Thank you for reaching out to us. We have successfully received your request for an appointment.</p>
 
-<p>Warm regards,<br>
-Team MindSettler<br>
-MindSettler – Where Healing Begins</p>
+        <p>Taking this step is a vital part of your journey toward clarity and growth. Our team is currently reviewing the therapist's availability to finalize your slot.</p>
+
+        <!-- Details box -->
+        <div style="background-color:#f0f4f8; border-left:4px solid #769fcd; padding:20px; margin:20px 0;">
+
+            <h3 style="margin-top:0; color:#769fcd; font-size:18px;">Requested Details:</h3>
+
+            <ul style="list-style:none; padding:0; margin:0;">
+                <li style="margin-bottom:8px;"><strong>Date:</strong> {date}</li>
+                <li style="margin-bottom:8px;"><strong>Time:</strong> {time}</li>
+                <li style="margin-bottom:8px;"><strong>Mode:</strong> {mode}</li>
+            </ul>
+        </div>
+
+        <!-- Next steps -->
+        <div style="background-color:#fff9e6; padding:15px; border-radius:5px; margin-top:20px;">
+
+            <p style="margin:0;">
+                <strong>What happens next?</strong><br>
+                One of our team members will reach out to you within 24 hours to officially confirm your appointment.
+                Once confirmed, you will receive a final confirmation email with all necessary links and instructions.
+            </p>
+
+        </div>
+
+        <p>If you have any urgent questions, feel free to reply to this email.</p>
+
+        <p>
+            Warm regards,<br>
+            <strong>Team MindSettler</strong>
+        </p>
+
+    </div>
+
+    <!-- Footer -->
+    <div style="background-color:#f9f9f9; padding:20px; text-align:center; font-size:12px; color:#777777; border-top:1px solid #eeeeee;">
+
+        <p style="margin:5px 0; font-style:italic; color:#769fcd; font-weight:bold;">
+            MindSettler – Where Healing Begins
+        </p>
+
+        <p style="margin:5px 0;">&copy; 2026 MindSettler. All rights reserved.</p>
+
+        <p style="margin:5px 0;">If you are in an immediate crisis, please contact your local emergency services.</p>
+
+    </div>
+
+</div>
+
 </body>
-</html>"""
+</html>
+
+"""
+EMAIL_TEMPLATE2 = """
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Session Update – MindSettler</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f4f7f6; font-family:Arial, Helvetica, sans-serif; color:#333333;">
+
+<div style="max-width:600px; margin:20px auto; background-color:#ffffff; border-radius:8px; overflow:hidden; border:1px solid #e0e0e0;">
+
+    <!-- Header -->
+    <div style="background-color:#769fcd; color:#ffffff; padding:30px; text-align:center;">
+        <h1 style="margin:0; font-size:24px; letter-spacing:1px;">MindSettler</h1>
+    </div>
+
+    <!-- Content -->
+    <div style="padding:30px; line-height:1.6;">
+
+        <p>Dear <strong>{name}</strong>,</p>
+
+        <p>
+            We are reaching out to inform you that, due to an unexpected conflict, we have had to cancel your session
+            scheduled for <strong>{date}</strong> at <strong>{time}</strong>. Please accept our sincerest apologies for this change.
+        </p>
+
+        <p>
+            Your well-being is our priority, and we want to ensure you get your session back on track as soon as possible.
+        </p>
+
+        <!-- Action Box -->
+        <div style="background-color:#f0f4f8; border-left:4px solid #769fcd; padding:20px; margin:20px 0; text-align:center;">
+
+            <p style="margin:0 0 15px 0; font-size:16px;">
+                To reschedule at your convenience, please click the button below to choose a new time that works for you:
+            </p>
+
+            <a href="{reschedule_link}"
+               style="display:inline-block; padding:12px 20px; background-color:#769fcd; color:#ffffff; text-decoration:none; border-radius:4px; font-weight:bold;">
+                Reschedule Your Appointment
+            </a>
+
+        </div>
+
+        <p>
+            Once you select a new slot, you will receive a new confirmation email with the updated details.
+            If you have any trouble using the link or prefer to speak with us, simply reply to this email.
+        </p>
+
+        <p>
+            We appreciate your understanding and look forward to seeing you soon.
+        </p>
+
+        <p>
+            Warm regards,<br>
+            <strong>Team MindSettler</strong>
+        </p>
+
+    </div>
+
+    <!-- Footer -->
+    <div style="background-color:#f9f9f9; padding:20px; text-align:center; font-size:12px; color:#777777; border-top:1px solid #eeeeee;">
+
+        <p style="margin:5px 0; font-style:italic; color:#769fcd; font-weight:bold;">
+            MindSettler – Where Healing Begins
+        </p>
+
+        <p style="margin:5px 0;">&copy; 2026 MindSettler. All rights reserved.</p>
+
+        <p style="margin:5px 0;">If you are in an immediate crisis, please contact your local emergency services.</p>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+
+"""
+
+EMAIL_TEMPLATE3 = """
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Appointment Request Received – MindSettler</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f4f7f6; font-family:Arial, Helvetica, sans-serif; color:#333333;">
+
+<div style="max-width:600px; margin:20px auto; background-color:#ffffff; border-radius:8px; overflow:hidden; border:1px solid #e0e0e0;">
+
+    <!-- Header -->
+    <div style="background-color:#769fcd; color:#ffffff; padding:30px; text-align:center;">
+        <h1 style="margin:0; font-size:24px; letter-spacing:1px;">MindSettler</h1>
+    </div>
+
+    <!-- Content -->
+    <div style="padding:30px; line-height:1.6;">
+
+        <p>Dear <strong>{name}</strong>,</p>
+
+        <p>
+            Thank you for reaching out to MindSettler. We have successfully received your application for an appointment.
+        </p>
+
+        <p>
+            We understand that taking this step is an important part of your journey, and we want to ensure everything is set up perfectly for you.
+            Our team is currently reviewing the availability of our therapists to finalize your slot.
+        </p>
+
+        <!-- Details Box -->
+        <div style="background-color:#f0f4f8; border-left:4px solid #769fcd; padding:20px; margin:20px 0;">
+
+            <h3 style="margin-top:0; color:#769fcd; font-size:18px;">Your Requested Details:</h3>
+
+            <ul style="list-style:none; padding:0; margin:0;">
+                <li style="margin-bottom:8px;"><strong>Preferred Date:</strong> {date}</li>
+                <li style="margin-bottom:8px;"><strong>Preferred Time:</strong> {time}</li>
+                <li style="margin-bottom:8px;"><strong>Mode:</strong> {mode}</li>
+            </ul>
+
+        </div>
+
+        <!-- Next Steps -->
+        <div style="background-color:#fff9e6; padding:15px; border-radius:5px; margin-top:20px;">
+            <p style="margin:0;">
+                <strong>What happens next?</strong><br>
+                One of our team members will reach out to you within <strong>24 hours</strong> to officially confirm your appointment.
+                Once confirmed, you will receive a final confirmation email with all the necessary details and the meeting link (if applicable).
+            </p>
+        </div>
+
+        <p>
+            If you have any urgent questions in the meantime, please feel free to reply to this email.
+        </p>
+
+        <p>
+            We look forward to supporting you soon.
+        </p>
+
+        <p>
+            Warm regards,<br>
+            <strong>Team MindSettler</strong>
+        </p>
+
+    </div>
+
+    <!-- Footer -->
+    <div style="background-color:#f9f9f9; padding:20px; text-align:center; font-size:12px; color:#777777; border-top:1px solid #eeeeee;">
+
+        <p style="margin:5px 0; font-style:italic; color:#769fcd; font-weight:bold;">
+            MindSettler – Where Healing Begins
+        </p>
+
+        <p style="margin:5px 0;">&copy; 2026 MindSettler. All rights reserved.</p>
+
+        <p style="margin:5px 0;">If you are in an immediate crisis, please contact your local emergency services.</p>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+
+"""
 
 
 
 # ============ HELPER ============
 
-def create_email(to_email, name, date, time, mode):
-    msg = EmailMessage()
-    msg["Subject"] = SUBJECT
-    msg["From"] = SENDER_EMAIL
-    msg["To"] = to_email
-    msg.set_content(
-        EMAIL_TEMPLATE_HTML.format(
-            name=name,
-            date=date,
-            time=time,
-            mode=mode
-        ),
-        subtype='html'
-    )
+def create_email(to_email, name, date, time, mode, status):
+    
+    if status == "Scheduled":
+        msg = EmailMessage()
+        msg["Subject"] = SUBJECT1
+        msg["From"] = SENDER_EMAIL
+        msg["To"] = to_email
+        msg.set_content(
+            EMAIL_TEMPLATE1.format(
+                name=name,
+                date=date,
+                time=time,
+                mode=mode
+            ),
+            subtype = "html"
+        )
+    elif status == "Cancelled":
+        msg = EmailMessage()
+        msg["Subject"] = SUBJECT2
+        msg["From"] = SENDER_EMAIL
+        msg["To"] = to_email
+        msg.set_content(
+            EMAIL_TEMPLATE2.format(
+                name=name,
+                date=date,
+                time=time,
+                mode=mode
+            ),
+            subtype = "html"
+        )
+    elif status == "Waiting":
+        msg = EmailMessage()
+        msg["Subject"] = SUBJECT3
+        msg["From"] = SENDER_EMAIL
+        msg["To"] = to_email
+        msg.set_content(
+            EMAIL_TEMPLATE3.format(
+                name=name,
+                date=date,
+                time=time,
+                mode=mode
+            ),
+            subtype = "html"
+        )
     return msg
 
 
-def main(email, name, date, timee, mode):
+def main(email, name, date, timee, mode, status):
     print("=== MindSettler Email Sender ===")
 
     if not TEST_MODE:
@@ -81,7 +337,7 @@ def main(email, name, date, timee, mode):
     count = 0
 
     try:
-        msg = create_email(email, name, date, timee, mode)
+        msg = create_email(email, name, date, timee, mode, status)
 
         if TEST_MODE:
             print("   TEST MODE — not sent\n")
@@ -123,10 +379,11 @@ if __name__ == "__main__":
         date = input_data.get("date", "").strip()
         timee = input_data.get("time", "").strip()
         mode = input_data.get("mode", "").strip()
+        status = input_data.get("status", "").strip()
         print(email)
         print(f"Preparing email for {name} <{email}> on {date} at {timee} ({mode})")
 
-        main(email, name, date, timee, mode)
+        main(email, name, date, timee, mode, status)
 
         print(f"\nSending to {email}...")
         # result = query_chatbot(input_msg)
