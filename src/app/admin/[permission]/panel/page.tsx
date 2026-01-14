@@ -16,7 +16,7 @@ const AdminPanel = async () => {
     <div className='mx-auto bg-[#f1f1f1] **: pb-10 max-w-7xl flex flex-col space-y-14'>
         <header className="sticky bg-Primary-purple   z-20  flex w-screen items-center justify-between  bg-dark-200 px-[5%] py-2 shadow-lg xl:px-12">
             <Link href={"/"} className='cursor-pointer'>
-            <Image src={"/Mindsettler_logo2.jpg"} alt="MindSettler Logo" width={150} height={50}/>
+            <Image src={"/Mindsettler_logoFinal.png"} alt="MindSettler Logo" width={150} height={50}/>
             </Link>
             <h2 className="">Admin Dashboard</h2>
         </header>

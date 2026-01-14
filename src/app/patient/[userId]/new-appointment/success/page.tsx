@@ -40,7 +40,7 @@ const Success =  () => {
             <div className='flex flex-col justify-center items-center text-center mx-auto  gap-6'>
                 <Link href='/' className='text-purple4 underline'>
                     <Image
-                        src={"/Mindsettler_logo2.jpg"}
+                        src={"/Mindsettler_logoFinal.png"}
                         alt="success"
                         width={100}
                         height={100}

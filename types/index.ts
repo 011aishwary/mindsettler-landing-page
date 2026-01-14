@@ -58,14 +58,14 @@ export declare type CreateAppointmentParams = {
   status: Status;
   note: string | undefined;
   paymentType: string;
-  paymentProof: FormData | undefined;
+  paymentProof: File[] | undefined;
 
 };
 
 export declare type UpdateAppointmentParams = {
   appointmentId: string;
   userId: string;
-  timeZone: string;
+  // timeZone: string;
   appointment: Appointment;
   type: string;
 };

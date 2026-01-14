@@ -1,41 +1,88 @@
 "use server";
 import { ID, Query } from "node-appwrite";
-import {formatDateTime, parseStringify} from "../utils";
-import {APPOINTMENTS_COLLECTION_ID, DATABASE_ID, databases, messaging} from "../appwrite.config";
-import {CreateAppointmentParams , UpdateAppointmentParams} from "../../types"
+import { formatDateTime, parseStringify } from "../utils";
+import { APPOINTMENTS_COLLECTION_ID, DATABASE_ID, databases, messaging, storage } from "../appwrite.config";
+import { CreateAppointmentParams, UpdateAppointmentParams } from "../../types"
 import { revalidatePath } from "next/cache";
+import { InputFile } from "node-appwrite/file";
+import { input } from "framer-motion/client";
+import fs from "fs";
+import path from "path";
 
-export const createAppointment = async (appointment : CreateAppointmentParams) => {
-    try {
-        console.log("Registering appointment...", DATABASE_ID , APPOINTMENTS_COLLECTION_ID , appointment , ID.unique());
-        const newAppontment = await databases.createDocument(
-            DATABASE_ID!,
-            APPOINTMENTS_COLLECTION_ID!,
-            ID.unique(),
-            appointment
-            
-        );
-        return parseStringify(newAppontment);
-            
-            
-        } catch (error) {
-        console.log("Error registering patient:", error);
-        throw error;
+export const createAppointment = async ({ paymentProof, ...appointment }: CreateAppointmentParams) => {
+  try {
+    console.log("Creating appointment with data:", paymentProof);
+    let file;
+    if (paymentProof) {
+      // const filePath = path.join(process.cwd(), "public", "mountain.png");
+
+      const buffer = Buffer.from(
+        await paymentProof.arrayBuffer()
+      );
+
+      // Create Appwrite InputFile
+      const inputFIle = InputFile.fromBuffer(
+        buffer,
+        // paymentProof[0].name,
+        paymentProof.name,
+        // "image/png"
+      );
+
+
+
+      // Optional: Additional check via filename extension (fallback)
+      const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp'];
+      const fileExtension = inputFIle.name.toLowerCase().substring(inputFIle.name.lastIndexOf('.'));
+      if (!allowedExtensions.includes(fileExtension)) {
+        throw new Error('Invalid file extension. Only image files are allowed.');
+      }
+      console.log("Uploading payment proof file...", paymentProof.name);
+      file = await storage.createFile(process.env.NEXT_PUBLIC_BUCKET_ID!, ID.unique(), inputFIle);
+      console.log("Uploaded file ID:", file.$id);
     }
+    console.log("Registering appointment...", DATABASE_ID, APPOINTMENTS_COLLECTION_ID, appointment, ID.unique());
+    const newAppontment = await databases.createDocument(
+      DATABASE_ID!,
+      APPOINTMENTS_COLLECTION_ID!,
+      ID.unique(),
+      {
+        userId: appointment.userId,
+        patient: appointment.patient,
+        patname: appointment.patname,
+        time: appointment.time,
+        // primaryPhysician: string;
+        reason: appointment.reason,
+        schedule: appointment.schedule,
+        status: appointment.status,
+        note: appointment.note,
+        paymentType: appointment.paymentType,
+        // paymentProof: appointment.paymentProof,
+        paymentProof: `${process.env.NEXT_PUBLIC_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_BUCKET_ID}/files/${file?.$id}/view?project=${process.env.PROJECT_ID}`
+      },
+      // appointment
+
+    );
+    return parseStringify(newAppontment);
+
+
+  } catch (error) {
+    console.log("Error registering patient:", error);
+    throw error;
+  }
 }
 
-export const getAppointment = async (appointmentId:string) => {
-    try {
-        const appointment = await databases.getDocument(
-            DATABASE_ID!,
-            APPOINTMENTS_COLLECTION_ID!,
-            appointmentId
-        );
-        return parseStringify(appointment);
-    } catch (error) {
-        console.log("Error fetching appointment:", error);
-        throw error;
-    }
+export const getAppointment = async (appointmentId: string) => {
+  try {
+    const appointment = await databases.getDocument(
+      DATABASE_ID!,
+      APPOINTMENTS_COLLECTION_ID!,
+      appointmentId
+    );
+    return parseStringify(appointment);
+  } catch (error) {
+    console.log("Error fetching appointment:", error);
+    throw error;
+  }
 }
 
 //  GET RECENT APPOINTMENTS
@@ -125,7 +172,7 @@ export const sendSMSNotification = async (userId: string, content: string) => {
 export const updateAppointment = async ({
   appointmentId,
   userId,
-  timeZone,
+  // timeZone,
   appointment,
   type,
 }: UpdateAppointmentParams) => {
@@ -140,7 +187,7 @@ export const updateAppointment = async ({
 
     if (!updatedAppointment) throw Error;
 
-    const smsMessage = `Greetings from MindSettler. ${type === "schedule" ? `Your appointment is confirmed for ${formatDateTime(appointment.schedule!, timeZone).dateTime} ` : `We regret to inform that your appointment for ${formatDateTime(appointment.schedule!, timeZone).dateTime} is cancelled. Reason:  ${appointment.reason}`}.`;
+    const smsMessage = `Greetings from MindSettler. ${type === "schedule" ? `Your appointment is confirmed for ${formatDateTime(appointment.schedule!).dateTime} ` : `We regret to inform that your appointment for ${formatDateTime(appointment.schedule!).dateTime} is cancelled. Reason:  ${appointment.reason}`}.`;
     await sendSMSNotification(userId, smsMessage);
 
     revalidatePath("/admin");

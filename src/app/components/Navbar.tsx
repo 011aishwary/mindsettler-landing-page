@@ -27,7 +27,7 @@ function Navbar({ className }: { className?: string }) {
       <Menu setActive={setActive}>
         <div className="">
             <Image 
-            src={"/Mindsettler_logo2.jpg"}
+            src={"/Mindsettler_logoFinal.png"}
             alt="Mindsettler Logo"
             width={120}
             height={80}

@@ -13,7 +13,7 @@ import {
 } from "../components/ui/dialog";
 import { Appointment } from "../../../types/appwrite.types";
 
-import AppointmentForm from "./forms/Appointment";
+import AppointmentForm from "./forms/NewAppointment";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -43,10 +43,10 @@ export const AppointmentModal = ({
           {type}
         </Button>
       </DialogTrigger>
-      <DialogContent className="bg-white border-dark-500 h-fit text-Primary-purple sm:max-w-md">
-        <DialogHeader className="mb-4 space-y-3">
-          <DialogTitle className="capitalize">{type} Appointment</DialogTitle>
-          <DialogDescription>
+      <DialogContent className="bg-white border-dark-500 flex-col items-center my-auto pb-8 md:scale-75  text-center mx-auto w-full sm:text-center text-Primary-purple sm:max-w-4xl">
+        <DialogHeader className="mb space-y-3 ">
+          <DialogTitle className="capitalize md:text-3xl">{type} Appointment</DialogTitle>
+          <DialogDescription className="md:text-xl">
             Please fill in the following details to {type} appointment
           </DialogDescription>
         </DialogHeader>

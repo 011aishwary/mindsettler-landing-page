@@ -7,7 +7,7 @@ import Image from "next/image"
 import { createUser, getPatient } from "../../../../lib/actions/patient.actions"
 import { Button } from "../ui/Button"
 import { Form, FormControl } from "../ui/Form"
-import { Input } from "../ui/Input"
+
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "../ui/SubmitButton"
 import { Dispatch, SetStateAction, useState } from "react"
@@ -17,16 +17,15 @@ import { FormFeildType } from "@/app/Login/page"
 import { createAppointment, updateAppointment } from "../../../../lib/actions/appointment.actions"
 import { Appointment } from "../../../../types/appwrite.types"
 import { Status } from "../../../../types/appwrite.types"
-import { Patient } from "../../../../types/appwrite.types"
-import { get } from "http"
+
 import sendMail from "../MailSender"
-import { storage, BUCKET_ID, ENDPOINT, PROJECT_ID } from "../../../../lib/appwrite.config"
-// import { InputFile } from "node-appwrite/file"  // Removed: Use client-side upload instead
+
 import { SelectItem } from "../ui/select"
 import FileUploader from "../ui/FileUploader"
-import {useQRCode} from "next-qrcode";
-import { ID ,InputFile } from "node-appwrite"
-// import { InputFile } from "node-appwrite/file"
+import { useQRCode } from "next-qrcode";
+import GoogleCalendarButton from "../GoogleCalendarButton"
+import { usePathname } from "next/navigation"
+import { AppointmentBooking } from "../AppointmentBooking"
 
 
 export const AppointmentForm = ({
@@ -43,10 +42,15 @@ export const AppointmentForm = ({
   appointment?: Appointment;
   setOpen?: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const {Canvas} = useQRCode();
+  const { Canvas } = useQRCode();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [paymentType, setPaymentType] = useState("Offline")
+  const [proof, setProof] = useState<File | null>(null);
+  const pathname = usePathname();
+
+  const isAdminRoute = pathname.startsWith("/admin");
+
 
   const AppointmentFormValidation = getAppointmentSchema(type);
 
@@ -68,29 +72,11 @@ export const AppointmentForm = ({
   const onSubmit = async (
     values: z.infer<typeof AppointmentFormValidation>
   ) => {
-    // setIsLoading(true);
+    console.log("Uploading payment proof:", values.paymentProof?.[0]);
+
     // let formData;
-    //     if (values.identificationDocument && values.identificationDocument.length > 0) {
-    //         const blobFile = new Blob([values.identificationDocument[0]], {
-    //             type: values.identificationDocument[0].type
-    //         })
-    //         formData = new FormData();
-    //         formData.append('blobFile', blobFile);
-    //         formData.append("fileName", values.identificationDocument[0].name);
-    //     }
-    let paymentProofUrl;
-    if ("paymentProof" in values && values.paymentProof && values.paymentProof.length > 0) {
-        if (values.paymentProof[0].size > 1024 * 1024) {  // 1 MB limit
-            alert('File size exceeds 1 MB. Please choose a smaller file.');
-            return;
-        }
-        const blobFile = new Blob([values.paymentProof[0]], {
-            type: values.paymentProof[0].type
-        });
-        const inputFile = InputFile.fromBuffer(blobFile, values.paymentProof[0].name);  // Create InputFile from Blob
-        const file = await storage.createFile(process.env.NEXT_PUBLIC_BUCKET_ID!, ID.unique(), inputFile);  // Upload blobFile directly (client-side)
-        paymentProofUrl = `${ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_BUCKET_ID}/files/${file.$id}/view?project=${PROJECT_ID}`;
-    }
+
+    // console.log("Payment proof set in state:", proof);
 
     let status;
     switch (type) {
@@ -106,17 +92,18 @@ export const AppointmentForm = ({
 
     try {
       if (type === "create" && patientId) {
+        // const field = await setProof(values.paymentProof?.[0] || null );
         const patient = await getPatient(userId);
-        console.log("Fetched patient data:", patient.name);
+        console.log("Fetched patient data:", proof);
         console.log("Creating appointment for patientId:", patientId);
         console.log('Raw schedule value:', values.schedule);
         console.log('Parsed date:', new Date(values.schedule));
         // console.log('file type:', formData);  // Removed: formData no longer exists  
         if ('paymentProof' in values && values.paymentProof) {
-          console.log('Payment proof file:', values.paymentProof[0]?.name);  // Example: Log file name if present
+          // console.log('Payment proof file:', values.paymentProof[0]?.name);  // Example: Log file name if present
         }
         // const paymentFormData = new FormData();
-        
+
         const appointment = {
           ...values,
           userId,
@@ -128,7 +115,7 @@ export const AppointmentForm = ({
           status: status as Status,
           note: values.note,
           paymentType: paymentType,
-          paymentProof: paymentProofUrl,
+          paymentProof: values.paymentProof ? values.paymentProof[0] : undefined,
 
         };
 
@@ -140,7 +127,8 @@ export const AppointmentForm = ({
             `/patient/${userId}/new-appointment/success?appointmentId=${newAppointment.$id}`
           );
         }
-      } else {
+      }
+      else {
 
         const appointmentToUpdate = {
           userId,
@@ -216,7 +204,8 @@ export const AppointmentForm = ({
 
         {type !== "cancel" && (
           <>
-
+          
+            {/* 
             <CustomFormField
               fieldtype={FormFeildType.DATE_TIME_PICKER}
               control={form.control}
@@ -224,7 +213,10 @@ export const AppointmentForm = ({
               label="Expected appointment date"
               showTimeSelect
               dateFormat="dd/mm/yyyy  -  h:mm aa"
-            />
+            /> */}
+            <div className="">
+              <AppointmentBooking />
+            </div>
 
             <div
               className={`flex flex-col gap-6  ${type === "create" && "xl:flex-row"}`}
@@ -247,58 +239,64 @@ export const AppointmentForm = ({
                 disabled={type === "schedule"}
               />
             </div>
-            <CustomFormField
-              fieldtype={FormFeildType.SELECT}
-              control={form.control}
-              name="paymentType"
-              label="Payment Type"
-              placeholder="Offline/Online"
-            // iconSrc="/assets/id-card.svg"
-            // iconAlt="id"
-            >
-              {["Offline", "Online"].map((idType, i) =>
-              (
-                <SelectItem key={idType + i} value={idType} className="text-purple3 flex cursor-pointer items-center gap-2 relative !important" onClick={() => setPaymentType(idType)}>
+            {!isAdminRoute && (
+
+              <div className={` `}>
 
 
-                  {idType}
+                <CustomFormField
+                  fieldtype={FormFeildType.SELECT}
+                  control={form.control}
+                  name="paymentType"
+                  label="Payment Type"
+                  placeholder="Offline/Online"
+                // iconSrc="/assets/id-card.svg"
+                // iconAlt="id"
+                >
+                  {["Offline", "Online"].map((idType, i) =>
+                  (
+                    <SelectItem key={idType + i} value={idType} className="text-purple3 flex cursor-pointer items-center gap-2 relative !important" onClick={() => setPaymentType(idType)}>
 
-                </SelectItem>
-              ))}
-            </CustomFormField>
 
-            {paymentType && (
-              <div className="flex flex-col gap-4 text-center items-center justify-center w-full">
-                <h3 className="text-purple3">Pay the fees <span className="font-bold" >1000 </span> Rupees to schedule Appointmen</h3>
-                <Canvas
-                  text={'upi://pay?pa=8795157597@axl&pn=Aishwary%20%20Gupta&am=1.00&cu=INR&tn=PAYMENT_NOTE'} // The data/url you want to encode
-                  options={{
-                    level: 'M',
-                    margin: 3,
-                    scale: 4,
-                    width: 200,
-                    color: {
-                      dark: '#29153f', // MindSettler Primary Color
-                      light: '#ffffff', // Background Color
-                    },
-                  }}
+                      {idType}
+
+                    </SelectItem>
+                  ))}
+                </CustomFormField>
+
+                {paymentType && (
+                  <div className="flex flex-col gap-4 text-center items-center justify-center w-full">
+                    <h3 className="text-purple3">Pay the fees <span className="font-bold" >1000 </span> Rupees to schedule Appointmen</h3>
+                    <Canvas
+                      text={'upi://pay?pa=8795157597@axl&pn=Aishwary%20%20Gupta&am=1.00&cu=INR&tn=PAYMENT_NOTE'} // The data/url you want to encode
+                      options={{
+                        level: 'M',
+                        margin: 3,
+                        scale: 4,
+                        width: 200,
+                        color: {
+                          dark: '#29153f', // MindSettler Primary Color
+                          light: '#ffffff', // Background Color
+                        },
+                      }}
+                    />
+
+                  </div>
+                )}
+
+                <CustomFormField
+                  fieldtype={FormFeildType.SKELETON}
+                  control={form.control}
+                  name="paymentProof"
+                  label="Upload the screenshot of payment proof"
+                  renderSkeleton={(field) => (
+                    <FormControl>
+                      <FileUploader files={field.value} onChange={field.onChange} />
+                    </FormControl>
+
+                  )}
                 />
-
-              </div>
-            )}
-
-            <CustomFormField
-              fieldtype={FormFeildType.SKELETON}
-              control={form.control}
-              name="paymentProof"
-              label="Upload the screenshot of payment proof"
-              renderSkeleton={(field) => (
-                <FormControl>
-                  <FileUploader files={field.value} onChange={field.onChange} />
-                </FormControl>
-
-              )}
-            />
+              </div>)}
 
           </>
         )}

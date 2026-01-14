@@ -22,7 +22,8 @@ TEST_MODE = False  # Set False to actually send
 
 # ============ EMAIL TEMPLATE ============
 
-EMAIL_TEMPLATE_HTML = """<html>
+EMAIL_TEMPLATE_HTML = """
+<html>
 <body>
 <p>Dear {name},</p>
 

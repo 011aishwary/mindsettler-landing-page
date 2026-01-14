@@ -32,7 +32,7 @@ const Footer = () => {
             <footer className="footer relative bg-Primary-purple text-blueGray border-base-300 border-t px-10 py-4">
                 <aside className="grid-flow-col items-center">
                     <Image
-                    src="/Mindsettler_logo2.jpg"
+                    src="/Mindsettler_logoFinal.png"
                     alt="MindSettler Logo"
                     width={120}
                     height={40}
