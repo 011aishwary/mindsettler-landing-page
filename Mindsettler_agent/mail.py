@@ -36,8 +36,10 @@ EMAIL_TEMPLATE1 = """
 <div style="max-width:600px; margin:20px auto; background-color:#ffffff; border-radius:8px; overflow:hidden; border:1px solid #e0e0e0;">
 
     <!-- Header -->
-    <div style="background-color:#769fcd; color:#ffffff; padding:30px; text-align:center;">
-        <h1 style="margin:0; font-size:24px; letter-spacing:1px;">MindSettler</h1>
+    <div style="background-color:#6e5a8e; color:#ffffff; padding:10px; text-align:center;">
+        <img src="https://drive.google.com/uc?export=view&id=1l-745e4-UxaZyHG2eza6oMt00tjNBygG"
+             alt="MindSettler Logo"
+             style="max-width:200px; display:block; margin:0 auto 0px auto;">
     </div>
 
     <!-- Content -->
@@ -114,8 +116,10 @@ EMAIL_TEMPLATE2 = """
 <div style="max-width:600px; margin:20px auto; background-color:#ffffff; border-radius:8px; overflow:hidden; border:1px solid #e0e0e0;">
 
     <!-- Header -->
-    <div style="background-color:#769fcd; color:#ffffff; padding:30px; text-align:center;">
-        <h1 style="margin:0; font-size:24px; letter-spacing:1px;">MindSettler</h1>
+    <div style="background-color:#6e5a8e; color:#ffffff; padding:10px; text-align:center;">
+        <img src="https://drive.google.com/uc?export=view&id=1l-745e4-UxaZyHG2eza6oMt00tjNBygG"
+             alt="MindSettler Logo"
+             style="max-width:200px; display:block; margin:0 auto 0px auto;">
     </div>
 
     <!-- Content -->
@@ -139,7 +143,11 @@ EMAIL_TEMPLATE2 = """
                 To reschedule at your convenience, please click the button below to choose a new time that works for you:
             </p>
 
+<<<<<<< HEAD
             <a href="localhost:3000/Login"
+=======
+            <a href="https://www.instagram.com/_p.bajaj_/?hl=en"
+>>>>>>> 76e03c39e9591c8ca613ef73039c4147653b5321
                style="display:inline-block; padding:12px 20px; background-color:#769fcd; color:#ffffff; text-decoration:none; border-radius:4px; font-weight:bold;">
                 Reschedule Your Appointment
             </a>
@@ -194,8 +202,10 @@ EMAIL_TEMPLATE3 = """
 <div style="max-width:600px; margin:20px auto; background-color:#ffffff; border-radius:8px; overflow:hidden; border:1px solid #e0e0e0;">
 
     <!-- Header -->
-    <div style="background-color:#769fcd; color:#ffffff; padding:30px; text-align:center;">
-        <h1 style="margin:0; font-size:24px; letter-spacing:1px;">MindSettler</h1>
+    <div style="background-color:#6e5a8e; color:#ffffff; padding:10px; text-align:center;">
+        <img src="https://drive.google.com/uc?export=view&id=1l-745e4-UxaZyHG2eza6oMt00tjNBygG"
+             alt="MindSettler Logo"
+             style="max-width:200px; display:block; margin:0 auto 0px auto;">
     </div>
 
     <!-- Content -->
