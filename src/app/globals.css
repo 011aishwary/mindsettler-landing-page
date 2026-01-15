@@ -109,6 +109,8 @@ body {
   --color-gold: #C9A24D;
   /* #C9A24D - Muted Gold (hope, clarity) */
   /* --color-foreground: var(--foreground); */
+  --color-background2: #F8F9F6;
+  --color-foreground2: #394246;
   --color-background: #fbfafc;
   /* converted from 270 30% 98% */
   --color-foreground: #29153f;
@@ -161,6 +163,10 @@ body {
   /* converted from 267 43% 28% */
 
   --radius: 1rem;
+
+  --glass-bg: #1B2022B2;
+  --glass-border: #FFFFFF14;
+  --glass-shadow: #0000004C;
 
   /* Custom MindSettler Tokens */
   --color-lavender-soft: #fbf6fe;
@@ -346,6 +352,19 @@ body {
   /* Organic blob shape */
   .blob {
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+
+  /* .glass-strong {
+    @apply bg-card/75 backdrop-blur-2xl border border-white/40 shadow-xl;
+  } */
+
+  .glass-subtle {
+    @apply bg-card/40 backdrop-blur-lg border border-white/20 shadow-md;
+  }
+
+  /* Text Styles */
+  .text-balance {
+    text-wrap: balance;
   }
 
   /* Calm section divider */

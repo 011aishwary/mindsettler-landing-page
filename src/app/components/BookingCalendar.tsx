@@ -44,6 +44,7 @@ export function BookingCalendar({ selectedDate, onSelectDate, bookedDates, isLoa
       {/* Calendar Header */}
       <div className="flex items-center justify-between mb-6">
         <motion.button
+        type="button"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
@@ -63,6 +64,7 @@ export function BookingCalendar({ selectedDate, onSelectDate, bookedDates, isLoa
         </motion.h2>
         
         <motion.button
+        type="button"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
@@ -110,9 +112,9 @@ export function BookingCalendar({ selectedDate, onSelectDate, bookedDates, isLoa
                   "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
                   isCurrentMonth ? "text-foreground" : "text-muted-foreground/40",
                   disabled && "opacity-40 cursor-not-allowed",
-                  !disabled && !isSelected && "hover:bg-secondary hover:shadow-md",
-                  isSelected && "gradient-primary text-primary-foreground shadow-primary",
-                  today && !isSelected && "ring-2 ring-primary/30",
+                  !disabled && !isSelected && "hover:bg-purple4 hover:shadow-md",
+                  isSelected && "gradient-accent text-Primary-purple  shadow-primary",
+                  today && !isSelected && "ring ring-black/2 bg-purple5",
                   isLoading && "animate-pulse"
                 )}
                 aria-label={format(date, "MMMM d, yyyy")}

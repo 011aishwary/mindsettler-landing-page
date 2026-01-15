@@ -10,6 +10,7 @@ import FetchUser from "./FetchUser";
 import { log } from "console";
 import { set } from "zod";
 import Link from "next/link";
+import { ChevronDown, User2Icon } from "lucide-react"
 
 export const fetchUserData = async () => {
   const userData = await FetchUser()
@@ -50,6 +51,7 @@ function Navbar({ className }: { className?: string }) {
     >
       <Menu setActive={setActive}>
         <div className="">
+          <Link href="/">
           <Image
             src={"/Mindsettler_logoFinal.png"}
             alt="Mindsettler Logo"
@@ -57,6 +59,7 @@ function Navbar({ className }: { className?: string }) {
             height={80}
             className="absolute left-0 ml-4"
           />
+          </Link>
         </div>
         <MenuItem setActive={setActive} active={active} item="Services">
           <div className="flex flex-col space-y-4 text-sm">
@@ -111,19 +114,23 @@ function Navbar({ className }: { className?: string }) {
 
             </div>
           ) : (
+            <div className="text-center flex items-center mr-4">
 
-            <MenuItem setActive={setActive} active={active} item={user ? user.name : "Login"}>
+              <span><User2Icon className="w-6 h-6 text-white mr-1" /></span>
+              <MenuItem setActive={setActive} active={active} item={user ? user.name : "Login"}>
 
 
-              <div className={`flex flex-col space-y-4  text-sm ${user ? "" : "hidden"}`}>
-                <div>{user ? user.name : "User"}</div>
-                <div >{user ? user.email : "Email"}</div>
-                <div className="">
-                  <Button onClick={logoutButton}>Logout</Button>
+                <div className={`flex flex-col space-y-4  items-start text-sm  ${user ? "" : "hidden"}`}>
+                  <div>{user ? user.name : "User"}</div>
+                  <div >{user ? user.email : "Email"}</div>
+                  <div className="">
+                    <Button onClick={logoutButton}>Logout</Button>
+                  </div>
+                  {/* <div>Dashboard</div> */}
                 </div>
-                {/* <div>Dashboard</div> */}
-              </div>
-            </MenuItem>
+              </MenuItem>
+              <ChevronDown className="w-4 h-4 text-white ml-1" />
+            </div>
           )}
 
 

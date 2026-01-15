@@ -6,7 +6,7 @@ import { forwardRef, use } from "react";
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import SplitType from "split-type";
-import { contain } from "three/src/extras/TextureUtils.js";
+
 
 const ShatterSection = forwardRef<HTMLDivElement>((props, ref) => {
   const rows = 5;
@@ -102,7 +102,7 @@ const ShatterSection = forwardRef<HTMLDivElement>((props, ref) => {
           trigger: ".Card",
           start: "top 30%",
           end: "top 10%",
-          toggleActions: "play none none reverse",
+          toggleActions: "play none none none",
         },
         ease: "power3.out", // Smooth deceleration
         markers: true,
@@ -233,7 +233,7 @@ const ShatterSection = forwardRef<HTMLDivElement>((props, ref) => {
     >
       <div ref={section2} className="bgwite bg-pink5/1 backdrop-blur-[2px] z-20 h-full w-full absolute" />
       <div
-        className="grid absolute w-full h-fit"
+        className="grid absolute w-full h-screen"
         style={{
           gridTemplateColumns: `repeat(${cols}, 1fr)`,
           gridTemplateRows: `repeat(${rows}, 1fr)`

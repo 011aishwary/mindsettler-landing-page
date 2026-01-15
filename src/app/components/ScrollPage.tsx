@@ -26,6 +26,7 @@ export default function Home() {
             end: "top 90%",
             scrub: 3,
           },
+          markers: true,
           scale: 0,
           opacity: 0,
           rotation: 45,
@@ -44,10 +45,10 @@ export default function Home() {
     <main ref={mainRef} className="overflow-visible ">
       {/* 1. We pass movingDivRef to the Hero. The Hero attaches it to the 3D Wrapper. */}
 
-      {/* <div className="relative z-50">
+      <div className="relative z-50">
 
-        <MindsettlerHero divRef={movingDivRef} />
-      </div> */}
+        {/* <MindsettlerHero divRef={movingDivRef} /> */}
+      </div>
 
       {/* 2. Section B */}
       <div className=" relative z-4">

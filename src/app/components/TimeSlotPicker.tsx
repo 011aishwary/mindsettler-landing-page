@@ -58,8 +58,8 @@ export function TimeSlotPicker({ selectedTime, onSelectTime, bookedSlots, select
                   "py-3 px-4 rounded-xl text-sm font-medium transition-all duration-200",
                   "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
                   isBooked && "bg-muted/50 text-muted-foreground/40 cursor-not-allowed line-through",
-                  !isBooked && !isSelected && "bg-secondary text-secondary-foreground hover:bg-secondary/80 hover:shadow-md",
-                  isSelected && "gradient-primary text-primary-foreground shadow-primary"
+                  !isBooked && !isSelected && "bg-purple5/15 text-secondary-foreground hover:bg-purple5/80 hover:shadow-md",
+                  isSelected && "gradient-accent text-Primary-purple shadow-primary"
                 )}
                 aria-label={`${time} ${isBooked ? "(unavailable)" : ""}`}
                 aria-disabled={isBooked}

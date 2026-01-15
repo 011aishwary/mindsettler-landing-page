@@ -143,11 +143,7 @@ EMAIL_TEMPLATE2 = """
                 To reschedule at your convenience, please click the button below to choose a new time that works for you:
             </p>
 
-<<<<<<< HEAD
-            <a href="localhost:3000/Login"
-=======
             <a href="https://www.instagram.com/_p.bajaj_/?hl=en"
->>>>>>> 76e03c39e9591c8ca613ef73039c4147653b5321
                style="display:inline-block; padding:12px 20px; background-color:#769fcd; color:#ffffff; text-decoration:none; border-radius:4px; font-weight:bold;">
                 Reschedule Your Appointment
             </a>
@@ -313,7 +309,7 @@ def create_email(to_email, name, date, time, mode, status):
             ),
             subtype = "html"
         )
-    elif status == "pending":
+    elif status == "create":
         msg = EmailMessage()
         msg["Subject"] = SUBJECT3
         msg["From"] = SENDER_EMAIL
@@ -327,6 +323,8 @@ def create_email(to_email, name, date, time, mode, status):
             ),
             subtype = "html"
         )
+    else:
+        raise ValueError(f"Invalid status: {status}. Must be 'schedule', 'cancel', or 'create'.")
     return msg
 
 
@@ -339,7 +337,7 @@ def main(email, name, date, timee, mode, status):
     server.login(SENDER_EMAIL, SENDER_PASSWORD)
     
 
-    count = 0
+    
 
     try:
         msg = create_email(email, name, date, timee, mode, status)
@@ -348,14 +346,13 @@ def main(email, name, date, timee, mode, status):
         server.send_message(msg)
         print(f"   ✅ Sent email to {name} <{email}>")
 
-        count += 1
-        print("-" * 40)
+        
 
     finally:
         if server:
             server.quit()
 
-    print(f"\n✅ DONE: {count} emails processed")
+    # print(f"\n✅ DONE: {count} emails processed")
 
 
 

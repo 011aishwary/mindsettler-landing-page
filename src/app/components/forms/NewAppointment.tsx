@@ -150,79 +150,7 @@ export const AppointmentForm = ({
         });
     };
 
-    // const validateForm = (): boolean => {
-    //     const newErrors: Partial<Record<keyof FormData, string>> = {};
-
-    //     if (!formData.fullName.trim()) {
-    //         newErrors.fullName = "Full name is required";
-    //     } else if (formData.fullName.trim().length < 2) {
-    //         newErrors.fullName = "Name must be at least 2 characters";
-    //     }
-
-    //     if (!formData.email.trim()) {
-    //         newErrors.email = "Email is required";
-    //     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-    //         newErrors.email = "Please enter a valid email address";
-    //     }
-
-    //     setErrors(newErrors);
-    //     return Object.keys(newErrors).length === 0;
-    // };
-
-    // const isFormValid = useMemo(() => {
-    //     return (
-    //         selectedDate &&
-    //         selectedTime &&
-    //         formData.fullName.trim().length >= 2 &&
-    //         /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
-    //     );
-    // }, [selectedDate, selectedTime, formData]);
-
-    // const handleSubmit = async () => {
-    //     if (!validateForm() || !selectedDate || !selectedTime) return;
-
-    //     setIsSubmitting(true);
-    //     setSubmitStatus("idle");
-
-    //     try {
-    //         // Simulate API call - replace with actual Appwrite/Supabase create
-    //         await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    //         const newAppointment: Appointment = {
-    //             id: Date.now().toString(),
-    //             date: format(selectedDate, "yyyy-MM-dd"),
-    //             time: selectedTime,
-    //             ...formData,
-    //         };
-
-    //         setAppointments((prev) => [...prev, newAppointment]);
-    //         setSubmitStatus("success");
-
-    //         toast({
-    //             title: "Appointment Booked!",
-    //             description: `Your appointment on ${format(selectedDate, "MMMM d, yyyy")} at ${selectedTime} has been confirmed.`,
-    //         });
-
-    //         // Reset form after success
-    //         setTimeout(() => {
-    //             setSelectedDate(null);
-    //             setSelectedTime(null);
-    //             // setFormData({ fullName: "", email: "", reason: "", notes: "" });
-    //             setSubmitStatus("idle");
-    //         }, 2000);
-    //     } catch (error) {
-    //         console.error("Failed to book appointment:", error);
-    //         setSubmitStatus("error");
-    //         toast({
-    //             title: "Booking Failed",
-    //             description: "Unable to book your appointment. Please try again.",
-    //             variant: "destructive",
-    //         });
-    //     } finally {
-    //         setIsSubmitting(false);
-    //     }
-    // };
-
+  
     const form = useForm<z.infer<typeof AppointmentFormValidation>>({
 
         resolver: zodResolver(AppointmentFormValidation),
@@ -433,8 +361,8 @@ export const AppointmentForm = ({
                                         animate={{ opacity: 1, y: 0 }}
                                         className={`text-center ${isAdminRoute ? "hidden" : "inline"} mb-8`}
                                     >
-                                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl gradient-primary  shadow-primary mb-4">
-                                            <CalendarDays className="w-8 h-8 text-Primary-purple" />
+                                        <div className="inline-flex items-center justify-center w-full h-16 rounded-2xl gradient-primary  shadow-primary mb-4">
+                                            <CalendarDays className="w-8 h-8 text-Primary-purple text-center" />
                                         </div>
                                         <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2">
                                             Book Your Appointment
@@ -508,7 +436,7 @@ export const AppointmentForm = ({
                                                     fieldtype={FormFeildType.TEXTAREA}
                                                     control={form.control}
                                                     name="reason"
-                                                    label="Appointment reason"
+                                                    label="Appointment reason *"
                                                     placeholder="Annual montly check-up"
                                                     disabled={type === "schedule"}
                                                 />
@@ -531,7 +459,7 @@ export const AppointmentForm = ({
                                                         fieldtype={FormFeildType.SELECT}
                                                         control={form.control}
                                                         name="paymentType"
-                                                        label="Payment Type"
+                                                        label="Payment Type *"
                                                         placeholder="Offline/Online"
                                                     // iconSrc="/assets/id-card.svg"
                                                     // iconAlt="id"
@@ -571,7 +499,7 @@ export const AppointmentForm = ({
                                                         fieldtype={FormFeildType.SKELETON}
                                                         control={form.control}
                                                         name="paymentProof"
-                                                        label="Upload the screenshot of payment proof"
+                                                        label="Upload the screenshot of payment proof *"
                                                         renderSkeleton={(field) => (
                                                             <FormControl>
                                                                 <FileUploader files={field.value} onChange={field.onChange} />
