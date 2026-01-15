@@ -16,27 +16,7 @@ if (typeof window !== "undefined") {
     gsap.registerPlugin(ScrollTrigger);
 }
 
-// --- HELPER: Forces Canvas to Resize when Animation Ends ---
-function ResizeHandler() {
-    const { gl, camera } = useThree();
-    useEffect(() => {
-        const handleResize = () => {
-            const parent = gl.domElement.parentElement;
-            if (parent) {
-                gl.setSize(parent.clientWidth, parent.clientHeight);
-                camera.updateProjectionMatrix();
-            }
-        };
-        // Listen to window resize to fix the 3D aspect ratio dynamically
-        window.addEventListener('resize', handleResize);
 
-        // Initial call
-        handleResize();
-
-        return () => window.removeEventListener('resize', handleResize);
-    }, [gl, camera]);
-    return null;
-}
 
 const MindsettlerHero = ({ divRef }: { divRef: React.RefObject<HTMLDivElement | null> }) => {
     const comp = useRef(null);

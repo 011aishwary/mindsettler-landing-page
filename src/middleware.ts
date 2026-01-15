@@ -25,9 +25,9 @@ export function middleware(request: NextRequest) {
   const authRoutes = ['/Login', '/Signup', '/register'];
 
   // 4. Redirect Logic
-  // if (isLoggedIn && authRoutes.includes(pathname)) {
-  //   return NextResponse.redirect(new URL('/', request.url));
-  // }
+  if (isLoggedIn && authRoutes.includes(pathname)) {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
 
   return NextResponse.next();
 }

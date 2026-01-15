@@ -109,7 +109,9 @@ body {
   --color-gold: #C9A24D;
   /* #C9A24D - Muted Gold (hope, clarity) */
   /* --color-foreground: var(--foreground); */
+  --color-gradient-sage: #ACD2B9;
   --color-background2: #F8F9F6;
+  --color-gradient-sky: #BAD2DE;
   --color-foreground2: #394246;
   --color-background: #fbfafc;
   /* converted from 270 30% 98% */

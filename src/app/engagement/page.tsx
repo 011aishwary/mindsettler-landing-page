@@ -32,8 +32,8 @@ const Index1 = () => {
 
   return (
     <div className="min-h-screen bg-background2 mt-16 py-8 px-6 flex flex-col items-center justify-center">
-        <div className="absolute w-96 h-96  backdrop-blur-7xl blur-3xl bg-green-400/12 top-0 -left-10 rounded-full"></div>
-      <div className="absolute w-96 h-96  backdrop-blur-7xl blur-3xl bg-Primary-pink/15 top-10 -right-10 rounded-full"></div>
+        {/* <div className="absolute w-96 h-96  backdrop-blur-7xl blur-3xl bg-green-400/12 top-0 -left-10 rounded-full"></div>
+      <div className="absolute w-96 h-96  backdrop-blur-7xl blur-3xl bg-Primary-pink/15 top-10 -right-10 rounded-full"></div> */}
       <div className="max-w-4xl mx-auto text-center">
         {/* Hero Section */}
         <motion.div

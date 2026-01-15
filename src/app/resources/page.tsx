@@ -121,8 +121,8 @@ const ResourceCard = ({ resource, index }: { resource: typeof resourcesData[0]; 
   };
 
   const aspectClass = {
-    tall: "row-span-2",
-    wide: "col-span-2",
+    tall: "md:row-span-2",
+    wide: "md:col-span-2",
     square: "",
   }[resource.aspect] || "";
 
@@ -148,13 +148,13 @@ const ResourceCard = ({ resource, index }: { resource: typeof resourcesData[0]; 
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="glass bg-card/60 backdrop-blur-xl border border-white/30 shadow-lg rounded-2xl overflow-hidden h-full cursor-pointer shadow-glass hover:shadow-elevation transition-shadow">
+      <div className="glass  bg-card/60 backdrop-blur-xl border border-white/30 shadow-lg rounded-2xl overflow-hidden h-full cursor-pointer shadow-glass hover:shadow-elevation transition-shadow">
         {/* Image container */}
-        <div className="relative overflow-hidden aspect-[4/3]">
+        <div className="relative  overflow-hidden aspect-[4/3]">
           <motion.img
             src={resource.image}
             alt={resource.title}
-            className="w-full h-full object-cover"
+            className="w-full  h-full object-cover"
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
           />
@@ -224,8 +224,8 @@ const Resources = () => {
 
   return (
     <div className="min-h-screen mt-16 py-8 px-6 bg-background2">
-        <div className="absolute w-96 h-96  backdrop-blur-7xl blur-3xl bg-green-400/12 top-0 -left-10 rounded-full"></div>
-      <div className="absolute w-96 h-96  backdrop-blur-7xl blur-3xl bg-Primary-pink/15 top-10 -right-10 rounded-full"></div>
+        {/* <div className="absolute w-96 h-96  backdrop-blur-7xl blur-3xl bg-green-400/12 top-0 -left-10 rounded-full"></div>
+      <div className="absolute w-96 h-96  backdrop-blur-7xl blur-3xl bg-Primary-pink/15 top-10 -right-10 rounded-full"></div> */}
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div
@@ -284,7 +284,7 @@ const Resources = () => {
 
         {/* Masonry Grid */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 auto-rows-max md:auto-rows-fr"
           layout
         >
           {filteredResources.map((resource, index) => (

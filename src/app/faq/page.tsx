@@ -182,10 +182,15 @@ const FAQ = () => {
   );
 
   return (
-    <div className="min-h-screen bg-white mt-15 pt-10 px-6">
-      <div className="absolute w-96 h-96  backdrop-blur-7xl blur-3xl bg-green-400/12 top-0 -left-10 rounded-full"></div>
-      <div className="absolute w-96 h-96  backdrop-blur-7xl blur-3xl bg-Primary-pink/15 top-10 -right-10 rounded-full"></div>
-      <div className="max-w-2xl mx-auto">
+    <>
+
+      <div className="bg-gradient-to-br from-gradient-sage z-2 via-background2 to-gradient-sky absolute h-screen w-screen inset-0"></div>
+      <div className="bg-gradient-sky z-1 absolute h-screen w-screen "></div>
+      <div className="bg-white z-0 absolute h-screen w-screen "></div>
+      <div className="absolute inset-0 w-4xl z-3 h-4xl blur-3xl backdrop-blur-3xl bg-sky top-10 -left-10 rounded-full"></div>
+      <div className="absolute w-5xl h-5xl inset-0 z-3  backdrop-blur-3xl blur-3xl bg-Primary-pink/6 bottom-0 top-0 left-30 rounded-full"></div>
+    <div className="min-h-screen z-5 absolute w-screen h-screen overflow-scroll    pt-10 px-6">
+      <div className="max-w-2xl my-18 mx-auto">
         {/* Header */}
         <motion.div
           className="text-center mb-12"
@@ -283,6 +288,7 @@ const FAQ = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

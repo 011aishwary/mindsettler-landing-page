@@ -22,7 +22,7 @@ const Chatbot = () => {
     setIsOpen(!isOpen)
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!input.trim()) return
 
@@ -30,23 +30,30 @@ const Chatbot = () => {
     setMessages(prev => [...prev, userMessage])
     setInput('')
     setLoading(true)
+    console.log("User input:", input);
 
     try {
-      const res = await fetch('/api/Chatbot', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: input }), // Adjust key as needed
-      })
-    //   const data = await res.json();
-    //   console.log("Fetch response:", data);
-    //   console.log("Fetch response:", res.ok);
+
+      const res = await fetch("/api/Chatbot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: input }),
+      });
+      // const res = await fetch('/api/Chatbot', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({ message: input }), // Adjust key as needed
+      // })
+      //   const data = await res.json();
+      //   console.log("Fetch response:", data);
+      //   console.log("Fetch response:", res.ok);
 
       if (res.ok) {
         const data = await res.json()
         console.log("Response data:", data);
-        const botMessage = { id: Date.now() + 1, text: data.Reply , sender: 'bot' }
+        const botMessage = { id: Date.now() + 1, text: data.answer, sender: 'bot' }
         setMessages(prev => [...prev, botMessage])
       } else {
         const errorMessage = { id: Date.now() + 1, text: 'Sorry, something went wrong. Please try again.', sender: 'bot' }
@@ -60,9 +67,9 @@ const Chatbot = () => {
     }
   }
 
-  
 
-  
+
+
 
   return (
     <>
@@ -74,18 +81,18 @@ const Chatbot = () => {
       >
         {isOpen ? (
           <div className='flex'>
-          <svg className="w-fit h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-          <span className="text-center">Assistant</span>
+            <svg className="w-fit h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            <span className="text-center">Assistant</span>
           </div>
-          
+
         ) : (
           <div className='flex'>
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-          </svg>
-          <span className="text-center">Assistant</span>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+            <span className="text-center">Assistant</span>
           </div>
         )}
       </button>
@@ -94,7 +101,7 @@ const Chatbot = () => {
       {isOpen && (
         <div className="fixed bottom-16 right-4 w-80 h-96 bg-[#f1f1f1] border border-gray-200 rounded-lg shadow-xl z-40 flex flex-col">
           {/* Header */}
-          <div className="bg-purple3 text-white px-4 py-3 rounded-t-lg flex justify-between items-center">
+          <div className="bg-gradient-to-r from-purple-400  to-purple-700 text-white px-4 py-3 rounded-t-lg flex justify-between items-center">
             <h1 className="text-lg font-semibold">MindSettler Assistant</h1>
             <button
               onClick={toggleChat}
@@ -115,11 +122,10 @@ const Chatbot = () => {
                 className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-[70%] px-3 py-2 hover:purple3/90 hover:scale-97 rounded-lg text-sm ${
-                    message.sender === 'user'
+                  className={`max-w-[70%] px-3 py-2 hover:purple3/90 hover:scale-97 rounded-lg text-sm ${message.sender === 'user'
                       ? 'bg-purple3 text-white'
                       : 'bg-gray-100 text-gray-800'
-                  }`}
+                    }`}
                 >
                   {message.text}
                 </div>

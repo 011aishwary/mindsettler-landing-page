@@ -6,7 +6,7 @@ import ScrollPage from "./ScrollPage";
 
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight,  Play } from "lucide-react";
+import { ArrowRight, Play } from "lucide-react";
 import { Button } from "../components/ui/button1";
 import heroJourney from "@/assets/hero-journey.jpg";
 import { useRef } from "react";
@@ -21,16 +21,105 @@ export const fetchUserData = async () => {
   return userData;
 };
 
+interface FloatingCircle {
+  id: string;
+  x: number;
+  y: number;
+  size: number;
+  color: string;
+  duration: number;
+}
+
+interface BurstParticle {
+  id: string;
+  x: number;
+  y: number;
+  angle: number;
+  distance: number;
+  color: string;
+}
+
+const generateRandomCircle = (id: string): FloatingCircle => {
+  const colors = ["bg-accent/20", "bg-primary/25", "bg-accent/30", "bg-purple2/20", "bg-lavender-medium"];
+  const sizes = [3, 4, 5, 6, 8];
+  
+  return {
+    id,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    size: sizes[Math.floor(Math.random() * sizes.length)],
+    color: colors[Math.floor(Math.random() * colors.length)],
+    duration: 6 + Math.random() * 8,
+  };
+};
+
+const generateBurstParticles = (circleColor: string): BurstParticle[] => {
+  const particles: BurstParticle[] = [];
+  const particleCount = 12;
+  
+  for (let i = 0; i < particleCount; i++) {
+    particles.push({
+      id: `particle-${i}`,
+      x: 0,
+      y: 0,
+      angle: (360 / particleCount) * i,
+      distance: 60 + Math.random() * 40,
+      color: circleColor,
+    });
+  }
+  
+  return particles;
+};
+
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [user, setUser] = useState<any>(null);
-    useEffect(() => {
-      fetchUserData().then(setUser);
-      if (user) {
-        console.log("User data fetched on home page:", user);
-        console.log("User email:", user.$id);  // Access values here
-      }
-    }, []);
+  const [floatingCircles, setFloatingCircles] = useState<FloatingCircle[]>([]);
+  const [burstingId, setBurstingId] = useState<string | null>(null);
+  const [burstParticles, setBurstParticles] = useState<BurstParticle[]>([]);
+
+  useEffect(() => {
+    fetchUserData().then(setUser);
+    if (user) {
+      console.log("User data fetched on home page:", user);
+      console.log("User email:", user.$id);
+    }
+  }, []);
+
+  // Initialize floating circles
+  useEffect(() => {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const circleCount = isMobile ? 5 : 10;
+    const initialCircles = Array.from({ length: circleCount }, (_, i) => 
+      generateRandomCircle(`circle-${i}`)
+    );
+    setFloatingCircles(initialCircles);
+  }, []);
+
+  const handleCircleClick = (id: string) => {
+    const circle = floatingCircles.find(c => c.id === id);
+    if (!circle) return;
+
+    // Generate burst particles
+    const particles = generateBurstParticles(circle.color);
+    setBurstParticles(particles);
+    setBurstingId(id);
+    
+    setTimeout(() => {
+      setFloatingCircles(prev => {
+        const filtered = prev.filter(c => c.id !== id);
+        // Add a new random circle if we're below max
+        const maxCircles = typeof window !== 'undefined' && window.innerWidth < 768 ? 5 : 10;
+        if (filtered.length < maxCircles) {
+          const newCircle = generateRandomCircle(`circle-${Date.now()}`);
+          return [...filtered, newCircle];
+        }
+        return filtered;
+      });
+      setBurstingId(null);
+      setBurstParticles([]);
+    }, 500);
+  };
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
@@ -48,6 +137,64 @@ export default function HeroSection() {
       <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         {/* Animated Background Elements with Parallax */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {/* Burst Particles */}
+          {burstingId && burstParticles.map((particle) => {
+            const x = Math.cos((particle.angle * Math.PI) / 180) * particle.distance;
+            const y = Math.sin((particle.angle * Math.PI) / 180) * particle.distance;
+            
+            return (
+              <motion.div
+                key={particle.id}
+                className="absolute z-2 cursor-pointer pointer-events-auto"
+                style={{
+                  left: `${floatingCircles.find(c => c.id === burstingId)?.x}%`,
+                  top: `${floatingCircles.find(c => c.id === burstingId)?.y}%`,
+                }}
+                initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+                animate={{ x, y, opacity: 0, scale: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              >
+                <div
+                  className={`w-2 h-2 rounded-full ${particle.color} shadow-lg`}
+                />
+              </motion.div>
+            );
+          })}
+
+          {/* Floating Interactive Circles */}
+          {floatingCircles.map((circle) => (
+            <motion.div
+              key={circle.id}
+              className="absolute z-20 cursor-pointer"
+              style={{
+                left: `${circle.x}%`,
+                top: `${circle.y}%`,
+                pointerEvents: "auto",
+              }}
+            >
+              <motion.button
+                onClick={() => handleCircleClick(circle.id)}
+                animate={burstingId === circle.id ? {
+                  scale: [1, 0],
+                  opacity: [1, 0],
+                } : {
+                  y: [-10, 10, -10],
+                  scale: [1, 1.1, 1],
+                }}
+                transition={{
+                  duration: burstingId === circle.id ? 0.3 : circle.duration,
+                  repeat: burstingId === circle.id ? 0 : Infinity,
+                  ease: burstingId === circle.id ? "easeOut" : "easeInOut",
+                }}
+                className={`w-${circle.size} h-${circle.size} rounded-full ${circle.color} shadow-lg hover:shadow-xl transition-shadow focus:outline-none`}
+                style={{
+                  width: `${circle.size * 4}px`,
+                  height: `${circle.size * 4}px`,
+                }}
+              />
+            </motion.div>
+          ))}
+
           {/* Large floating blob with parallax */}
           <motion.div
             initial={{ opacity: 1, scale: 0.8 }}
@@ -72,7 +219,7 @@ export default function HeroSection() {
           />
 
           {/* Subtle floating circles with enhanced parallax */}
-          <motion.div
+          {/* <motion.div
             style={{ y: useTransform(scrollYProgress, [0, 1], [0, -80]) }}
             className="absolute top-1/4 left-1/4 z-20"
           >
@@ -84,8 +231,8 @@ export default function HeroSection() {
               transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
               className="w-4 h-4 rounded-full bg-accent shadow-lg shadow-accent/20"
             />
-          </motion.div>
-          <motion.div
+          </motion.div> */}
+          {/* <motion.div
             style={{ y: useTransform(scrollYProgress, [0, 1], [0, -120]) }}
             className="absolute top-1/3 right-1/3 z-20"
           >
@@ -97,8 +244,8 @@ export default function HeroSection() {
               transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
               className="w-6 h-6 rounded-full bg-primary/25 "
             />
-          </motion.div>
-          <motion.div
+          </motion.div> */}
+          {/* <motion.div
             style={{ y: useTransform(scrollYProgress, [0, 1], [0, -60]) }}
             className="absolute bottom-1/3 right-1/4 z-20"
           >
@@ -110,7 +257,7 @@ export default function HeroSection() {
               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
               className="w-3 h-3 rounded-full bg-accent/30 z-20"
             />
-          </motion.div>
+          </motion.div> */}
 
           {/* Additional floating elements */}
           <motion.div
@@ -142,7 +289,7 @@ export default function HeroSection() {
         </div>
 
         <motion.div
-          style={{  }}
+          style={{}}
           className="container mx-auto px-6 lg:px-8 relative z-10"
         >
           <div className="max-w-4xl mx-auto text-center">
@@ -151,7 +298,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              // viewport={{ once: true }}
+            // viewport={{ once: true }}
             >
               <motion.span
                 whileHover={{ scale: 1.05, boxShadow: "0 4px 20px rgba(221, 23, 100, 0.15)" }}
@@ -171,7 +318,7 @@ export default function HeroSection() {
             <motion.h1
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 , ease: "easeOut"}}
+              transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
               className="mt-8 text-4xl  sm:text-5xl lg:text-6xl xl:text-7xl font-heading font-bold text-primary leading-tight"
             >
               <motion.span
@@ -209,27 +356,27 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1 }}
-              className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
+              className="mt-10 flex flex-col-reverse sm:flex-row items-center justify-center gap-4"
             >
               <motion.div
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
-                  <Link href={`${user ? `/patient/${user.$id}/new-appointment` : '/Signup'}`}>
-                <Button variant="hero" className="group relative overflow-hidden">
-                  <motion.span
-                    className="absolute inset-0 bg-gradient-to-r from-accent/20 to-transparent"
-                    initial={{ x: "-100%" }}
-                    whileHover={{ x: "100%" }}
-                    transition={{ duration: 0.6 }}
-                  />
-                  <span className="relative z-10 flex items-center gap-2">
-                    Book Your First Session
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </Button>
-                  </Link>
+                <Link href={`${user ? `/patient/${user.$id}/new-appointment` : '/Signup'}`}>
+                  <Button variant="hero" className="group relative overflow-hidden">
+                    <motion.span
+                      className="absolute inset-0 bg-gradient-to-r  from-accent to-transparent"
+                      initial={{ x: "-100%" }}
+                      whileHover={{ x: "100%" }}
+                      transition={{ duration: 0.6 }}
+                    />
+                    <span className="relative z-10 flex  items-center gap-2">
+                      Book Your First Session
+                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </Button>
+                </Link>
               </motion.div>
               <motion.div
                 whileHover={{ scale: 1.03 }}
@@ -237,11 +384,11 @@ export default function HeroSection() {
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
                 <Link href="#howitworks">
-                <Button variant="hero-secondary" className="group">
-                  <Play className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                  How It Works
-                </Button>
-                  </Link>
+                  <Button variant="hero-secondary" className="group">
+                    <Play className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                    How It Works
+                  </Button>
+                </Link>
               </motion.div>
             </motion.div>
 
@@ -263,7 +410,7 @@ export default function HeroSection() {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4, delay: item.delay }}
                   whileHover={{ scale: 1.05 }}
-                  className="flex items-center gap-2 cursor-default"
+                  className="flex items-center gap-2 max-sm:hidden cursor-default"
                 >
                   <motion.div
                     whileHover={{ rotate: 360 }}
@@ -275,6 +422,44 @@ export default function HeroSection() {
                   <span>{item.text}</span>
                 </motion.div>
               ))}
+              <div className="flex">
+
+
+                <motion.div
+                  // key={item.text}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4, delay: 1.6 }}
+                  whileHover={{ scale: 1.05 }}
+                  className="flex items-center gap-2 sm:hidden cursor-default"
+                >
+                  <motion.div
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.5 }}
+                    className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center"
+                  >
+                    <span className="text-primary font-semibold">✓</span>
+                  </motion.div>
+                  <span>100% Confidential</span>
+                </motion.div>
+                <motion.div
+                  // key={item.text}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4, delay: 1.4 }}
+                  whileHover={{ scale: 1.05 }}
+                  className="flex items-center gap-2 sm:hidden cursor-default"
+                >
+                  <motion.div
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.5 }}
+                    className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center"
+                  >
+                    <span className="text-primary font-semibold">✓</span>
+                  </motion.div>
+                  <span>Non-judgmental Space</span>
+                </motion.div>
+              </div>
             </motion.div>
           </div>
         </motion.div>
@@ -301,31 +486,13 @@ export default function HeroSection() {
           </motion.div>
         </motion.div>
 
-        {/* Hero Image with Parallax */}
         <motion.div
           // 1. ENTRANCE ANIMATION (Outer Wrapper)
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1.2 }}
-          className="absolute inset-0 w-full h-full pointer-events-none z-10" // Added z-10 to ensure visibility
+          className="absolute inset-0 w-full h-full pointer-events-none z-10"
         >
-          {/* <motion.div
-            // 2. SCROLL PARALLAX (Inner Wrapper)
-            style={{ y: useTransform(scrollYProgress, [0, 1], [0, -200]) }}
-            className="w-full h-full relative"
-          >
-            
-            <div className="absolute inset-0 w-screen h-100 hero-overlay-gradient z-20" />
-
-          
-            <Image
-              src={'/heroJourney.jpg'}
-              alt="A peaceful journey path through mountains representing mental wellness"
-              className="w-full h-full object-cover object-top opacity-5" // Removed z-index here, let parent handle stacking
-              width={1920}
-              height={1000}
-            />
-          </motion.div> */}
         </motion.div>
       </section>
       <ScrollPage />

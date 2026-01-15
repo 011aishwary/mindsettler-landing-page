@@ -150,7 +150,7 @@ const Process = () => {
     return (
         <div ref={sectionRef} className='desktop-steps bg-cloudy-Apple relative h-screen'>
 
-            <div className=" relative top-0 pt-10 text-center  text-pink-600 font-medium tracking-wider uppercase text-sm mb-2">
+            <div className=" relative top-0 pt-10 text-center  text-pink-600 font-medium tracking-wider uppercase text-sm my-10">
                 How It Works
             </div>
             <h2 className="text-3xl relative  text-center lg:text-5xl font-serif font-bold text-purple-900 mb-2 leading-tight">

@@ -42,7 +42,7 @@ export default function Home() {
       <div ref={overlayBottomRef} className="absolute bottom-0 left-0 w-full h-[50vh] bg-slate-100 z-500 flex items-start justify-center pt-4">
         <span className="text-slate-900 font-bold tracking-widest uppercase text-sm opacity-50">Exhale</span>
       </div>
-      <div className="bg-white/90 w-full h-fit overflow-hidden relative z-0">
+      <div className="bg-white/90 w-full mt-10 h-fit overflow-hidden relative z-0">
 
         <HeroSection />
         < AboutMindSettler />

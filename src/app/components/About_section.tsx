@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
 import { title } from 'process';
 import { desc } from 'framer-motion/client';
+import { motion } from 'framer-motion';
 
 const journeySteps = [
     {
@@ -237,11 +238,11 @@ const AboutMindSettler = () => {
     useEffect(() => {
         const crtx = gsap.context(() => {
             gsap.fromTo(mainHead.current, {
-                
+
                 x: 50,
             },
                 {
-                    
+
                     x: 0,
                     y: 60,
                     duration: 1,
@@ -305,7 +306,7 @@ const AboutMindSettler = () => {
                 scale: 1,
                 top: "0vh",
                 borderRadius: "0%",
-          
+
                 y: 0,
                 duration: 1.5,
                 ease: "power3.out",
@@ -318,7 +319,7 @@ const AboutMindSettler = () => {
                     scrub: true,
                     // markers: true,
                 },
-                
+
             });
         })
         return () => crtx2.revert();
@@ -351,9 +352,9 @@ const AboutMindSettler = () => {
     return (
         <>
             <div className=' overflow-hidden relative w-screen '>
-               
+
                 <div ref={aboutref} className="h overflow-hidden   relative    w-screen z-5 ">
-                    
+
                     <section className="py-1 lg:py-10 h-auto lg:min-h-150 max-sm:mt-20 min-h-screen bg-white relative z-20">
                         <div className="container mx-auto lg:min-h-150 relative px-6 md:px-12">
 
@@ -381,13 +382,13 @@ const AboutMindSettler = () => {
 
 
                                 {/* ============ RIGHT SIDE: CONTENT ============ */}
-                                <div className="w-full max-sm:w-screen max-sm:h-100 sm:min-h-100 lg:h-fit  relative  h-[-webkit-fill-available] max-md:scale-75 flex flex-col justify-around items-start">
+                                <div className="w-full max-sm:w-full max-sm:h-auto sm:min-h-100 lg:h-fit relative h-[-webkit-fill-available] flex flex-col justify-around items-start max-sm:py-10 max-sm:px-4">
 
                                     {/* Small Overline Tag */}
-                                    <span ref={mainHead} className=" max-md:hidden  absolute sm:top-0  mx-auto max-sm:-top-10 lg:-top-10  max-sm:  sm  text-pink-600 font-medium tracking-wider uppercase text-sm mb-4">
+                                    <span ref={mainHead} className="max-md:hidden absolute sm:top-0 mx-auto max-sm:-top-10 lg:-top-10 sm text-pink-600 font-medium tracking-wider uppercase text-sm mb-4">
                                         About MindSettler
                                     </span>
-                                    <span  className="   absolute md:hidden  mx-auto max-sm:-top-30  top-0  sm:top-0  sm:mt-10  text-pink-600 font-medium tracking-wider uppercase text-sm mb-4">
+                                    <span className="absolute md:hidden mx-auto max-sm:top-5 top-0 sm:top-0 sm:mt-10 text-pink-600 font-medium tracking-wider uppercase text-xs mb-4">
                                         About MindSettler
                                     </span>
 
@@ -395,19 +396,19 @@ const AboutMindSettler = () => {
                                     {steps.map((step, i) => (
                                         <div
                                             key={step.id}
-                                            ref={(el) => {panelsRef.current[i] = el;}}
-                                            className="absolute max-sm:h-fit "
+                                            ref={(el) => { panelsRef.current[i] = el; }}
+                                            className="absolute max-sm:relative max-sm:w-full max-sm:mb-8 max-sm:top-4 max-sm:left-0"
                                         >
-                                            <h2 className="text-3xl relative   lg:text-5xl font-serif font-bold text-purple-900 mb-6 leading-tight">
+                                            <h2 className="text-2xl sm:text-3xl lg:text-5xl font-serif font-bold text-purple-900 mb-4 sm:mb-6 leading-tight">
                                                 {step.title}
                                             </h2>
-                                            <div className="space-y-1 relative text-lg text-gray-600 leading-relaxed font-sans">
+                                            <div className="space-y-1 relative text-base sm:text-lg text-gray-600 leading-relaxed font-sans">
                                                 <p>
                                                     {step.content}
                                                 </p>
 
                                             </div>
-                                            <div className="absolute bottom-10 text-sm opacity-50 uppercase tracking-widest">
+                                            <div className="absolute max-sm:relative max-sm:top-auto max-sm:mt-4 bottom-10 text-xs sm:text-sm opacity-50 uppercase tracking-widest">
                                                 Part {i + 1} / {steps.length}
                                             </div>
                                         </div>
@@ -415,9 +416,9 @@ const AboutMindSettler = () => {
 
 
                                     {/* Optional subtle call to action or signature area */}
-                                    <div ref={bottomHead} className="mt-2 pt-4 border-t absolute -bottom-10 mb-10 border-purple-100 flex items-center">
-                                        <span className="text-purple-800 font-medium mr-4">Are you ready to find clarity?</span>
-                                        <a href="#contact" className="text-pink-600 hover:text-pink-700 font-semibold underline-offset-4 hover:underline transition-all">
+                                    <div ref={bottomHead} className="mt-2 pt-4 border-t absolute max-sm:relative max-sm:top-auto max-sm:border-t-2 max-sm:mt-8 -bottom-10  border-purple-100 flex flex-col max-sm:flex-col items-start max-sm:items-start gap-2">
+                                        <span className="text-purple-800 font-medium text-sm sm:text-base">Are you ready to find clarity?</span>
+                                        <a href="#contact" className="text-pink-600 hover:text-pink-700 font-semibold underline-offset-4 hover:underline transition-all text-sm sm:text-base">
                                             Read Our Full Story &rarr;
                                         </a>
                                     </div>
@@ -432,7 +433,7 @@ const AboutMindSettler = () => {
             </div>
             <div className="bg-white inset-0 z-0 absolute"></div>
             <section className=" sec2 overflow-hidden max-md:hidden bg-white h-full  md:h-[150vh]  flex items-center justify-center min-h-screen w-screen relative ">
-                <div className="bgwiteabout lg:h-[120vh] h-full overflow-hidden  md:h-[150vh] relative self-center w-screen">
+                <div className="bgwiteabout  h-full overflow-hidden  md:h-[150vh] relative self-center w-screen">
                     <div className="bg-white/70 absolute w-screen md:h-[150vh] h-full z-96">
                         <div className=" relative top-0 pt-10 text-center  text-pink-600 font-medium tracking-wider uppercase text-sm mb-2">
                             Your Journey
@@ -527,133 +528,148 @@ const AboutMindSettler = () => {
                 </div>
             </section>
             <section className="sec2 md:hidden relative w-full min-h-screen overflow-hidden flex items-center justify-center bg-white">
-    
-    {/* --- 1. BACKGROUND IMAGES (Parallax Layers) --- */}
-    {/* absolute inset-0 ensures it fills the entire section behind the text */}
-    <div className="absolute   inset-0 w-full h-full z-0">
-        {/* Base Background Color */}
-        <div className="absolute inset-0 bg-[#3a6d70]" />
 
-        {/* Layer 1 */}
-        <Image
-            src="/Parallax/mountainsfulll1.png"
-            alt="Mountains Layer 1"
-            className="absolute inset-0 w-full h-full object-cover object-center"
-            height={1080}
-            width={1920}
-            data-speed="0.3"
-        />
+                {/* --- 1. BACKGROUND IMAGES (Parallax Layers) --- */}
+                {/* absolute inset-0 ensures it fills the entire section behind the text */}
+                <div className="absolute   inset-0 w-full h-full z-0">
+                    {/* Base Background Color */}
+                    <div className="absolute inset-0 bg-[#3a6d70]" />
 
-        {/* Layer 2 (Sun/Light) */}
-        <Image
-            src="/Parallax/mountainsfulllastsun.png"
-            alt="Mountains Sun"
-            className="absolute inset-0 w-full h-full object-cover object-center mix-blend-screen"
-            height={1080}
-            width={1920}
-            data-speed="0.4"
-        />
+                    {/* Layer 1 */}
+                    <Image
+                        src="/Parallax/mountainsfulll1.png"
+                        alt="Mountains Layer 1"
+                        className="absolute inset-0 w-full h-full object-cover object-center"
+                        height={1080}
+                        width={1920}
+                        data-speed="0.3"
+                    />
 
-        {/* Layer 3 */}
-        <Image
-            src="/Parallax/mountainsfulllast5.png"
-            alt="Mountains Layer 5"
-            className="absolute inset-0 w-full h-full object-cover object-center"
-            height={1080}
-            width={1920}
-            data-speed="0.5"
-        />
+                    {/* Layer 2 (Sun/Light) */}
+                    <Image
+                        src="/Parallax/mountainsfulllastsun.png"
+                        alt="Mountains Sun"
+                        className="absolute inset-0 w-full h-full object-cover object-center mix-blend-screen"
+                        height={1080}
+                        width={1920}
+                        data-speed="0.4"
+                    />
 
-        {/* Layer 4 */}
-        <Image
-            src="/Parallax/mountainsfulllast4.png"
-            alt="Mountains Layer 4"
-            className="absolute inset-0 w-full h-full object-cover object-center"
-            height={1080}
-            width={1920}
-            data-speed="0.6"
-        />
+                    {/* Layer 3 */}
+                    <Image
+                        src="/Parallax/mountainsfulllast5.png"
+                        alt="Mountains Layer 5"
+                        className="absolute inset-0 w-full h-full object-cover object-center"
+                        height={1080}
+                        width={1920}
+                        data-speed="0.5"
+                    />
 
-        {/* Layer 5 */}
-        <Image
-            src="/Parallax/mountainsfulllast3.png"
-            alt="Mountains Layer 3"
-            className="absolute inset-0 w-full h-full object-cover object-center"
-            height={1080}
-            width={1920}
-            data-speed="0.6"
-        />
+                    {/* Layer 4 */}
+                    <Image
+                        src="/Parallax/mountainsfulllast4.png"
+                        alt="Mountains Layer 4"
+                        className="absolute inset-0 w-full h-full object-cover object-center"
+                        height={1080}
+                        width={1920}
+                        data-speed="0.6"
+                    />
 
-        {/* Layer 6 (Foreground) */}
-        <Image
-            src="/Parallax/mountainsfulllast2.png"
-            alt="Mountains Foreground"
-            className="absolute inset-0 w-full h-full object-cover object-center"
-            height={1080}
-            width={1920}
-            data-speed="0.5"
-        />
-    </div>
+                    {/* Layer 5 */}
+                    <Image
+                        src="/Parallax/mountainsfulllast3.png"
+                        alt="Mountains Layer 3"
+                        className="absolute inset-0 w-full h-full object-cover object-center"
+                        height={1080}
+                        width={1920}
+                        data-speed="0.6"
+                    />
 
-    {/* --- 2. FOREGROUND CONTENT --- */}
-    {/* z-10 places this ON TOP of the images. bg-white/70 lets images show through faintly */}
-    <div className="relative z-10 w-full h-full min-h-screen flex flex-col justify-center items-center bg-white/80 py-20 px-4">
-        
-        {/* Header Text */}
-        <div className="text-center mb-12">
-            <div className="text-pink-600 font-medium tracking-wider uppercase text-sm mb-3">
-                Your Journey
-            </div>
-            <h2 className="text-3xl lg:text-5xl font-serif font-bold text-purple-900 mb-4 leading-tight">
-                The Path to Mental Clarity
-            </h2>
-            <p className="text-blueGray max-w-2xl mx-auto text-md font-medium leading-relaxed px-4">
-                Every journey begins with a single step. Here's how MindSettler guides you through your personal path to mental wellness.
-            </p>
-        </div>
+                    {/* Layer 6 (Foreground) */}
+                    <Image
+                        src="/Parallax/mountainsfulllast2.png"
+                        alt="Mountains Foreground"
+                        className="absolute inset-0 w-full h-full object-cover object-center"
+                        height={1080}
+                        width={1920}
+                        data-speed="0.5"
+                    />
+                </div>
 
-        {/* Journey Steps Cards */}
-        <div className="flex flex-col lg:flex-row items-center justify-center w-full max-w-7xl gap-8 lg:gap-6">
-            {journeySteps.map((step) => (
-                <div key={step.id} className="w-full max-w-sm lg:w-1/5 relative group">
-                    
-                    <div className="card bg-white/50 backdrop-blur-sm p-6 rounded-2xl border border-white/50 hover:-translate-y-2 transition-all duration-500 flex flex-col items-center text-center shadow-sm hover:shadow-md">
-                        {/* Icon Wrapper */}
-                        <div className="relative mb-4">
-                            <div className="bg-white rounded-full p-3 shadow-sm relative z-10">
-                                <Image src={step.icon} alt={step.title} width={40} height={40} className="w-10 h-10" />
-                            </div>
-                            {/* Step Number Badge */}
-                            <span className="absolute -top-1 -right-1 bg-Primary-pink text-white w-6 h-6 flex items-center justify-center text-xs font-bold rounded-full z-20">
-                                {step.id}
-                            </span>
+                {/* --- 2. FOREGROUND CONTENT --- */}
+                {/* z-10 places this ON TOP of the images. bg-white/70 lets images show through faintly */}
+                <div className="relative z-10 w-full h-full min-h-screen flex flex-col justify-center items-center bg-white/80 py-20 px-4">
+
+                    {/* Header Text */}
+                    <div className="text-center mb-12">
+                        <div className="text-pink-600 font-medium tracking-wider uppercase text-sm mb-3">
+                            Your Journey
                         </div>
-
-                        <h3 className="text-lg font-semibold text-purple-900 mb-2">{step.title}</h3>
-                        <p className="text-gray-600 text-sm leading-relaxed">{step.description}</p>
+                        <h2 className="text-3xl lg:text-5xl font-serif font-bold text-purple-900 mb-4 leading-tight">
+                            The Path to Mental Clarity
+                        </h2>
+                        <p className="text-blueGray max-w-2xl mx-auto text-md font-medium leading-relaxed px-4">
+                            Every journey begins with a single step. Here's how MindSettler guides you through your personal path to mental wellness.
+                        </p>
                     </div>
 
-                    {/* Connector Line (Hidden on Mobile, Visible on Desktop) */}
-                    <div className="hidden lg:block absolute top-1/2 -right-4 w-8 h-px bg-Primary-pink/30 last:hidden"></div>
-                    
-                    {/* Connector Line (Vertical for Mobile) */}
-                    <div className="lg:hidden absolute bottom-[-32px] left-1/2 w-px h-8 bg-Primary-pink/30 last:hidden"></div>
+                    {/* Journey Steps Cards */}
+                    <div className="flex flex-col lg:flex-row items-center justify-center w-full max-w-7xl gap-8 lg:gap-6">
+                        {journeySteps.map((step, index) => (
+                            <motion.div 
+                                key={step.id} 
+                                className="w-full max-w-sm lg:w-1/5 relative group"
+                                initial={{ opacity: 0, scale: 0.7, rotateY: -90 }}
+                                whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
+                                whileOutOfView={{ opacity: 0, scale: 0.7, rotateY: -90 }}
+                                transition={{
+                                    duration: 0.6,
+                                    delay: index * 0.15,
+                                    ease: "easeOut",
+                                    type: "spring",
+                                    stiffness: 100,
+                                    damping: 15
+                                }}
+                                viewport={{ once: false, margin: "-50px" }}
+                            >
+
+                                <div className="card bg-white/50 backdrop-blur-sm p-6 rounded-2xl border border-white/50 hover:-translate-y-2 transition-all duration-500 flex flex-col items-center text-center shadow-sm hover:shadow-md">
+                                    {/* Icon Wrapper */}
+                                    <div className="relative mb-4">
+                                        <div className="bg-white rounded-full p-3 shadow-sm relative z-10">
+                                            <Image src={step.icon} alt={step.title} width={40} height={40} className="w-10 h-10" />
+                                        </div>
+                                        {/* Step Number Badge */}
+                                        <span className="absolute -top-1 -right-1 bg-Primary-pink text-white w-6 h-6 flex items-center justify-center text-xs font-bold rounded-full z-20">
+                                            {step.id}
+                                        </span>
+                                    </div>
+
+                                    <h3 className="text-lg font-semibold text-purple-900 mb-2">{step.title}</h3>
+                                    <p className="text-gray-600 text-sm leading-relaxed">{step.description}</p>
+                                </div>
+
+                                {/* Connector Line (Hidden on Mobile, Visible on Desktop) */}
+                                <div className="hidden lg:block absolute top-1/2 -right-4 w-8 h-px bg-Primary-pink/30 last:hidden"></div>
+
+                                {/* Connector Line (Vertical for Mobile) */}
+                                <div className="lg:hidden absolute bottom-[-32px] left-1/2 w-px h-8 bg-Primary-pink/30 last:hidden"></div>
+                            </motion.div>
+                        ))}
+                    </div>
+
+                    {/* CTA Button */}
+                    <div className="mt-16 flex items-center justify-center space-x-2 group cursor-pointer">
+                        <span className="text-Primary-pink font-semibold group-hover:underline transition-all duration-300">
+                            Start your journey today
+                        </span>
+                        <span className="text-Primary-pink font-extrabold group-hover:translate-x-1 transition-transform duration-300">
+                            →
+                        </span>
+                    </div>
+
                 </div>
-            ))}
-        </div>
-
-        {/* CTA Button */}
-        <div className="mt-16 flex items-center justify-center space-x-2 group cursor-pointer">
-            <span className="text-Primary-pink font-semibold group-hover:underline transition-all duration-300">
-                Start your journey today
-            </span>
-            <span className="text-Primary-pink font-extrabold group-hover:translate-x-1 transition-transform duration-300">
-                →
-            </span>
-        </div>
-
-    </div>
-</section>
+            </section>
         </>
     );
 
