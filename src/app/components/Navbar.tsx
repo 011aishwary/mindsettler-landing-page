@@ -11,8 +11,8 @@ import Link from "next/link";
 import { ChevronDown, User2Icon, Menu as MenuIcon, X } from "lucide-react"
 import { motion } from "framer-motion";
 
-export const fetchUserData = async () => {
-  const userData = await FetchUser()
+export const fetchUserData =  () => {
+  const userData =  FetchUser()
   return userData;
 };
 

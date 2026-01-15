@@ -352,36 +352,47 @@ export const AppointmentForm = ({
 
                 {type !== "cancel" && (
                     <>
-                        <div className="">
-                            <div className="min-h-screen  gradient-surface py-8 px-4 sm:px-6 lg:px-8">
-                                <div className="max-w-screen mx-auto">
+                        <div className="w-full">
+                            <div className="min-h-screen gradient-surface py-6 sm:py-8 px-3 sm:px-6 lg:px-8">
+                                <div className="max-w-7xl mx-auto">
                                     {/* Header */}
                                     <motion.div
-                                        initial={{ opacity: 0, y: -20 }}
+                                        initial={{ opacity: 0, y: -30 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        className={`text-center ${isAdminRoute ? "hidden" : "inline"} mb-8`}
+                                        transition={{ duration: 0.6, ease: "easeOut" }}
+                                        className={`text-center ${isAdminRoute ? "hidden" : "block"} mb-8 sm:mb-12`}
                                     >
-                                        <div className="inline-flex items-center justify-center w-full h-16 rounded-2xl gradient-primary  shadow-primary mb-4">
-                                            <CalendarDays className="w-8 h-8 text-Primary-purple text-center" />
-                                        </div>
-                                        <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2">
+                                        <motion.div 
+                                            className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl gradient-primary shadow-primary mb-4"
+                                            whileHover={{ scale: 1.1, rotate: 5 }}
+                                            whileTap={{ scale: 0.95 }}
+                                            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                        >
+                                            <CalendarDays className="w-7 h-7 sm:w-8 sm:h-8 text-Primary-purple" />
+                                        </motion.div>
+                                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-2">
                                             Book Your Appointment
                                         </h1>
-                                        <p className="text-muted-foreground max-w-md mx-auto">
+                                        <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto px-4">
                                             Select a convenient date and time for your visit. We'll confirm your booking via email.
                                         </p>
                                     </motion.div>
 
-                                    {/* Main Content Grid */}
-                                    <div className={`max-md:flex-col flex justify-center max-lg:  md:flex max-md:items-center  ${isAdminRoute ? "" : "w-screen"} mx-auto relative lg:gap-20 gap-6`}>
+                                    {/* Main Content Grid - Fully Responsive */}
+                                    <div className="flex flex-col lg:flex-row justify-center gap-4 sm:gap-6 lg:gap-8 mx-auto relative">
                                         {/* Calendar Section */}
-                                        <div className="w-[30vw] max-md:w-[60vw] relative">
+                                        <motion.div 
+                                            initial={{ opacity: 0, x: -30 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: 0.1, duration: 0.5 }}
+                                            className="w-full sm:w-80 md:w-96 lg:w-96 mx-auto lg:mx-0"
+                                            whileHover={{ y: -4 }}
+                                            transition={{ type: "spring", stiffness: 200 }}
+                                        >
                                             <motion.div
-                                                initial={{ opacity: 0, x: -20 }}
-
-                                                animate={{ opacity: 1, x: 0 }}
-                                                transition={{ delay: 0.1 }}
-                                                className="lg:col-span-2 gradient-card  rounded-2xl p-6  shadow-card border border-border/50 relative"
+                                                className="gradient-card rounded-2xl p-4 sm:p-6 shadow-card border border-border/50 h-full"
+                                                whileHover={{ boxShadow: "0 20px 40px rgba(168, 85, 247, 0.15)" }}
+                                                transition={{ duration: 0.3 }}
                                             >
                                                 <BookingCalendar
                                                     selectedDate={selectedDate}
@@ -390,35 +401,42 @@ export const AppointmentForm = ({
                                                     isLoading={isLoading}
                                                 />
                                             </motion.div>
-                                        </div>
+                                        </motion.div>
 
                                         {/* Time Slots Section */}
                                         <motion.div
-                                            initial={{ opacity: 0, x: 20 }}
+                                            initial={{ opacity: 0, x: 30 }}
                                             animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: 0.2 }}
-                                            className="gradient-card rounded-2xl p-6 w-[30vw] max-md:w-[60vw]  relative shadow-card border border-border/50"
+                                            transition={{ delay: 0.2, duration: 0.5 }}
+                                            className="w-full sm:w-80 md:w-96 lg:w-96 mx-auto lg:mx-0"
+                                            whileHover={{ y: -4 }}
                                         >
-                                            <TimeSlotPicker
-                                                selectedTime={selectedTime}
-                                                onSelectTime={setSelectedTime}
-                                                bookedSlots={bookedSlots}
-                                                selectedDate={selectedDate}
-                                                isLoading={isLoading}
-                                            />
+                                            <motion.div
+                                                className="gradient-card rounded-2xl p-4 sm:p-6 shadow-card border border-border/50 h-full"
+                                                whileHover={{ boxShadow: "0 20px 40px rgba(168, 85, 247, 0.15)" }}
+                                                transition={{ duration: 0.3 }}
+                                            >
+                                                <TimeSlotPicker
+                                                    selectedTime={selectedTime}
+                                                    onSelectTime={setSelectedTime}
+                                                    bookedSlots={bookedSlots}
+                                                    selectedDate={selectedDate}
+                                                    isLoading={isLoading}
+                                                />
+                                            </motion.div>
                                         </motion.div>
                                     </div>
 
                                     {/* Form & Summary Section */}
-                                    <div className="flex justify-center relative  self-center gap-6 mt-6">
-
-
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 30 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.3, duration: 0.5 }}
+                                        className="w-full mt-8 sm:mt-12"
+                                    >
                                         {/* Summary & Submit */}
                                         <motion.div
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 0.4 }}
-                                            className="space-y-4 w-[60vw] max-md:w-[60vw] "
+                                            className="w-full max-w-2xl mx-auto space-y-4 sm:space-y-6"
                                         >
                                             <AnimatePresence mode="wait">
                                                 <BookingSummary
@@ -429,257 +447,340 @@ export const AppointmentForm = ({
                                                     reason={formData.reason}
                                                 />
                                             </AnimatePresence>
-                                            <div
-                                                className={`flex flex-col gap-6  ${type === "create" && "xl:flex-row"}`}
+
+                                            {/* Reason & Notes Fields */}
+                                            <motion.div
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: 0.35, duration: 0.5 }}
+                                                className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6"
+                                                whileHover={{ y: -2 }}
                                             >
-                                                <CustomFormField
-                                                    fieldtype={FormFeildType.TEXTAREA}
-                                                    control={form.control}
-                                                    name="reason"
-                                                    label="Appointment reason *"
-                                                    placeholder="Annual montly check-up"
-                                                    disabled={type === "schedule"}
-                                                />
-
-                                                <CustomFormField
-                                                    fieldtype={FormFeildType.TEXTAREA}
-                                                    control={form.control}
-                                                    name="note"
-                                                    label="Comments/notes"
-                                                    placeholder="Prefer afternoon appointments, if possible"
-                                                    disabled={type === "schedule"}
-                                                />
-                                            </div>
-                                            {!isAdminRoute && (
-
-                                                <div className={` `}>
-
-
+                                                <motion.div
+                                                    whileHover={{ scale: 1.01 }}
+                                                    transition={{ type: "spring", stiffness: 300 }}
+                                                >
                                                     <CustomFormField
-                                                        fieldtype={FormFeildType.SELECT}
+                                                        fieldtype={FormFeildType.TEXTAREA}
                                                         control={form.control}
-                                                        name="paymentType"
-                                                        label="Payment Type *"
-                                                        placeholder="Offline/Online"
-                                                    // iconSrc="/assets/id-card.svg"
-                                                    // iconAlt="id"
+                                                        name="reason"
+                                                        label="Appointment reason *"
+                                                        placeholder="Annual montly check-up"
+                                                        disabled={type === "schedule"}
+                                                    />
+                                                </motion.div>
+
+                                                <motion.div
+                                                    whileHover={{ scale: 1.01 }}
+                                                    transition={{ type: "spring", stiffness: 300 }}
+                                                >
+                                                    <CustomFormField
+                                                        fieldtype={FormFeildType.TEXTAREA}
+                                                        control={form.control}
+                                                        name="note"
+                                                        label="Comments/notes"
+                                                        placeholder="Prefer afternoon appointments, if possible"
+                                                        disabled={type === "schedule"}
+                                                    />
+                                                </motion.div>
+                                            </motion.div>
+
+                                            {/* Payment Section */}
+                                            {!isAdminRoute && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: 20 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    transition={{ delay: 0.4, duration: 0.5 }}
+                                                    className="space-y-4 sm:space-y-6 p-4 sm:p-6 rounded-xl gradient-card border border-border/50"
+                                                    whileHover={{ boxShadow: "0 15px 30px rgba(168, 85, 247, 0.1)" }}
+                                                >
+                                                    {/* Payment Type Select */}
+                                                    <motion.div
+                                                        whileHover={{ scale: 1.01 }}
+                                                        transition={{ type: "spring", stiffness: 300 }}
                                                     >
-                                                        {["Offline", "Online"].map((idType, i) =>
-                                                        (
-                                                            <SelectItem key={idType + i} value={idType} className="text-purple3 flex cursor-pointer items-center gap-2 relative !important" onClick={() => setPaymentType(idType)}>
+                                                        <CustomFormField
+                                                            fieldtype={FormFeildType.SELECT}
+                                                            control={form.control}
+                                                            name="paymentType"
+                                                            label="Payment Type *"
+                                                            placeholder="Offline/Online"
+                                                        >
+                                                            {["Offline", "Online"].map((idType, i) =>
+                                                            (
+                                                                <SelectItem 
+                                                                    key={idType + i} 
+                                                                    value={idType} 
+                                                                    className="text-purple3 flex cursor-pointer items-center gap-2 relative !important hover:bg-purple-100/50 transition-colors" 
+                                                                    onClick={() => setPaymentType(idType)}
+                                                                >
+                                                                    {idType}
+                                                                </SelectItem>
+                                                            ))}
+                                                        </CustomFormField>
+                                                    </motion.div>
 
-
-                                                                {idType}
-
-                                                            </SelectItem>
-                                                        ))}
-                                                    </CustomFormField>
-
+                                                    {/* QR Code Section */}
                                                     {paymentType && (
-                                                        <div className="flex flex-col gap-4 text-center items-center justify-center w-full">
-                                                            <h3 className="text-purple3">Pay the fees <span className="font-bold" >1000 </span> Rupees to schedule Appointmen</h3>
-                                                            <Canvas
-                                                                text={'upi://pay?pa=8795157597@axl&pn=Aishwary%20%20Gupta&am=1.00&cu=INR&tn=PAYMENT_NOTE'} // The data/url you want to encode
-                                                                options={{
-                                                                    level: 'M',
-                                                                    margin: 3,
-                                                                    scale: 4,
-                                                                    width: 200,
-                                                                    color: {
-                                                                        dark: '#29153f', // MindSettler Primary Color
-                                                                        light: '#ffffff', // Background Color
-                                                                    },
-                                                                }}
-                                                            />
-
-                                                        </div>
+                                                        <motion.div 
+                                                            initial={{ opacity: 0, scale: 0.9 }}
+                                                            animate={{ opacity: 1, scale: 1 }}
+                                                            exit={{ opacity: 0, scale: 0.9 }}
+                                                            transition={{ duration: 0.4 }}
+                                                            className="flex flex-col gap-4 text-center items-center justify-center w-full p-4 sm:p-6 bg-white/40 backdrop-blur rounded-lg"
+                                                        >
+                                                            <motion.h3 
+                                                                className="text-sm sm:text-base text-purple3"
+                                                                whileHover={{ scale: 1.05 }}
+                                                            >
+                                                                Pay the fees <span className="font-bold text-lg">₹1000</span> to schedule appointment
+                                                            </motion.h3>
+                                                            <motion.div
+                                                                whileHover={{ scale: 1.1 }}
+                                                                whileTap={{ scale: 0.95 }}
+                                                                transition={{ type: "spring", stiffness: 300 }}
+                                                                className="p-3 bg-white rounded-lg shadow-lg"
+                                                            >
+                                                                <Canvas
+                                                                    text={'upi://pay?pa=8795157597@axl&pn=Aishwary%20%20Gupta&am=1.00&cu=INR&tn=PAYMENT_NOTE'}
+                                                                    options={{
+                                                                        level: 'M',
+                                                                        margin: 3,
+                                                                        scale: 4,
+                                                                        width: 150,
+                                                                        color: {
+                                                                            dark: '#29153f',
+                                                                            light: '#ffffff',
+                                                                        },
+                                                                    }}
+                                                                />
+                                                            </motion.div>
+                                                        </motion.div>
                                                     )}
 
-                                                    <CustomFormField
-                                                        fieldtype={FormFeildType.SKELETON}
-                                                        control={form.control}
-                                                        name="paymentProof"
-                                                        label="Upload the screenshot of payment proof *"
-                                                        renderSkeleton={(field) => (
-                                                            <FormControl>
-                                                                <FileUploader files={field.value} onChange={field.onChange} />
-                                                            </FormControl>
-
-                                                        )}
-                                                    />
-                                                </div>)}
-
+                                                    {/* Payment Proof Upload */}
+                                                    <motion.div
+                                                        initial={{ opacity: 0, y: 10 }}
+                                                        animate={{ opacity: 1, y: 0 }}
+                                                        transition={{ delay: 0.1, duration: 0.4 }}
+                                                        whileHover={{ scale: 1.01 }}
+                                                    >
+                                                        <CustomFormField
+                                                            fieldtype={FormFeildType.SKELETON}
+                                                            control={form.control}
+                                                            name="paymentProof"
+                                                            label="Upload the screenshot of payment proof *"
+                                                            renderSkeleton={(field) => (
+                                                                <FormControl>
+                                                                    <FileUploader files={field.value} onChange={field.onChange} />
+                                                                </FormControl>
+                                                            )}
+                                                        />
+                                                    </motion.div>
+                                                </motion.div>
+                                            )}
 
                                             {/* Submit Button */}
                                             <motion.div
-                                                initial={{ opacity: 0 }}
-                                                animate={{ opacity: 1 }}
-                                                transition={{ delay: 0.5 }}
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: 0.45, duration: 0.5 }}
+                                                className="w-full"
                                             >
-                                                <Button
-                                                    // onClick={handleSubmit}
-                                                    // disabled={!isFormValid || isSubmitting}
-                                                    className={`w-full h-14 rounded-xl text-base font-semibold transition-all duration-300 ${submitStatus === "success"
-                                                        ? "bg-success hover:bg-success text-success-foreground"
-                                                        : "gradient-primary hover:opacity-90 text-primary-foreground shadow-primary"
-                                                        } disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none`}
+                                                <motion.div
+                                                    whileHover={{ scale: 1.02, y: -3 }}
+                                                    whileTap={{ scale: 0.98 }}
+                                                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
                                                 >
-                                                    <AnimatePresence mode="wait">
-                                                        {isSubmitting ? (
-                                                            <motion.div
-                                                                key="loading"
-                                                                initial={{ opacity: 0 }}
-                                                                animate={{ opacity: 1 }}
-                                                                exit={{ opacity: 0 }}
-                                                                className="flex items-center gap-2"
-                                                            >
-                                                                <Loader2 className="w-5 h-5 animate-spin" />
-                                                                Booking...
-                                                            </motion.div>
-                                                        ) : submitStatus === "success" ? (
-                                                            <motion.div
-                                                                key="success"
-                                                                initial={{ opacity: 0, scale: 0.8 }}
-                                                                animate={{ opacity: 1, scale: 1 }}
-                                                                exit={{ opacity: 0 }}
-                                                                className="flex items-center gap-2"
-                                                            >
-                                                                <CheckCircle className="w-5 h-5" />
-                                                                Appointment Confirmed!
-                                                            </motion.div>
-                                                        ) : submitStatus === "error" ? (
-                                                            <motion.div
-                                                                key="error"
-                                                                initial={{ opacity: 0 }}
-                                                                animate={{ opacity: 1 }}
-                                                                exit={{ opacity: 0 }}
-                                                                className="flex items-center gap-2"
-                                                            >
-                                                                <AlertCircle className="w-5 h-5" />
-                                                                Try Again
-                                                            </motion.div>
-                                                        ) : (
-                                                            <motion.span
-                                                                key="default"
-                                                                initial={{ opacity: 0 }}
-                                                                animate={{ opacity: 1 }}
-                                                                exit={{ opacity: 0 }}
-                                                            >
-                                                                {buttonLabel}
-                                                            </motion.span>
-                                                        )}
-                                                    </AnimatePresence>
-                                                </Button>
-
-                                                {/* {!isFormValid && (
-                                                    <p className="text-xs text-muted-foreground text-center mt-2">
-                                                        Please select a date, time, and fill in required fields
-                                                    </p>
-                                                )} */}
+                                                    <Button
+                                                        type="submit"
+                                                        className={`w-full h-12 sm:h-14 rounded-xl text-sm sm:text-base font-semibold transition-all duration-300 ${submitStatus === "success"
+                                                            ? "bg-success hover:bg-success text-success-foreground"
+                                                            : "gradient-primary hover:opacity-90 text-primary-foreground shadow-primary"
+                                                            } disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none`}
+                                                    >
+                                                        <AnimatePresence mode="wait">
+                                                            {isSubmitting ? (
+                                                                <motion.div
+                                                                    key="loading"
+                                                                    initial={{ opacity: 0 }}
+                                                                    animate={{ opacity: 1 }}
+                                                                    exit={{ opacity: 0 }}
+                                                                    className="flex items-center gap-2"
+                                                                >
+                                                                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity }}>
+                                                                        <Loader2 className="w-4 sm:w-5 h-4 sm:h-5" />
+                                                                    </motion.div>
+                                                                    <span className="hidden sm:inline">Booking...</span>
+                                                                </motion.div>
+                                                            ) : submitStatus === "success" ? (
+                                                                <motion.div
+                                                                    key="success"
+                                                                    initial={{ opacity: 0, scale: 0.8 }}
+                                                                    animate={{ opacity: 1, scale: 1 }}
+                                                                    exit={{ opacity: 0 }}
+                                                                    className="flex items-center gap-2"
+                                                                >
+                                                                    <CheckCircle className="w-4 sm:w-5 h-4 sm:h-5" />
+                                                                    <span className="hidden sm:inline">Appointment Confirmed!</span>
+                                                                    <span className="sm:hidden">Confirmed!</span>
+                                                                </motion.div>
+                                                            ) : submitStatus === "error" ? (
+                                                                <motion.div
+                                                                    key="error"
+                                                                    initial={{ opacity: 0 }}
+                                                                    animate={{ opacity: 1 }}
+                                                                    exit={{ opacity: 0 }}
+                                                                    className="flex items-center gap-2"
+                                                                >
+                                                                    <AlertCircle className="w-4 sm:w-5 h-4 sm:h-5" />
+                                                                    Try Again
+                                                                </motion.div>
+                                                            ) : (
+                                                                <motion.span
+                                                                    key="default"
+                                                                    initial={{ opacity: 0 }}
+                                                                    animate={{ opacity: 1 }}
+                                                                    exit={{ opacity: 0 }}
+                                                                >
+                                                                    {buttonLabel}
+                                                                </motion.span>
+                                                            )}
+                                                        </AnimatePresence>
+                                                    </Button>
+                                                </motion.div>
                                             </motion.div>
                                         </motion.div>
-                                    </div>
+                                    </motion.div>
 
                                     {/* Footer Note */}
                                     <motion.p
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        transition={{ delay: 0.6 }}
-                                        className="text-center text-sm text-muted-foreground mt-8"
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.5, duration: 0.5 }}
+                                        className="text-center text-xs sm:text-sm text-muted-foreground mt-8 sm:mt-12 px-4"
                                     >
-                                        Need to reschedule? Contact us at{" "}
-                                        <a href="mailto:support@example.com" className="text-primary hover:underline">
-                                            support@example.com
-                                        </a>
+                                        Need to reschedule?{' '}
+                                        <motion.a 
+                                            href="mailto:support@example.com" 
+                                            className="text-primary hover:underline font-semibold"
+                                            whileHover={{ scale: 1.05 }}
+                                            whileTap={{ scale: 0.95 }}
+                                        >
+                                            Contact us
+                                        </motion.a>
                                     </motion.p>
                                 </div>
                             </div>
                         </div>
-
-
-
-
                     </>
                 )}
 
                 {type === "cancel" && (
                     <>
-                        <CustomFormField
-                            fieldtype={FormFeildType.TEXTAREA}
-                            control={form.control}
-                            name="cancellationReason"
-                            label="Reason for cancellation"
-                            placeholder="Urgent meeting came up"
-                        />
                         <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.5 }}
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
+                            className="max-w-2xl mx-auto"
                         >
-                            <Button
-                                type="submit"
-                                onClick={() => console.log("Cancel Appointment clicked")}
-                                // disabled={!isFormValid || isSubmitting}
-                                className={`w-full h-14 rounded-xl text-base font-semibold transition-all duration-300 ${submitStatus === "success"
-                                    ? "bg-success hover:bg-success text-success-foreground"
-                                    : "gradient-primary hover:opacity-90 text-primary-foreground shadow-primary"
-                                    } disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none`}
+                            <motion.div
+                                className="space-y-6 p-4 sm:p-8 rounded-xl gradient-card border border-border/50"
+                                whileHover={{ boxShadow: "0 20px 40px rgba(168, 85, 247, 0.1)" }}
+                                transition={{ duration: 0.3 }}
                             >
-                                <AnimatePresence mode="wait">
-                                    {isSubmitting ? (
-                                        <motion.div
-                                            key="loading"
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
-                                            exit={{ opacity: 0 }}
-                                            className="flex items-center gap-2"
-                                        >
-                                            <Loader2 className="w-5 h-5 animate-spin" />
-                                            Booking...
-                                        </motion.div>
-                                    ) : submitStatus === "success" ? (
-                                        <motion.div
-                                            key="success"
-                                            initial={{ opacity: 0, scale: 0.8 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            exit={{ opacity: 0 }}
-                                            className="flex items-center gap-2"
-                                        >
-                                            <CheckCircle className="w-5 h-5" />
-                                            Appointment Confirmed!
-                                        </motion.div>
-                                    ) : submitStatus === "error" ? (
-                                        <motion.div
-                                            key="error"
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
-                                            exit={{ opacity: 0 }}
-                                            className="flex items-center gap-2"
-                                        >
-                                            <AlertCircle className="w-5 h-5" />
-                                            Try Again
-                                        </motion.div>
-                                    ) : (
-                                        <motion.span
-                                            key="default"
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
-                                            exit={{ opacity: 0 }}
-                                        >
-                                            {buttonLabel}
-                                        </motion.span>
-                                    )}
-                                </AnimatePresence>
-                            </Button>
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 0.1 }}
+                                >
+                                    <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-2">Cancel Appointment</h2>
+                                    <p className="text-sm text-muted-foreground">Please let us know the reason for cancellation</p>
+                                </motion.div>
 
-                            {/* {!isFormValid && (
-                                                    <p className="text-xs text-muted-foreground text-center mt-2">
-                                                        Please select a date, time, and fill in required fields
-                                                    </p>
-                                                )} */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.2 }}
+                                    whileHover={{ scale: 1.01 }}
+                                >
+                                    <CustomFormField
+                                        fieldtype={FormFeildType.TEXTAREA}
+                                        control={form.control}
+                                        name="cancellationReason"
+                                        label="Reason for cancellation"
+                                        placeholder="Urgent meeting came up"
+                                    />
+                                </motion.div>
+
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.3, duration: 0.5 }}
+                                    whileHover={{ scale: 1.02, y: -3 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    className="w-full"
+                                >
+                                    <Button
+                                        type="submit"
+                                        onClick={() => console.log("Cancel Appointment clicked")}
+                                        className={`w-full h-12 sm:h-14 rounded-xl text-sm sm:text-base font-semibold transition-all duration-300 ${submitStatus === "success"
+                                            ? "bg-success hover:bg-success text-success-foreground"
+                                            : "gradient-primary hover:opacity-90 text-primary-foreground shadow-primary"
+                                            } disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none`}
+                                    >
+                                        <AnimatePresence mode="wait">
+                                            {isSubmitting ? (
+                                                <motion.div
+                                                    key="loading"
+                                                    initial={{ opacity: 0 }}
+                                                    animate={{ opacity: 1 }}
+                                                    exit={{ opacity: 0 }}
+                                                    className="flex items-center gap-2"
+                                                >
+                                                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity }}>
+                                                        <Loader2 className="w-4 sm:w-5 h-4 sm:h-5" />
+                                                    </motion.div>
+                                                    <span className="hidden sm:inline">Processing...</span>
+                                                </motion.div>
+                                            ) : submitStatus === "success" ? (
+                                                <motion.div
+                                                    key="success"
+                                                    initial={{ opacity: 0, scale: 0.8 }}
+                                                    animate={{ opacity: 1, scale: 1 }}
+                                                    exit={{ opacity: 0 }}
+                                                    className="flex items-center gap-2"
+                                                >
+                                                    <CheckCircle className="w-4 sm:w-5 h-4 sm:h-5" />
+                                                    <span className="hidden sm:inline">Appointment Cancelled</span>
+                                                    <span className="sm:hidden">Cancelled</span>
+                                                </motion.div>
+                                            ) : submitStatus === "error" ? (
+                                                <motion.div
+                                                    key="error"
+                                                    initial={{ opacity: 0 }}
+                                                    animate={{ opacity: 1 }}
+                                                    exit={{ opacity: 0 }}
+                                                    className="flex items-center gap-2"
+                                                >
+                                                    <AlertCircle className="w-4 sm:w-5 h-4 sm:h-5" />
+                                                    Try Again
+                                                </motion.div>
+                                            ) : (
+                                                <motion.span
+                                                    key="default"
+                                                    initial={{ opacity: 0 }}
+                                                    animate={{ opacity: 1 }}
+                                                    exit={{ opacity: 0 }}
+                                                >
+                                                    {buttonLabel}
+                                                </motion.span>
+                                            )}
+                                        </AnimatePresence>
+                                    </Button>
+                                </motion.div>
+                            </motion.div>
                         </motion.div>
-
-
                     </>
                 )}
 

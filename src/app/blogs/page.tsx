@@ -5,7 +5,6 @@ import { TooltipProvider } from "../components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import Index1 from "../engagement/page";
 import FAQ from "../faq/page"
 import Resources from "../resources/page";
 import Contact from "../contact-us/page";
@@ -15,6 +14,7 @@ import BreathingBackground from "../components/BreathingBackgroud";
 import CustomCursor from "../components/CustomCursor";
 import PageTransition from "../components/PageTransition";
 import { useState, useEffect } from "react";
+import Index1 from "../engagement/page";
 
 const queryClient = new QueryClient();
 
@@ -54,6 +54,7 @@ const page = () => {
         <Sonner />
         <BrowserRouter>
           <BreathingBackground />
+          <Index1 />
           <CustomCursor />
           <Navigation />
           <AnimatedRoutes />

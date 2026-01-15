@@ -129,7 +129,7 @@ const [user, setUser] = useState<any>(null);
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-Primary-purple mb-2">Welcome Back 👋</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-Primary-purple mb-2">Welcome Back</h1>
             <p className="text-sm sm:text-base text-purple4">Log in to schedule your consultation with our expert consultants</p>
           </motion.div>
 
@@ -216,7 +216,7 @@ const [user, setUser] = useState<any>(null);
                   >
                     <Link
                       href="/Signup"
-                      className="text-Primary-purple font-bold hover:text-Primary-purple/80 transition-colors duration-300 hover:underline underline-offset-4"
+                      className="text-Primary-pink font-bold hover:text-Primary-purple/80 transition-colors duration-300 hover:underline underline-offset-4"
                     >
                       Create Account
                     </Link>
@@ -270,22 +270,22 @@ const [user, setUser] = useState<any>(null);
 
         {/* Image with Hover Animation */}
         <motion.div
-          className="relative z-10 w-4/5 h-4/5"
+          className="relative z-10 w-full h-full "
           whileHover={{ scale: 1.05 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
         >
           <Image
-            src="/LoginPage.jpeg"
+            src="/Loginpagr1.jpg"
             alt="Consultant"
             fill
-            className="object-contain pointer-events-none"
+            className="object-cover pointer-events-none"
             priority
           />
         </motion.div>
 
         {/* Floating Cards Animation */}
         <motion.div
-          className="absolute top-10 left-10 bg-white/80 backdrop-blur-md rounded-lg p-4 shadow-lg pointer-events-none"
+          className="absolute z-10 top-10 left-10 bg-white/80 backdrop-blur-md rounded-lg p-4 shadow-lg pointer-events-none"
           animate={{
             y: [0, -10, 0],
             rotate: [-2, 2, -2],
@@ -301,7 +301,7 @@ const [user, setUser] = useState<any>(null);
         </motion.div>
 
         <motion.div
-          className="absolute bottom-10 right-30 bg-white/80 backdrop-blur-md rounded-lg p-4 shadow-lg pointer-events-none"
+          className="absolute z-10 bottom-10 right-30 bg-white/80 backdrop-blur-md rounded-lg p-4 shadow-lg pointer-events-none"
           animate={{
             y: [0, 10, 0],
             rotate: [2, -2, 2],
