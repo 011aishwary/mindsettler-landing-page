@@ -6,6 +6,7 @@ import { forwardRef, use } from "react";
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import SplitType from "split-type";
+import { motion } from "framer-motion";
 
 
 const ShatterSection = forwardRef<HTMLDivElement>((props, ref) => {
@@ -229,7 +230,7 @@ const ShatterSection = forwardRef<HTMLDivElement>((props, ref) => {
   return (
     <section
       ref={ref}
-      className="relative h-fit pb-10 lg:h-fit w-full gradient-hero overflow-hidden z-10"
+      className="relative h-fit  lg:h-fit w-full gradient-hero overflow-hidden z-10"
     >
       <div ref={section2} className="bgwite bg-pink5/1 backdrop-blur-[2px] z-20 h-full w-full absolute" />
       <div
@@ -257,17 +258,18 @@ const ShatterSection = forwardRef<HTMLDivElement>((props, ref) => {
         })}
       </div>
       <div ref={section2} className="relative inset-0 h-full lg:h-fit flex flex-col items-center justify-start  z-30">
-        <div className="Heading1 relative top-0 pt-10 text-center  text-pink-600 font-medium tracking-wider uppercase text-sm mb-2">
+        <div className="Heading1 relative top-0 pt-6 sm:pt-8 lg:pt-10 text-center text-pink-600 font-medium tracking-wider uppercase text-xs sm:text-sm lg:text-base mb-2">
           What is MindSettler
         </div>
-        <h2 className="SubHeading1 text-3xl relative  text-center lg:text-5xl font-serif font-bold text-purple-900 mb-2 leading-tight">
+        <h2 className="SubHeading1 text-xl sm:text-2xl md:text-4xl lg:text-5xl relative text-center font-serif font-bold text-purple-900 mb-2 lg:mb-4 leading-tight px-4 sm:px-0">
           First Step is Awareness
         </h2>
-        <div className="text-blueGray text-center max-w-[60vw] max-sm:max-w-screen max-sm:text-xs max-sm:px-5 mx-auto  text-md font-medium leading-relaxed">
-          MindSettler is a psycho-education and counseling service designed to help individuals understand their mental health, build awareness, and receive personalized guidance in a safe, confidential environment.            </div>
-        <div ref={containerRef} className="CarHead  flex Heading1 flex-col  min-[600px]:flex-row gap-5 min-[960px]:[5vw] items-center justify-evenly min-[850px]:justify-center w-full  my-10 max-sm:my-2 p-6 m-4 ">
+        <div className="text-blueGray text-center max-w-ful  sm:max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg font-medium leading-relaxed px-4 sm:px-6 mb-6 sm:mb-8">
+          MindSettler is a psycho-education and counseling service designed to help individuals understand their mental health, build awareness, and receive personalized guidance in a safe, confidential environment.
+        </div>
+        <div ref={containerRef} className="CarHead grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {card.map((card, index) => (
-            <div key={index} className="Card overflow-hidden max-sm:w-[70vw]  transition-all duration-300 hover:-bg-conic-330 hover:scale-95  flex flex-col max-[600px]:w-[50vw] w-[30vw] min-[960px]:w-[22vw] min-[1050px]:w-[20vw]  bg-Primary-purple/20 backdrop-blur-sm rounded-2xl border-0  shadow-md items-center  text-center justify-start space-y-4 px-4 py-4 h-[-webkit-fill-available]">
+            <div key={index} className="Card overflow-hidden transition-all duration-300 hover:scale-95 flex flex-col bg-Primary-purple/20 backdrop-blur-sm rounded-2xl border-0 shadow-md items-center text-center justify-start space-y-4 px-4 py-6 h-full">
               <div className="Card1 bg-purple3/40 rounded-2xl p-2 text-center">
                 <Image
                   src={card.image}
@@ -284,7 +286,47 @@ const ShatterSection = forwardRef<HTMLDivElement>((props, ref) => {
 
           ))}
         </div>
-      </div>
+      
+      <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0}}
+          transition={{ duration: 0.3, delay: 0.2 }}
+          whileHover={{ scale: 1.04 }}
+          className="mt-16 p-8 mb-10 max-md:mx-5 lg:p-12 rounded-3xl bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-medium relative overflow-hidden"
+        >
+          {/* Animated background pattern */}
+          <motion.div
+            animate={{ 
+              rotate: [0, 360],
+              scale: [1, 1.1, 1],
+            }}
+            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+            className="absolute -top-20 -right-20 w-64 h-64 rounded-full border border-primary-foreground/10"
+          />
+          <motion.div
+            animate={{ 
+              rotate: [360, 0],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+            className="absolute -bottom-10 -left-10 w-48 h-48 rounded-full border border-primary-foreground/5"
+          />
+          
+          <div className="max-w-2xl mx-auto text-center relative z-10">
+            <motion.h3 
+              whileHover={{ scale: 1.02 }}
+              className="text-lg sm:text-2xl lg:text-3xl font-heading font-bold mb-3 sm:mb-4 px-2"
+            >
+              You're Not Alone in This Journey
+            </motion.h3>
+            <p className="text-sm sm:text-base lg:text-lg text-primary-foreground/90 leading-relaxed px-2">
+              Whether you're dealing with stress, anxiety, relationship challenges, 
+              or simply seeking personal growth, MindSettler provides a structured 
+              approach to help you find balance and clarity.
+            </p>
+          </div>
+        </motion.div>
+        </div>
     </section>
   );
 });

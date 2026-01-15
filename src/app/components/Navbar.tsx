@@ -33,6 +33,12 @@ function Navbar({ className }: { className?: string }) {
   if (path && path.startsWith('/admin')) {
     return null; // Do not render the navbar on admin routes
   }
+  else if (path && path.startsWith('/Login')) {
+    return null; // Do not render the navbar on dashboard routes
+  }
+  else if (path && path.startsWith('/Signup')) {
+    return null; // Do not render the navbar on dashboard routes
+  }
   const logoutButton = async () => {
     setUser(null)
     await logout();

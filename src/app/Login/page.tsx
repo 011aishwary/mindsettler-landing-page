@@ -2,17 +2,18 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import {  z } from "zod"
+import { z } from "zod"
 import Image from "next/image"
-import {Form} from "../components/ui/Form"
+import { Form } from "../components/ui/Form"
 import CustomFormField from "../components/CustomFormField"
 import SubmitButton from "../components/ui/SubmitButton"
-import  { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { LoginFormValidation } from "../../../lib/validation"
 import { useRouter } from "next/navigation"
 import { account } from "../../../lib/appwrite.config"
 import Link from "next/link"
-import {createCookieSession} from "../../../lib/actions/patient.actions"
+import { createCookieSession } from "../../../lib/actions/patient.actions"
+import { motion } from "framer-motion"
 
 export enum FormFeildType {
   INPUT ='input',
@@ -86,72 +87,240 @@ const [user, setUser] = useState<any>(null);
 
   }
   return (
-    <div className="flex relative mt-14 h-[90vh] overflow-hidden bg-white justify-between items-center min gap-10 w-screen ">
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 lg:scale-75 relative flex  mx-10 flex-col md:max-w-[40vw] flex-1">
-        <section className="flex flex-col justify-start">
-          <h1 className="text-Primary-purple font-semibold">Hi there 👋</h1>
-          <h2 className="text-purple4">Schedule your first session</h2>
-        </section>
-        {/* <CustomFormField 
-          fieldtype={FormFeildType.INPUT}
-          control={form.control}
-          name= "name"
-          label = "Full name"
-          placeholder="Enter your full name"
-          iconSrc="/assets/login.svg"
-          iconAlt="login"
-        /> */}
-        <CustomFormField 
-          fieldtype={FormFeildType.INPUT}
-          control={form.control}
-          name= "email"
-          label = "Email"
-          placeholder="email@gmail.com"
-          iconSrc="/assets/login.svg"
-          iconAlt="email"
+    <div className="flex relative flex-col lg:flex-row w-full min-h-screen bg-gradient-to-br from-white via-pink-50 to-purple-50 overflow-hidden">
+      {/* Animated Background Elements - Fixed Position, No Pointer Events */}
+      <motion.div
+        className="fixed top-0 left-0 w-96 h-96 bg-gradient-to-br from-pink-200 to-purple-200 rounded-full opacity-20 blur-3xl pointer-events-none"
+        animate={{
+          x: [0, 30, 0],
+          y: [0, -30, 0],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+      <motion.div
+        className="fixed bottom-0 right-0 w-96 h-96 bg-gradient-to-br from-purple-200 to-pink-200 rounded-full opacity-20 blur-3xl pointer-events-none"
+        animate={{
+          x: [0, -30, 0],
+          y: [0, 30, 0],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      {/* Left Side - Form */}
+      <motion.div
+        className="w-full lg:w-1/2 flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 py-8 sm:py-12 lg:py-0 relative z-20"
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
+        <div className="w-full max-w-md">
+          {/* Header */}
+          <motion.div
+            className="mb-8 sm:mb-10"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-Primary-purple mb-2">Welcome Back 👋</h1>
+            <p className="text-sm sm:text-base text-purple4">Log in to schedule your consultation with our expert consultants</p>
+          </motion.div>
+
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 sm:space-y-6">
+              {/* Email Field */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="relative z-30"
+              >
+                <CustomFormField
+                  fieldtype={FormFeildType.INPUT}
+                  control={form.control}
+                  name="email"
+                  label="Email Address"
+                  placeholder="you@example.com"
+                  iconSrc="/assets/login.svg"
+                  iconAlt="email"
+                />
+              </motion.div>
+
+              {/* Password Field */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="relative z-30"
+              >
+                <CustomFormField
+                  fieldtype={FormFeildType.INPUT}
+                  control={form.control}
+                  name="password"
+                  label="Password"
+                  placeholder="Enter your password"
+                  iconSrc="/assets/login.svg"
+                  iconAlt="password"
+                />
+              </motion.div>
+
+              {/* Submit Button */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="relative z-30"
+              >
+                <SubmitButton isLoading={isLoading}>Getting Started</SubmitButton>
+              </motion.div>
+
+              {/* Divider */}
+              <motion.div
+                className="relative my-6 sm:my-8 z-30"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+              >
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-300" />
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-gradient-to-br from-white via-pink-50 to-purple-50 text-gray-500">
+                    New to MindSettler?
+                  </span>
+                </div>
+              </motion.div>
+
+              {/* Sign Up Link */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+                className="text-center relative z-30"
+              >
+                <p className="text-sm text-gray-600">
+                  Don't have an account?{' '}
+                  <motion.span
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="inline-block"
+                  >
+                    <Link
+                      href="/Signup"
+                      className="text-Primary-purple font-bold hover:text-Primary-purple/80 transition-colors duration-300 hover:underline underline-offset-4"
+                    >
+                      Create Account
+                    </Link>
+                  </motion.span>
+                </p>
+              </motion.div>
+            </form>
+          </Form>
+
+          {/* Footer Text */}
+          <motion.p
+            className="text-xs sm:text-sm text-center text-gray-500 mt-6 sm:mt-8 relative z-30"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.7 }}
+          >
+            By logging in, you agree to our{' '}
+            <Link href="#" className="text-Primary-purple hover:underline">
+              Terms of Service
+            </Link>
+            {' '}and{' '}
+            <Link href="#" className="text-Primary-purple hover:underline">
+              Privacy Policy
+            </Link>
+          </motion.p>
+        </div>
+      </motion.div>
+
+      {/* Right Side - Image (Hidden on Mobile, Visible on LG) */}
+      <motion.div
+        className="hidden lg:flex w-1/2 items-center justify-center relative overflow-hidden bg-gradient-to-br from-Primary-purple/10 to-pink-200/20 z-10"
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
+        {/* Decorative Elements */}
+        <motion.div
+          className="absolute inset-0 pointer-events-none"
+          animate={{
+            background: [
+              'radial-gradient(circle at 20% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 50%)',
+              'radial-gradient(circle at 80% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 50%)',
+              'radial-gradient(circle at 20% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 50%)',
+            ],
+          }}
+          transition={{
+            duration: 5,
+            repeat: Infinity,
+          }}
         />
-        {/* <CustomFormField 
-          fieldtype={FormFeildType.PHONE_INPUT}
-          control={form.control}
-          name= "phone"
-          label = "Phone Number"
-          placeholder="+91 0123456789"
-        /> */}
-        <CustomFormField 
-          fieldtype={FormFeildType.INPUT}
-          control={form.control}
-          name= "password"
-          label = "Password"
-          placeholder="Enter your password"
-          iconSrc="/assets/login.svg"
-          iconAlt="password"
-        />
-        <SubmitButton isLoading={false} > Getting Started </SubmitButton>
-      <div className="text-center flex justify-center items-center space-x-2">
-        <span className="text-black">
-          Already have an account?
-        </span>
-        <span className="">
-          <Link href={"/Signup"}className="text-Primary-purple font-semibold ml-1 hover:scale-120 hover:text-Primary-purple/90 hover:underline">
-          SignUp
-          </Link> 
-        </span>
-      </div>
-      </form>
-    </Form>
-      <div className="max-h-screen">
-        <Image
-          src="/LoginPage.jpeg"
-          alt="loginimg"
-          width={500}
-          height={500}
-          className="h-screen w-auto"
-        />
-      </div>
+
+        {/* Image with Hover Animation */}
+        <motion.div
+          className="relative z-10 w-4/5 h-4/5"
+          whileHover={{ scale: 1.05 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        >
+          <Image
+            src="/LoginPage.jpeg"
+            alt="Consultant"
+            fill
+            className="object-contain pointer-events-none"
+            priority
+          />
+        </motion.div>
+
+        {/* Floating Cards Animation */}
+        <motion.div
+          className="absolute top-10 left-10 bg-white/80 backdrop-blur-md rounded-lg p-4 shadow-lg pointer-events-none"
+          animate={{
+            y: [0, -10, 0],
+            rotate: [-2, 2, -2],
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        >
+          <p className="text-sm font-semibold text-Primary-purple">Expert Consultants</p>
+          <p className="text-xs text-gray-600">Available 24/7</p>
+        </motion.div>
+
+        <motion.div
+          className="absolute bottom-10 right-30 bg-white/80 backdrop-blur-md rounded-lg p-4 shadow-lg pointer-events-none"
+          animate={{
+            y: [0, 10, 0],
+            rotate: [2, -2, 2],
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 0.5,
+          }}
+        >
+          <p className="text-sm font-semibold text-Primary-purple">Secure & Confidential</p>
+          <p className="text-xs text-gray-600">Your privacy matters</p>
+        </motion.div>
+      </motion.div>
     </div>
-    
   )
+    
+  
 }
 
 

@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useEffect, useRef } from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
@@ -51,6 +51,30 @@ const AboutMindSettler = () => {
     const panelsRef = useRef<(HTMLDivElement | null)[]>([]);
     const mainHead = useRef<HTMLSpanElement>(null);
     const bottomHead = useRef<HTMLDivElement>(null);
+
+    // State variable for responsive start position
+    const [triggerStart, setTriggerStart] = useState<string>("center center");
+
+    // Update trigger position based on screen width
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 768) {
+                // Mobile: trigger earlier
+                setTriggerStart("center 20%");
+            } else if (window.innerWidth < 1024) {
+                // Tablet: trigger mid-screen
+                setTriggerStart("center 0%");
+            } else {
+                // Desktop: trigger at center
+                setTriggerStart("center center");
+            }
+        };
+
+        handleResize(); // Set initial value
+        window.addEventListener("resize", handleResize);
+        console.log("Trigger Start is:", triggerStart);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
 
     // Data for your steps
@@ -179,7 +203,7 @@ const AboutMindSettler = () => {
             // 3. Create the ScrollTrigger
             ScrollTrigger.create({
                 trigger: aboutref.current,
-                start: "center center",
+                start: triggerStart,
                 end: "+=1000", // Virtual scroll height (tweak for scroll sensitivity)
                 pin: true,
                 scrub: true, // Links progress to scrollbar
@@ -202,7 +226,7 @@ const AboutMindSettler = () => {
         }, aboutref);
         return () => ctx.revert();
 
-    }, []);
+    }, [triggerStart]);
 
 
 
@@ -353,10 +377,10 @@ const AboutMindSettler = () => {
         <>
             <div className=' overflow-hidden relative w-screen '>
 
-                <div ref={aboutref} className="h overflow-hidden   relative    w-screen z-5 ">
+                <div ref={aboutref} className=" overflow-hidden   relative    w-screen z-5 ">
 
-                    <section className="py-1 lg:py-10 h-auto lg:min-h-150 max-sm:mt-20 min-h-screen bg-white relative z-20">
-                        <div className="container mx-auto lg:min-h-150 relative px-6 md:px-12">
+                    <section className=" py-10 h-auto lg:min-h-150 md:min-h-170 max-sm:mt-20 min-h-screen bg-white relative z-20">
+                        <div className="container mx-auto lg:min-h-150 md:min-h-170 relative px-6 md:px-12">
 
                             {/* Flex Container: Stacks on mobile (col), Side-by-side on desktop (row) */}
                             <div className="flex flex-col lg:flex-row items-center justify-between relative h-fit gap-12 lg:min-h-150 max-sm:gap-2  lg:gap-20">
@@ -432,9 +456,9 @@ const AboutMindSettler = () => {
 
             </div>
             <div className="bg-white inset-0 z-0 absolute"></div>
-            <section className=" sec2 overflow-hidden max-md:hidden bg-white h-full  md:h-[150vh]  flex items-center justify-center min-h-screen w-screen relative ">
-                <div className="bgwiteabout  h-full overflow-hidden  md:h-[150vh] relative self-center w-screen">
-                    <div className="bg-white/70 absolute w-screen md:h-[150vh] h-full z-96">
+            <section className=" sec2 overflow-hidden max-md:hidden bg-white h-full   md:h-325 lg:h-180    flex items-center justify-center min-h-screen w-screen relative ">
+                <div className="bgwiteabout  h-full overflow-hidden  md:h-325 lg:h-180  relative self-center w-screen">
+                    <div className="bg-white/70 absolute w-screen md:h-325 lg:h-180  h-full z-96">
                         <div className=" relative top-0 pt-10 text-center  text-pink-600 font-medium tracking-wider uppercase text-sm mb-2">
                             Your Journey
                         </div>
@@ -527,11 +551,15 @@ const AboutMindSettler = () => {
                     </div>
                 </div>
             </section>
-            <section className="sec2 md:hidden relative w-full min-h-screen overflow-hidden flex items-center justify-center bg-white">
+
+
+
+            {/* for tabs and mobiles  */}
+            <section className="sec2 md:hidden relative w-full h-auto overflow-visible flex items-center justify-center bg-white">
 
                 {/* --- 1. BACKGROUND IMAGES (Parallax Layers) --- */}
                 {/* absolute inset-0 ensures it fills the entire section behind the text */}
-                <div className="absolute   inset-0 w-full h-full z-0">
+                <div className="absolute inset-0 w-full h-full z-0">
                     {/* Base Background Color */}
                     <div className="absolute inset-0 bg-[#3a6d70]" />
 
@@ -598,27 +626,27 @@ const AboutMindSettler = () => {
 
                 {/* --- 2. FOREGROUND CONTENT --- */}
                 {/* z-10 places this ON TOP of the images. bg-white/70 lets images show through faintly */}
-                <div className="relative z-10 w-full h-full min-h-screen flex flex-col justify-center items-center bg-white/80 py-20 px-4">
+                <div className="relative z-10 w-full h-auto flex flex-col justify-center items-center bg-white/80 py-8 px-3 gap-6 ">
 
                     {/* Header Text */}
-                    <div className="text-center mb-12">
-                        <div className="text-pink-600 font-medium tracking-wider uppercase text-sm mb-3">
+                    <div className="text-center w-full">
+                        <div className="text-pink-600 font-medium tracking-wider uppercase text-sm mb-2">
                             Your Journey
                         </div>
-                        <h2 className="text-3xl lg:text-5xl font-serif font-bold text-purple-900 mb-4 leading-tight">
+                        <h2 className="text-2xl sm:text-3xl lg:text-5xl font-serif font-bold text-purple-900 mb-3 leading-tight">
                             The Path to Mental Clarity
                         </h2>
-                        <p className="text-blueGray max-w-2xl mx-auto text-md font-medium leading-relaxed px-4">
+                        <p className="text-blueGray max-w-2xl mx-auto text-sm sm:text-md font-medium leading-relaxed px-2">
                             Every journey begins with a single step. Here's how MindSettler guides you through your personal path to mental wellness.
                         </p>
                     </div>
 
                     {/* Journey Steps Cards */}
-                    <div className="flex flex-col lg:flex-row items-center justify-center w-full max-w-7xl gap-8 lg:gap-6">
+                    <div className="flex flex-col relative lg:flex-row items-stretch justify-center w-full max-w-full gap-4 lg:gap-6">
                         {journeySteps.map((step, index) => (
                             <motion.div 
                                 key={step.id} 
-                                className="w-full max-w-sm lg:w-1/5 relative group"
+                                className="w-full lg:w-1/5 relative group"
                                 initial={{ opacity: 0, scale: 0.7, rotateY: -90 }}
                                 whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
                                 whileOutOfView={{ opacity: 0, scale: 0.7, rotateY: -90 }}
@@ -633,11 +661,11 @@ const AboutMindSettler = () => {
                                 viewport={{ once: false, margin: "-50px" }}
                             >
 
-                                <div className="card bg-white/50 backdrop-blur-sm p-6 rounded-2xl border border-white/50 hover:-translate-y-2 transition-all duration-500 flex flex-col items-center text-center shadow-sm hover:shadow-md">
+                                <div className="card bg-white/50 backdrop-blur-sm p-4 sm:p-6 rounded-2xl border border-white/50 hover:-translate-y-2 transition-all duration-500 flex flex-col items-center text-center shadow-sm hover:shadow-md h-full">
                                     {/* Icon Wrapper */}
-                                    <div className="relative mb-4">
+                                    <div className="relative mb-3">
                                         <div className="bg-white rounded-full p-3 shadow-sm relative z-10">
-                                            <Image src={step.icon} alt={step.title} width={40} height={40} className="w-10 h-10" />
+                                            <Image src={step.icon} alt={step.title} width={40} height={40} className="w-8 h-8 sm:w-10 sm:h-10" />
                                         </div>
                                         {/* Step Number Badge */}
                                         <span className="absolute -top-1 -right-1 bg-Primary-pink text-white w-6 h-6 flex items-center justify-center text-xs font-bold rounded-full z-20">
@@ -645,22 +673,22 @@ const AboutMindSettler = () => {
                                         </span>
                                     </div>
 
-                                    <h3 className="text-lg font-semibold text-purple-900 mb-2">{step.title}</h3>
-                                    <p className="text-gray-600 text-sm leading-relaxed">{step.description}</p>
+                                    <h3 className="text-base sm:text-lg font-semibold text-purple-900 mb-2">{step.title}</h3>
+                                    <p className="text-gray-600 text-xs sm:text-sm leading-relaxed flex-grow">{step.description}</p>
                                 </div>
 
                                 {/* Connector Line (Hidden on Mobile, Visible on Desktop) */}
                                 <div className="hidden lg:block absolute top-1/2 -right-4 w-8 h-px bg-Primary-pink/30 last:hidden"></div>
 
                                 {/* Connector Line (Vertical for Mobile) */}
-                                <div className="lg:hidden absolute bottom-[-32px] left-1/2 w-px h-8 bg-Primary-pink/30 last:hidden"></div>
+                                <div className="lg:hidden absolute bottom-[-16px] left-1/2 w-px h-4 bg-Primary-pink/30 last:hidden"></div>
                             </motion.div>
                         ))}
                     </div>
 
                     {/* CTA Button */}
-                    <div className="mt-16 flex items-center justify-center space-x-2 group cursor-pointer">
-                        <span className="text-Primary-pink font-semibold group-hover:underline transition-all duration-300">
+                    <div className="mt-4 flex relative items-center justify-center space-x-2 group cursor-pointer  ">
+                        <span className="text-Primary-pink font-semibold text-sm sm:text-base group-hover:underline transition-all duration-300">
                             Start your journey today
                         </span>
                         <span className="text-Primary-pink font-extrabold group-hover:translate-x-1 transition-transform duration-300">

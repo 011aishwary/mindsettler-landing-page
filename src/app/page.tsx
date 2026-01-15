@@ -8,6 +8,7 @@ import Different from "./components/Different";
 import Footer from "./components/Footer";
 import Faq from "./components/Faq";
 import Booking from "./components/Booking";
+import { CorporateSection } from "./components/CorporateSection";
 
 
 
@@ -48,6 +49,7 @@ export default function Home() {
         < AboutMindSettler />
         <Process />
         <Different />
+        <CorporateSection />
         <Booking />
         <Faq />
         <Footer />

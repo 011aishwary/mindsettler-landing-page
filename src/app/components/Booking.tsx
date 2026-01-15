@@ -1,24 +1,27 @@
 "use client"
-import React, { useEffect, useState  } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image';
-import {LucideHotel , Clock , Video} from "lucide-react"
+import { LucideHotel, Clock, Video, CalendarDays } from "lucide-react"
 import Link from 'next/link';
 import FetchUser from './FetchUser';
+import { motion, useInView } from 'framer-motion';
 export const fetchUserData = async () => {
-  const userData = await FetchUser()
-  console.log("User data fetched on home page.", userData);
-  return userData;
+    const userData = await FetchUser()
+    console.log("User data fetched on home page.", userData);
+    return userData;
 };
 
 const Booking = () => {
+    //     const ref = useRef(null);
+    //   const isInView = useInView(ref, { margin: "200px", once: false });
     const [user, setUser] = useState<any>(null)
     useEffect(() => {
         fetchUserData().then(setUser);
         if (user) {
-          console.log("User data fetched on home page:", user);
-          console.log("User email:", user.$id);
+            console.log("User data fetched on home page:", user);
+            console.log("User email:", user.$id);
         }
-      }, []);
+    }, []);
     return (
         <div className='bg-cloudy-Apple min-h-fit h-scren w-screen py-10'>
             <div className=" relative top-0 pt-10 text-center  text-pink-600 font-medium tracking-wider uppercase text-sm mb-2">
@@ -31,7 +34,7 @@ const Booking = () => {
                 Your first session is where clarity begins. Choose the format that feels most comfortable for you.
             </div>
             <div className="flex group/sessio lg:flex-row flex-col items-center justify-center gap-8">
-                <div className="w-[30vw] overflow-hidden  max-sm:w-[90vw] relative bg-white hover:-translate-y-2 transition-all ease-in  h-fit py-8 px-8 flex flex-col justify-start items-start gap-4 border border-gray-200 shadow-lg rounded-2xl hover:shadow-2xl  duration-200">
+                <div className="w-[30vw] overflow-hidden  max-sm:w-[90vw] max-lg:w-[70vw] relative bg-white hover:-translate-y-2 transition-all ease-in  h-fit py-8 px-8 flex flex-col justify-start items-start gap-4 border border-gray-200 shadow-lg rounded-2xl hover:shadow-2xl  duration-200">
                     <div className="absolute right-0 top-0 bg-purple5/20 w-24 h-24 rounded-tr-full spin-slow"></div>
                     <div className="bg-Primary-purple/20   p-3 rounded-3xl mb-2 hover:rotate-z-12 hover:scale-105 transition-all duration-200">
                         <Image
@@ -68,19 +71,19 @@ const Booking = () => {
                         </div>
                     </div>
                     <Link href={`${user ? `/patient/${user.$id}/new-appointment` : '/Signup'}`}>
-                    <button className='text-center flex items-center justify-center text-white px-4 rounded-full w-full py-2 bg-Primary-purple'>
-                        <span className="relative ">
-                            Book Online Session
-                        </span>
-                        <span className="calmLR relative ml-2"> → </span>
-                    </button>
+                        <button className='text-center flex items-center justify-center text-white px-4 rounded-full w-full py-2 bg-Primary-purple'>
+                            <span className="relative ">
+                                Book Online Session
+                            </span>
+                            <span className="calmLR relative ml-2"> → </span>
+                        </button>
                     </Link>
 
                 </div>
-                <div className="w-[30vw] overflow-hidden max-sm:w-[90vw] relative bg-Primary-purple hover:-translate-y-3 transition-all ease-in  h-[-webkit-fill-available] py-8 px-8 flex flex-col justify-start items-start gap-4 border border-black shadow-sm rounded-2xl hover:shadow-2xl  duration-300">
+                <div className="w-[30vw] overflow-hidden max-sm:w-[90vw] max-lg:w-[70vw]  relative bg-Primary-purple hover:-translate-y-3 transition-all ease-in  h-[-webkit-fill-available] py-8 px-8 flex flex-col justify-start items-start gap-4 border border-black shadow-sm rounded-2xl hover:shadow-2xl  duration-300">
                     <div className="absolute right-0 top-0 bg-pink2/20 w-24 h-24 rounded-tr-full spin-slow2"></div>
                     <div className="bg-purple5/20   p-3 rounded-3xl mb-2 hover:rotate-z-12 hover:scale-105 transition-all duration-200">
-                        <LucideHotel className="w-8 h-8 text-white"/>
+                        <LucideHotel className="w-8 h-8 text-white" />
                     </div>
                     <h2 className="text-white font-semibold  text-xl ">
                         In-Studio Sessions
@@ -89,26 +92,63 @@ const Booking = () => {
                         Experience our calm, welcoming studio space designed specifically for peaceful, focused conversations.                    </p>
                     <div className="flex text-sm gap-8 text-purple5">
                         <div className="flex gap-2 text-center">
-                            <Clock className="w-4 h-4 text-white"/>
-                            
+                            <Clock className="w-4 h-4 text-white" />
+
                             <span className="">60 Minutes</span>
                         </div>
                         <div className="flex gap-2 text-center">
-                            <Video className="w-4 h-4 text-white"/>
+                            <Video className="w-4 h-4 text-white" />
                             <span className="">In-Person</span>
                         </div>
                     </div>
                     <Link href={`${user ? `/patient/${user.$id}/new-appointment` : '/Signup'}`}>
-                    <button className='text-center flex items-center justify-center text-white px-4 rounded-full w-full py-2 border-2 border-purple3/20 bg-purple5/10'>
-                        <span className="relative ">
-                            Book Offline Session
-                        </span>
-                        <span className="calmLR relative ml-2"> → </span>
-                    </button>
+                        <button className='text-center flex items-center justify-center text-white px-4 rounded-full w-full py-2 border-2 border-purple3/20 bg-purple5/10'>
+                            <span className="relative ">
+                                Book Offline Session
+                            </span>
+                            <span className="calmLR relative ml-2"> → </span>
+                        </button>
                     </Link>
                 </div>
 
             </div>
+
+            <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                viewport={{ once: false, margin: "-50px" }}
+                className="mt-12 max-w-3xl mx-auto max-lg:mx-12"
+            >
+                <motion.div
+                    whileHover={{ scale: 1.01 }}
+                    className="p-6 lg:p-8 rounded-2xl bg-accent/10 border border-accent/20 text-center relative overflow-hidden"
+                >
+                    {/* Subtle animated gradient */}
+                    <motion.div
+                        animate={{
+                            x: ["-100%", "100%"],
+                        }}
+                        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/5 to-transparent pointer-events-none"
+                    />
+
+                    <div className="relative z-10">
+                        <motion.div
+                            whileHover={{ scale: 1.1 }}
+                            className="inline-flex items-center gap-2 text-accent font-medium mb-3"
+                        >
+                            <CalendarDays className="w-5 h-5" />
+                            <span>Your First Session</span>
+                        </motion.div>
+                        <p className="text-primary/80 leading-relaxed">
+                            Your first session is a foundational step. We'll understand your needs,
+                            explain our approach, and begin building a path forward together.
+                            <span className="font-medium text-primary"> No pressure, just support.</span>
+                        </p>
+                    </div>
+                </motion.div>
+            </motion.div>
         </div>
     )
 }
