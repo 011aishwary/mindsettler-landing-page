@@ -56,7 +56,7 @@ const PageTransition = ({ children }: PageTransitionProps) => {
         initial="initial"
         animate="enter"
         exit="exit"
-        className="min-h-screen bg-white pt-24 pb-12"
+        className="min-h-screen bg-white pt-16 pb"
       >
         {children}
       </motion.div>

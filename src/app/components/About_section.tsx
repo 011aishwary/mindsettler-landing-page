@@ -649,7 +649,7 @@ const AboutMindSettler = () => {
                                 className="w-full lg:w-1/5 relative group"
                                 initial={{ opacity: 0, scale: 0.7, rotateY: -90 }}
                                 whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
-                                whileOutOfView={{ opacity: 0, scale: 0.7, rotateY: -90 }}
+                                // whileOutOfView={{ opacity: 0, scale: 0.7, rotateY: -90 }}
                                 transition={{
                                     duration: 0.6,
                                     delay: index * 0.15,

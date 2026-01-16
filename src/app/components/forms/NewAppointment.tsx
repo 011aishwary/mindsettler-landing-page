@@ -14,7 +14,7 @@ import { Dispatch, SetStateAction, useState } from "react"
 import { getAppointmentSchema } from "../../../../lib/validation"
 import { useRouter } from "next/navigation"
 import { FormFeildType } from "@/app/Signup/page"
-import { createAppointment, updateAppointment } from "../../../../lib/actions/appointment.actions"
+import { createAppointment, getRecentAppointmentList, updateAppointment } from "../../../../lib/actions/appointment.actions"
 import { Appointment } from "../../../../types/appwrite.types"
 import { Status } from "../../../../types/appwrite.types"
 
@@ -37,6 +37,7 @@ import { BookingForm } from "../BookingForm";
 import { BookingSummary } from "../BookingSummary";
 import { Button } from "../ui/button1";
 import { time } from "console"
+import GradientQRCode from "../Qrcodegenerator"
 // import { toast } from "../../../hooks/use-toast";
 
 interface FormData {
@@ -54,11 +55,11 @@ interface Appointments {
     reason: string;
     notes: string;
 }
-const MOCK_BOOKED_APPOINTMENTS: Appointments[] = [
-    { id: "1", date: "2026-01-15", time: "09:00", fullName: "John Doe", email: "john@example.com", reason: "Checkup", notes: "" },
-    { id: "2", date: "2026-01-15", time: "10:30", fullName: "Jane Smith", email: "jane@example.com", reason: "Follow-up", notes: "" },
-    { id: "3", date: "2026-01-16", time: "14:00", fullName: "Bob Wilson", email: "bob@example.com", reason: "Consultation", notes: "" },
-];
+// const MOCK_BOOKED_APPOINTMENTS: Appointments[] = [
+//     { id: "1", date: "2026-01-15", time: "09:00", fullName: "John Doe", email: "john@example.com", reason: "Checkup", notes: "" },
+//     { id: "2", date: "2026-01-15", time: "10:30", fullName: "Jane Smith", email: "jane@example.com", reason: "Follow-up", notes: "" },
+//     { id: "3", date: "2026-01-16", time: "14:00", fullName: "Bob Wilson", email: "bob@example.com", reason: "Consultation", notes: "" },
+// ];
 
 export const AppointmentForm = ({
     userId,
@@ -95,28 +96,47 @@ export const AppointmentForm = ({
         notes: "",
     });
     const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
+    const [loading, setLoading] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
     // Fetch booked appointments on mount
+    // useEffect(() => {
+    //     const fetchAppointments = async () => {
+    //         setIsLoading(true);
+    //         try {
+    //             // Simulate API call - replace with actual Appwrite/Supabase fetch
+    //             await new Promise((resolve) => setTimeout(resolve, 1000));
+    //             // setAppointments(MOCK_BOOKED_APPOINTMENTS);
+    //         } catch (error) {
+    //             console.error("Failed to fetch appointments:", error);
+    //             toast({
+    //                 title: "Error",
+    //                 description: "Failed to load appointments. Please refresh the page.",
+    //                 variant: "destructive",
+    //             });
+    //         } finally {
+    //             setIsLoading(false);
+    //         }
+    //     };
+
+    //     fetchAppointments();
+    // }, []);
+
     useEffect(() => {
         const fetchAppointments = async () => {
-            setIsLoading(true);
             try {
-                // Simulate API call - replace with actual Appwrite/Supabase fetch
-                await new Promise((resolve) => setTimeout(resolve, 1000));
-                // setAppointments(MOCK_BOOKED_APPOINTMENTS);
+                const response = await getRecentAppointmentList();
+                console.log("Fetched appointments:", response.documents);
+
+                setAppointments(response.documents as Appointment[]);
             } catch (error) {
-                console.error("Failed to fetch appointments:", error);
-                toast({
-                    title: "Error",
-                    description: "Failed to load appointments. Please refresh the page.",
-                    variant: "destructive",
-                });
+                console.error("Error fetching appointments:", error);
             } finally {
                 setIsLoading(false);
+                setLoading(false);
             }
         };
 
@@ -125,7 +145,7 @@ export const AppointmentForm = ({
 
     // Get booked dates for calendar
     const bookedDates = useMemo(() => {
-        return appointments.map((apt) => apt.date);
+        return appointments.map((apt) => apt.schedule);
     }, [appointments]);
 
     // Get booked time slots for selected date
@@ -133,7 +153,14 @@ export const AppointmentForm = ({
         if (!selectedDate) return [];
         const dateString = format(selectedDate, "yyyy-MM-dd");
         return appointments
-            .filter((apt) => apt.date === dateString)
+            .filter((apt) => {
+                // Convert schedule Date to string, then extract date portion
+                const scheduleString = apt.schedule instanceof Date
+                    ? format(apt.schedule, "yyyy-MM-dd'T'HH:mm:ss")
+                    : apt.schedule;
+                const aptDate = scheduleString.split("T")[0];
+                return aptDate === dateString;
+            })
             .map((apt) => apt.time);
     }, [selectedDate, appointments]);
 
@@ -150,7 +177,7 @@ export const AppointmentForm = ({
         });
     };
 
-  
+
     const form = useForm<z.infer<typeof AppointmentFormValidation>>({
 
         resolver: zodResolver(AppointmentFormValidation),
@@ -212,6 +239,23 @@ export const AppointmentForm = ({
                     // console.log('Payment proof file:', values.paymentProof[0]?.name);  // Example: Log file name if present
                 }
                 // const paymentFormData = new FormData();
+                if (!selectedDate) {
+                    toast({
+                        title: "Error",
+                        description: "Please select a date for your appointment.",
+                        variant: "destructive",
+                    });
+                    return;
+                }
+
+                if (!selectedTime) {
+                    toast({
+                        title: "Error",
+                        description: "Please select a time for your appointment.",
+                        variant: "destructive",
+                    });
+                    return;
+                }
 
                 const appointment = {
                     ...values,
@@ -219,7 +263,7 @@ export const AppointmentForm = ({
                     patient: patientId,
                     patname: patient.name,
                     //   primaryPhysician: values.primaryPhysician,
-                    schedule: selectedDate ? format(selectedDate, "yyyy-MM-dd") : "",
+                    schedule: selectedDate,
                     time: selectedTime || "",
                     reason: values.reason!,
                     status: status as Status,
@@ -253,7 +297,7 @@ export const AppointmentForm = ({
                         const time = selectedTime || "";
                         const mode = paymentType;
                         const name = patientData.name;
-                        const mailData = { "email": email, "name": name, "date": date, "time": time, "mode": mode , status: type};
+                        const mailData = { "email": email, "name": name, "date": date, "time": time, "mode": mode, status: type };
                         console.log("Mail data prepared:", mailData);
                         const result = await sendMail(mailData);
                         if (result.success) {
@@ -276,16 +320,33 @@ export const AppointmentForm = ({
                     console.error("No appointment provided for update");
                     return;
                 }
+                if (!selectedDate) {
+                    toast({
+                        title: "Error",
+                        description: "Please select a date for your appointment.",
+                        variant: "destructive",
+                    });
+                    return;
+                }
+
+                if (!selectedTime) {
+                    toast({
+                        title: "Error",
+                        description: "Please select a time for your appointment.",
+                        variant: "destructive",
+                    });
+                    return;
+                }
 
                 const appointmentToUpdate = {
                     userId,
                     appointmentId: appointment?.$id!,
                     appointment: {
-                        schedule: selectedDate ? format(selectedDate, "yyyy-MM-dd") : "",
-                        time: selectedTime || "",
+                        schedule: selectedDate,
+                        time: selectedTime,
                         status: status as Status,
                         cancellationReason: values.cancellationReason,
-                        reason: values.reason,
+                        reason: values.reason || "",
                         note: values.note,
                     },
                     type,
@@ -302,11 +363,11 @@ export const AppointmentForm = ({
                     const patientData = await getPatient(userId);
                     console.log("Fetched patient data for email:", patientData);
                     const email = patientData.email;
-                    const date = selectedDate ? format(selectedDate, "yyyy-MM-dd") : "";
-                    const time = selectedTime || "";
+                    const date = selectedDate ? format(selectedDate, " dd, mm, yyyy") : "";
+                    const time = selectedTime ;
                     const mode = paymentType;
                     const name = patientData.name;
-                    const mailData = { "email": email, "name": name, "date": date, "time": time, "mode": mode , status: type};
+                    const mailData = { "email": email, "name": name, "date": date, "time": time, "mode": mode, status: type };
                     console.log("Mail data prepared:", mailData);
                     const result = await sendMail(mailData);
                     if (result.success) {
@@ -341,14 +402,6 @@ export const AppointmentForm = ({
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 relative h-[90vh] overflow-scroll justify-center top-10 space-y-6">
-                {/* {type === "create" && (
-                    <section className="text-Primary-purple space-y-2 relative ">
-                        <h1 className="">New Appointment</h1>
-                        <p className="text-purple3">
-                            Request a new appointment in 10 seconds.
-                        </p>
-                    </section>
-                )} */}
 
                 {type !== "cancel" && (
                     <>
@@ -362,7 +415,7 @@ export const AppointmentForm = ({
                                         transition={{ duration: 0.6, ease: "easeOut" }}
                                         className={`text-center ${isAdminRoute ? "hidden" : "block"} mb-8 sm:mb-12`}
                                     >
-                                        <motion.div 
+                                        <motion.div
                                             className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl gradient-primary shadow-primary mb-4"
                                             whileHover={{ scale: 1.1, rotate: 5 }}
                                             whileTap={{ scale: 0.95 }}
@@ -381,23 +434,23 @@ export const AppointmentForm = ({
                                     {/* Main Content Grid - Fully Responsive */}
                                     <div className="flex flex-col lg:flex-row justify-center gap-4 sm:gap-6 lg:gap-8 mx-auto relative">
                                         {/* Calendar Section */}
-                                        <motion.div 
+                                        <motion.div
                                             initial={{ opacity: 0, x: -30 }}
                                             animate={{ opacity: 1, x: 0 }}
                                             transition={{ delay: 0.1, duration: 0.5 }}
                                             className="w-full sm:w-80 md:w-96 lg:w-96 mx-auto lg:mx-0"
                                             whileHover={{ y: -4 }}
-                                            transition={{ type: "spring", stiffness: 200 }}
+                                            // transition={{ type: "spring", stiffness: 200 }}
                                         >
                                             <motion.div
                                                 className="gradient-card rounded-2xl p-4 sm:p-6 shadow-card border border-border/50 h-full"
                                                 whileHover={{ boxShadow: "0 20px 40px rgba(168, 85, 247, 0.15)" }}
-                                                transition={{ duration: 0.3 }}
+                                                transition={{ duration: 0.3 , type: "spring", stiffness: 200 }}
                                             >
                                                 <BookingCalendar
                                                     selectedDate={selectedDate}
                                                     onSelectDate={handleDateSelect}
-                                                    bookedDates={bookedDates}
+                                                    bookedDates={bookedDates.map(date => format(date, "yyyy-MM-dd"))}
                                                     isLoading={isLoading}
                                                 />
                                             </motion.div>
@@ -508,10 +561,10 @@ export const AppointmentForm = ({
                                                         >
                                                             {["Offline", "Online"].map((idType, i) =>
                                                             (
-                                                                <SelectItem 
-                                                                    key={idType + i} 
-                                                                    value={idType} 
-                                                                    className="text-purple3 flex cursor-pointer items-center gap-2 relative !important hover:bg-purple-100/50 transition-colors" 
+                                                                <SelectItem
+                                                                    key={idType + i}
+                                                                    value={idType}
+                                                                    className="text-purple3 flex cursor-pointer items-center gap-2 relative !important hover:bg-purple-100/50 transition-colors"
                                                                     onClick={() => setPaymentType(idType)}
                                                                 >
                                                                     {idType}
@@ -522,39 +575,63 @@ export const AppointmentForm = ({
 
                                                     {/* QR Code Section */}
                                                     {paymentType && (
-                                                        <motion.div 
+                                                        <motion.div
                                                             initial={{ opacity: 0, scale: 0.9 }}
                                                             animate={{ opacity: 1, scale: 1 }}
                                                             exit={{ opacity: 0, scale: 0.9 }}
                                                             transition={{ duration: 0.4 }}
-                                                            className="flex flex-col gap-4 text-center items-center justify-center w-full p-4 sm:p-6 bg-white/40 backdrop-blur rounded-lg"
+                                                            className="flex flex-col gap-4 text-center items-center justify-center w-full p-4 sm:p-8 bg-gradient-to-br from-white/60 via-white/40 to-purple-50/40 backdrop-blur-md rounded-2xl border border-white/30 shadow-xl"
                                                         >
-                                                            <motion.h3 
-                                                                className="text-sm sm:text-base text-purple3"
+                                                            <motion.h3
+                                                                className="text-sm sm:text-base font-semibold text-purple3"
                                                                 whileHover={{ scale: 1.05 }}
                                                             >
-                                                                Pay the fees <span className="font-bold text-lg">₹1000</span> to schedule appointment
+                                                                Pay the fees <span className="font-bold text-xl bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">₹1000</span> to schedule appointment
                                                             </motion.h3>
+
                                                             <motion.div
-                                                                whileHover={{ scale: 1.1 }}
+                                                                whileHover={{ scale: 1.08, rotate: 2 }}
                                                                 whileTap={{ scale: 0.95 }}
-                                                                transition={{ type: "spring", stiffness: 300 }}
-                                                                className="p-3 bg-white rounded-lg shadow-lg"
+                                                                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                                                className="relative"
                                                             >
-                                                                <Canvas
-                                                                    text={'upi://pay?pa=8795157597@axl&pn=Aishwary%20%20Gupta&am=1.00&cu=INR&tn=PAYMENT_NOTE'}
-                                                                    options={{
-                                                                        level: 'M',
-                                                                        margin: 3,
-                                                                        scale: 4,
-                                                                        width: 150,
-                                                                        color: {
-                                                                            dark: '#29153f',
-                                                                            light: '#ffffff',
-                                                                        },
-                                                                    }}
-                                                                />
+                                                                {/* Outer Glow Effect */}
+                                                                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/30 to-pink-500/30 blur-xl rounded-3xl -z-10"></div>
+
+                                                                {/* QR Code Container */}
+                                                                <div className="relative p-6 sm:p-8 bg-gradient-to-br from-white via-purple-50/20 to-white rounded-3xl shadow-2xl border-2 border-white/50 overflow-hidden flex items-center justify-center backdrop-blur-sm">
+                                                                    {/* Background Gradient Overlay */}
+                                                                    <div className="absolute inset-0 bg-gradient-to-br from-purple-400/10 via-pink-400/10 to-purple-300/10 rounded-3xl pointer-events-none"></div>
+
+                                                                    <div className="relative w-max flex items-center justify-center">
+                                                                        {/* QR Code Wrapper with Gradient Filter */}
+
+
+                                                                        {/* Logo Overlay in Center */}
+                                                                        <GradientQRCode />
+                                                                        <motion.div
+                                                                            className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                                                                            whileHover={{ scale: 1.15, rotate: 5 }}
+                                                                            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                                                                        >
+                                                                            {/* <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
+                                                                                
+                                                                                <div className="absolute inset-0 bg-gradient-to-br from-white via-white to-purple-100 rounded-full shadow-xl border-3 border-white/80 backdrop-blur-sm"></div>
+                                                                                
+                                                                            </div> */}
+                                                                        </motion.div>
+                                                                    </div>
+                                                                </div>
                                                             </motion.div>
+
+                                                            <motion.p
+                                                                initial={{ opacity: 0, y: 10 }}
+                                                                animate={{ opacity: 1, y: 0 }}
+                                                                transition={{ delay: 0.2 }}
+                                                                className="text-xs sm:text-sm text-muted-foreground mt-2"
+                                                            >
+                                                                Scan with any UPI app
+                                                            </motion.p>
                                                         </motion.div>
                                                     )}
 
@@ -661,8 +738,8 @@ export const AppointmentForm = ({
                                         className="text-center text-xs sm:text-sm text-muted-foreground mt-8 sm:mt-12 px-4"
                                     >
                                         Need to reschedule?{' '}
-                                        <motion.a 
-                                            href="mailto:support@example.com" 
+                                        <motion.a
+                                            href="mailto:support@example.com"
                                             className="text-primary hover:underline font-semibold"
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}

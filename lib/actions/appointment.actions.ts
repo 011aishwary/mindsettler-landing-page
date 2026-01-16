@@ -14,7 +14,7 @@ export const createAppointment = async ({ paymentProof, ...appointment }: Create
     console.log("Creating appointment with data:", paymentProof);
     let file;
     if (paymentProof) {
-      // const filePath = path.join(process.cwd(), "public", "mountain.png");
+      
 
       const buffer = Buffer.from(
         await paymentProof.arrayBuffer()

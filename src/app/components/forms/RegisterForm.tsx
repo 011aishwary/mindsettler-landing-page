@@ -23,22 +23,21 @@ import FileUploader from "../ui/FileUploader"
 import { registerPatient } from "../../../../lib/actions/patient.actions";
 import { useQRCode } from "next-qrcode";
 import { useEffect } from "react"
+import {User} from "../../../../types"
 
 
 
 const RegisterForm = ({ user }: { user: User }) => {
     const form = useForm<z.infer<typeof PatientFormValidation>>({
-        resolver: zodResolver(PatientFormValidation),
+        resolver: zodResolver(PatientFormValidation) as any,
         defaultValues: {
             name: "",
             email: "",
             phone: "",
             birthDate: new Date(),
-            gender: "male" as const,  // Match the union type
+            gender: "male" as const,
             address: "",
             occupation: "",
-            // emergencyContactName: "",
-            // emergencyContactNumber: "",
             allergies: "",
             pastMedicalHistory: "",
             identificationType: "",
@@ -51,10 +50,10 @@ const RegisterForm = ({ user }: { user: User }) => {
     })
 
 
-    const { Canvas } = useQRCode();
+    
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
-    const [userDetails, setUserDetails] = useState(null);  // State for user data
+    const [userDetails, setUserDetails] = useState<User | null>(null);  // State for user data
     const [isLoadingUser, setIsLoadingUser] = useState(true);  // Optional: Track loading state
     // if (isLoading== ) {
     //     console.log("Loading user profile..." , userDetails);
@@ -240,28 +239,6 @@ const RegisterForm = ({ user }: { user: User }) => {
                             />
 
                         </div>
-                        {/* <div className="flex flex-col gap-6 lg:flex-row ">
-
-                        <CustomFormField
-                            fieldtype={FormFeildType.INPUT}
-                            control={form.control}
-                            name="emergencyContactName"
-                            label="Emergency Contact Name"
-                            placeholder="Gaurdians Name"
-                            iconSrc="/assets/chat.svg"
-                            iconAlt="call"
-                        />
-                        <CustomFormField
-                            fieldtype={FormFeildType.PHONE_INPUT}
-                            control={form.control}
-                            name="emergencyContactNumber"
-                            label="Emergency Contact Number"
-                            placeholder="+91 0123456789"
-                            iconSrc="/assets/chat.svg"
-                            iconAlt="call"
-                        />
-
-                    </div> */}
                         <section className="flex flex-col items-start my-2">
 
                             <h2 className="text-purple4 text-xl">Medical Information</h2>

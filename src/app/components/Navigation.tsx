@@ -13,7 +13,7 @@ const Navigation = () => {
 
   return (
     <motion.header
-      className="fixed top-0 left-0 right-0 mt-18 z-50 px-6 py-4"
+      className="fixed top-0 left-0 right-0 mt-18 z-50 inset-0 px-6 py-4"
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: "spring", damping: 25, stiffness: 120 }}
@@ -28,9 +28,9 @@ const Navigation = () => {
           >
             <Leaf className="w-5 h-5 text-primary" />
           </motion.div>
-          <span className="text-lg font-semibold text-foreground tracking-tight">
+          {/* <span className="text-lg font-semibold text-foreground tracking-tight">
             MindSettler
-          </span>
+          </span> */}
         </Link>
 
         {/* Navigation Links */}

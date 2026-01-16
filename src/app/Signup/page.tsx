@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { set, z } from "zod"
+import { number, set, z } from "zod"
 import Image from "next/image"
 import { createUser } from "../../../lib/actions/patient.actions"
 import { Button } from "../components/ui/Button"
@@ -60,7 +60,7 @@ const page = () => {
     console.log("Form submitted with:", { name, email, phone, password });
 
     try {
-      const userData = { name, email, phone, password };
+      const userData = { name, email, phone: Number(phone), password };
       const user = await createUser(userData);
       await new Promise(r => setTimeout(r, 500));
       await account.createEmailPasswordSession(email.trim(), password);

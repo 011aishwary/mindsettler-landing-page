@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { getAppointment } from '../../../../../../lib/actions/appointment.actions'
 import { formatDateTime } from '../../../../../../lib/utils';
 import { useSearchParams } from 'next/navigation';
-import { get } from 'http'
+import {Appointment} from '../../../../../../types/appwrite.types';
 
 
 
@@ -13,7 +13,7 @@ const Success =  () => {
     const searchParams = useSearchParams();
     const appointmentId = searchParams.get('appointmentId') || '';
     console.log("Appointment ID from URL:", appointmentId);
-    const [appointment, setAppointment] = useState([]);
+    const [appointment, setAppointment] = useState<Appointment | null>(null);
 
     async function getData(appointmentId: string) {
         const id =   await getAppointment(appointmentId);

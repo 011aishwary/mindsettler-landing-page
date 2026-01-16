@@ -1,7 +1,8 @@
 import clsx from "clsx";
-import Image from "next/image";
+import { Status } from "../../../types";
 
 import { CheckCircle, Hourglass  , XIcon} from "lucide-react";
+
 
 
 export const StatusBadge = ({ status }: { status: Status }) => {

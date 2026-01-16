@@ -1,7 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/contexts/AuthContext";
-import { toast } from "@/hooks/use-toast";
+import { useState, useCallback } from "react";
+import { toast } from "../hooks/use-toast";
 
 export interface DiaryPreferences {
   background_color: string;
@@ -20,69 +18,21 @@ const defaultPreferences: DiaryPreferences = {
 };
 
 export const useDiaryPreferences = () => {
-  const { user } = useAuth();
   const [preferences, setPreferences] = useState<DiaryPreferences>(defaultPreferences);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const fetchPreferences = useCallback(async () => {
-    if (!user) {
-      setPreferences(defaultPreferences);
-      setLoading(false);
-      return;
-    }
-
+  const updatePreferences = useCallback(async (newPrefs: Partial<DiaryPreferences>) => {
     try {
-      const { data, error } = await supabase
-        .from("diary_preferences")
-        .select("*")
-        .eq("user_id", user.id)
-        .maybeSingle();
-
-      if (error) throw error;
-
-      if (data) {
-        setPreferences({
-          background_color: data.background_color,
-          paper_color: data.paper_color,
-          ink_color: data.ink_color,
-          font_family: data.font_family,
-          sound_enabled: data.sound_enabled,
-        });
-      } else {
-        // Create default preferences for new user
-        const { error: insertError } = await supabase
-          .from("diary_preferences")
-          .insert({
-            user_id: user.id,
-            ...defaultPreferences,
-          });
-
-        if (insertError) throw insertError;
-      }
-    } catch (error) {
-      console.error("Error fetching preferences:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, [user]);
-
-  useEffect(() => {
-    fetchPreferences();
-  }, [fetchPreferences]);
-
-  const updatePreferences = async (newPrefs: Partial<DiaryPreferences>) => {
-    if (!user) return;
-
-    const updated = { ...preferences, ...newPrefs };
-    setPreferences(updated);
-
-    try {
-      const { error } = await supabase
-        .from("diary_preferences")
-        .update(updated)
-        .eq("user_id", user.id);
-
-      if (error) throw error;
+      const updated = { ...preferences, ...newPrefs };
+      setPreferences(updated);
+      
+      // Store in localStorage for persistence
+      localStorage.setItem('diaryPreferences', JSON.stringify(updated));
+      
+      toast({
+        title: "Preferences saved",
+        description: "Your diary preferences have been updated",
+      });
     } catch (error) {
       console.error("Error updating preferences:", error);
       toast({
@@ -91,7 +41,7 @@ export const useDiaryPreferences = () => {
         variant: "destructive",
       });
     }
-  };
+  }, [preferences]);
 
   return { preferences, loading, updatePreferences };
 };

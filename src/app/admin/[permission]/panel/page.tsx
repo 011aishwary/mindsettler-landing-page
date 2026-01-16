@@ -5,7 +5,7 @@ import StatCard from '../../../components/ui/StatCard'
 import {CalendarCheck2 , Hourglass ,  TriangleAlert} from 'lucide-react'
 import { getRecentAppointmentList } from '../../../../../lib/actions/appointment.actions'
 import {DataTable} from '@/app/components/Tables/DataTable'
-import {columns, Payment} from '@/app/components/Tables/columns'
+import {columns} from '@/app/components/Tables/columns'
 
 
 

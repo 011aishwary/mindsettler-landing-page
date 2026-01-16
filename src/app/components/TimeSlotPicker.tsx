@@ -57,7 +57,7 @@ export function TimeSlotPicker({ selectedTime, onSelectTime, bookedSlots, select
                 className={cn(
                   "py-3 px-4 rounded-xl text-sm font-medium transition-all duration-200",
                   "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-                  isBooked && "bg-muted/50 text-muted-foreground/40 cursor-not-allowed line-through",
+                  isBooked && "bg-gradient-sky text-muted-foreground/40 cursor-not-allowed line-through",
                   !isBooked && !isSelected && "bg-purple5/15 text-secondary-foreground hover:bg-purple5/80 hover:shadow-md",
                   isSelected && "gradient-accent text-Primary-purple shadow-primary"
                 )}
@@ -74,15 +74,15 @@ export function TimeSlotPicker({ selectedTime, onSelectTime, bookedSlots, select
       {/* Legend */}
       <div className="flex items-center gap-4 pt-4 text-xs text-muted-foreground">
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded bg-secondary" />
+          <div className="w-3 h-3 rounded bg-purple5/15" />
           <span>Available</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded gradient-primary" />
+          <div className="w-3 h-3 rounded gradient-accent" />
           <span>Selected</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded bg-muted/50" />
+          <div className="w-3 h-3 rounded bg-gradient-sky" />
           <span>Booked</span>
         </div>
       </div>

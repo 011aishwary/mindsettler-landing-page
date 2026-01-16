@@ -255,7 +255,7 @@ const Process = () => {
                                         initial={{ scale: 0, opacity: 0 }}
                                         whileInView={{ scale: 1, opacity: 1 }}
                                                 
-                                        whileOutOfView={{ scale: 0, opacity: 0 }}
+                                        // whileOutOfView={{ scale: 0, opacity: 0 }}
                                         transition={{
                                             duration: 0.5,
                                             delay: i * 0.12,

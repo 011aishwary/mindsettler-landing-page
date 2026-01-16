@@ -118,7 +118,7 @@ export function BookingCalendar({ selectedDate, onSelectDate, bookedDates, isLoa
                   isLoading && "animate-pulse"
                 )}
                 aria-label={format(date, "MMMM d, yyyy")}
-                aria-selected={isSelected}
+                aria-selected={isSelected || false}
                 aria-disabled={disabled}
               >
                 {format(date, "d")}

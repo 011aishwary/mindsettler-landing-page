@@ -59,11 +59,9 @@ export const PatientFormValidation = z.object({
     .min(2, "Occupation must be at least 2 characters")
     .max(500, "Occupation must be at most 500 characters"),
   allergies: z.string().optional(),
-  // currentMedication: z.string().optional(),
-  // familyMedicalHistory: z.string().optional(),
   pastMedicalHistory: z.string().optional(),
-  identificationType: z.string(),
-  identificationNumber: z.string(),
+      identificationType: z.string().min(1, "Identification type is required"),
+    identificationNumber: z.string().min(1, "Identification number is required"),
   identificationDocument: z.custom<File[]>(),
   treatmentConsent: z
     .boolean()

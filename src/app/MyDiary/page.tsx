@@ -1,22 +1,19 @@
+"use client"
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Settings, Menu, X } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import Link from "next/link";
 import { Button } from "../components/ui/button1";
-// import { useAuth } from "@/contexts/AuthContext";
 import { useDiaryPreferences } from "../../../hooks/useDiaryPreferences";
-import { useDiaryEntries } from "@/hooks/useDiaryEntries";
-import { useDiarySounds } from "@/hooks/useDiarySounds";
-import { DiaryOpenAnimation } from "@/components/diary/DiaryOpenAnimation";
-import { DiaryPreferencesPanel } from "@/components/diary/DiaryPreferencesPanel";
-import { DiaryEntryEditor } from "@/components/diary/DiaryEntryEditor";
-import { DiaryEntriesList } from "@/components/diary/DiaryEntriesList";
-import { PageFlipAnimation } from "@/components/diary/PageFlipAnimation";
-import logo from "@/assets/mindsettler-logo.png";
+import { useDiaryEntries } from "../../../hooks/useDiaryEntries";
+import { useDiarySounds } from "../../../hooks/useDiarySounds";
+import { DiaryOpenAnimation } from "../components/diary/DiaryOpenAnimation";
+import { DiaryPreferencesPanel } from "../components/diary/DiaryPreferencesPanel";
+import { DiaryEntryEditor } from "../components/diary/DiaryEntryEditor";
+import { DiaryEntriesList } from "../components/diary/DiaryEntriesList";
+import { PageFlipAnimation } from "../components/diary/PageFlipAnimation";
 
 const Diary = () => {
-  const { user, loading: authLoading } = useAuth();
-  const navigate = useNavigate();
   const { preferences, loading: prefsLoading, updatePreferences } = useDiaryPreferences();
   const {
     entries,
@@ -34,13 +31,6 @@ const Diary = () => {
   const [isPageFlipping, setIsPageFlipping] = useState(false);
 
   const { playPageFlip, playTypingSound } = useDiarySounds(preferences.sound_enabled);
-
-  // Redirect if not authenticated
-  useEffect(() => {
-    if (!authLoading && !user) {
-      navigate("/auth");
-    }
-  }, [user, authLoading, navigate]);
 
   // Auto-select first entry or create new one
   useEffect(() => {
@@ -66,24 +56,20 @@ const Diary = () => {
     setShowSidebar(false);
   };
 
-  if (authLoading || prefsLoading) {
-    return (
-      <div
-        className="min-h-screen flex items-center justify-center"
-        style={{ backgroundColor: "hsl(var(--background))" }}
-      >
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-          className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full"
-        />
-      </div>
-    );
-  }
-
-  if (!user) {
-    return null;
-  }
+  // if (prefsLoading) {
+  //   return (
+  //     <div
+  //       className="min-h-screen flex items-center justify-center"
+  //       style={{ backgroundColor: "hsl(var(--background))" }}
+  //     >
+  //       <motion.div
+  //         animate={{ rotate: 360 }}
+  //         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+  //         className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full"
+  //       />
+  //     </div>
+  //   );
+  // }
 
   return (
     <>
@@ -108,7 +94,7 @@ const Diary = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="min-h-screen"
+            className="min-h-screen mt-16"
             style={{ backgroundColor: preferences.background_color }}
           >
             {/* Header */}
@@ -125,9 +111,9 @@ const Diary = () => {
               <div className="container mx-auto px-4 py-3 flex items-center justify-between">
                 {/* Left */}
                 <div className="flex items-center gap-4">
-                  <Link to="/">
+                  <Link href="/">
                     <motion.img
-                      src={logo}
+                      src={"/Mindsettler_logoFinal.png"}
                       alt="MindSettler"
                       className="h-8 w-auto"
                       whileHover={{ scale: 1.05 }}
@@ -169,7 +155,7 @@ const Diary = () => {
                       <Menu className="w-5 h-5" />
                     )}
                   </Button>
-                  <Link to="/" className="hidden md:block">
+                  <Link href="/" className="hidden md:block">
                     <Button
                       variant="ghost"
                       size="sm"

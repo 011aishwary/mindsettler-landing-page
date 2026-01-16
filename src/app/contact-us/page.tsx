@@ -14,7 +14,7 @@ const AbstractMascot = () => {
       
       {/* Main blob */}
       <motion.div
-        className="absolute w-48 h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-Primary-pink/40 to-accent/40 blur-xl"
+        className="absolute w-48 h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-Primary-pink/20 to-accent/20 blur-xl"
         animate={shouldReduceMotion ? {} : {
           scale: [1, 1.1, 1],
           rotate: [0, 5, -5, 0],

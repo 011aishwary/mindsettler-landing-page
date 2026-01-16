@@ -4,7 +4,7 @@ import { Patient } from "./appwrite.types";
 
 declare type Appointment = {
   reason: string;
-  schedule: Date;
+  schedule: Date ;
   status: Status;
   note: string | undefined;
 };
@@ -14,26 +14,38 @@ declare type SearchParamProps = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-declare type Gender = "male" | "female" | "other";
-declare type Status = "pending" | "scheduled" | "cancelled";
 
+export type Status = "scheduled" | "pending" | "cancelled";
+export type Gender = "male" | "female" | "other";
 export declare interface CreateUserParams {
   name: string;
   email: string;
+  password: string;
   phone: number;
 }
-declare interface User extends CreateUserParams {
+// export declare interface CreateUserParams {
+//   userId: string,
+//   email: string,
+//   password: string,
+//   name: string,
+
+// }
+// 
+export declare type User = {
   $id: string;
+  phone: number;
+  name: string;
+  email: string;
 }
 
-declare interface RegisterUserParams extends CreateUserParams {
+
+export declare interface RegisterUserParams extends Omit<CreateUserParams, 'password'> {
   userId: string;
   birthDate: Date;
   gender: Gender;
   address: string;
   occupation: string;
-  emergencyContactName: string;
-  emergencyContactNumber: string;
+  
   // primaryPhysician: string;
   // insuranceProvider: string;
   // insurancePolicyNumber: string;
@@ -52,15 +64,18 @@ declare interface RegisterUserParams extends CreateUserParams {
 export declare type CreateAppointmentParams = {
   userId: string;
   patient: string;
+  patname: string;
+  time: string;
   // primaryPhysician: string;
   reason: string;
   schedule: Date;
   status: Status;
   note: string | undefined;
   paymentType: string;
-  paymentProof: File[] | undefined;
+  paymentProof: File | undefined;
 
 };
+
 
 export declare type UpdateAppointmentParams = {
   appointmentId: string;

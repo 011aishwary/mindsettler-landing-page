@@ -25,7 +25,7 @@ const AnimatedRoutes = () => {
     <AnimatePresence mode="wait">
       <PageTransition key={location.pathname}>
         <Routes location={location}>
-          <Route path="/" element={<Index1 />} />
+          <Route path="/blogs" element={<Index1 />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/contact" element={<Contact />} />
@@ -53,11 +53,13 @@ const page = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <BreathingBackground />
-          <Index1 />
+          {/* <BreathingBackground /> */}
           <CustomCursor />
-          <Navigation />
+          {/* <Navigation /> */}
+          {/* <div className="absolute">
+
           <AnimatedRoutes />
+          </div> */}
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

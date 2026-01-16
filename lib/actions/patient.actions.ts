@@ -5,7 +5,7 @@ import { parseStringify } from "../utils"
 import { InputFile } from "node-appwrite/file";
 import { string } from "zod";
 import { cookies } from "next/headers";
-// import {  CreateUserParams } from "../../types";
+import {  CreateUserParams, RegisterUserParams  } from "../../types"
 
 
 import { Client, Account } from "node-appwrite";
@@ -139,8 +139,6 @@ export const registerPatient = async ({ identificationDocument, ...patient }: Re
                 gender: patient.gender,
                 address: patient.address,
                 occupation: patient.occupation,
-                emergencyContactName: patient.emergencyContactName,
-                emergencyContactNumber: patient.emergencyContactNumber,
                 allergies: patient.allergies,
                 pastMedicalHistory: patient.pastMedicalHistory,
                 identificationType: patient.identificationType,

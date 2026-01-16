@@ -22,7 +22,7 @@ export function middleware(request: NextRequest) {
   const isLoggedIn = !!sessionCookie;
 
   // 3. Define Auth Routes (Pages logged-in users shouldn't see)
-  const authRoutes = ['/Login', '/Signup', '/register'];
+  const authRoutes = ['/Login', '/Signup', '/patient'];
 
   // 4. Redirect Logic
   if (isLoggedIn && authRoutes.includes(pathname)) {

@@ -1,4 +1,5 @@
 import { Models } from "node-appwrite";
+import { Gender } from "./index";
 
 
 export interface Patient extends Models.Document {
@@ -31,6 +32,8 @@ export interface Appointment extends Models.Document {
   patient:   string;
   schedule: Date;
   status: Status;
+  time: string;
+  patname: string;
   // primaryPhysician: string;
   reason: string;
   note: string;

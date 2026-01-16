@@ -1,10 +1,10 @@
 "use client";
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
-import dynamic from 'next/dynamic';
+
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import ShatterSection from "./ShatterSection";
-import MindsettlerHero from "./StoryJourney";
+
 import Link from "next/link";
 
 export default function Home() {

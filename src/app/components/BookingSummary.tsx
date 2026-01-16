@@ -31,7 +31,7 @@ export function BookingSummary({ selectedDate, selectedTime, fullName, email, re
         {/* Date & Time */}
         <div className="flex items-center gap-3 p-3 bg-primary/5 rounded-xl">
           <div className="flex items-center justify-center w-10 h-10 rounded-lg gradient-primary">
-            <Calendar className="w-5 h-5 text-primary-foreground" />
+            <Calendar className="w-5 h-5 text-Primary-purple" />
           </div>
           <div>
             <p className="text-sm text-muted-foreground">Date & Time</p>
