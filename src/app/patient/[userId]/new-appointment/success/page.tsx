@@ -6,7 +6,7 @@ import { getAppointment } from '../../../../../../lib/actions/appointment.action
 import { formatDateTime } from '../../../../../../lib/utils';
 import { useSearchParams } from 'next/navigation';
 import {Appointment} from '../../../../../../types/appwrite.types';
-
+import { Suspense } from 'react';
 
 
 const Success =  () => {
@@ -35,6 +35,9 @@ const Success =  () => {
     if (!appointment) return <div>Loading...</div>;
 
     return (
+        <Suspense fallback={<div>Loading...</div>}>
+           
+       
         <div className="flex bg-white h-screen max-h-screen px-[5%]">
 
             <div className='flex flex-col justify-center items-center text-center mx-auto  gap-6'>
@@ -61,6 +64,7 @@ const Success =  () => {
                 </section>
             </div>
         </div>
+         </Suspense>
     )
 }
 

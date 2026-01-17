@@ -9,7 +9,7 @@ import Footer from "./components/Footer";
 import Faq from "./components/Faq";
 import Booking from "./components/Booking";
 import { CorporateSection } from "./components/CorporateSection";
-
+import { Suspense } from "react";
 
 
 
@@ -17,8 +17,8 @@ export default function Home() {
   const comp = useRef(null);
   const overlayTopRef = useRef(null);
   const overlayBottomRef = useRef(null);
-  
-  
+
+
 
 
   useLayoutEffect(() => {
@@ -45,7 +45,9 @@ export default function Home() {
       </div>
       <div className="bg-white/90 w-full mt-10 h-fit overflow-hidden relative z-0">
 
-        <HeroSection />
+        <Suspense fallback={<div>Loading...</div>}>
+          <HeroSection />
+        </Suspense>
         < AboutMindSettler />
         <Process />
         <Different />

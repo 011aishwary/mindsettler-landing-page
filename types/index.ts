@@ -25,7 +25,7 @@ export declare interface CreateUserParams {
 }
 // export declare interface CreateUserParams {
 //   userId: string,
-//   email: string,
+//   email: st
 //   password: string,
 //   name: string,
 
