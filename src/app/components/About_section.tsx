@@ -375,7 +375,7 @@ const AboutMindSettler = () => {
 
     return (
         <>
-            <div className=' overflow-hidden relative w-screen '>
+            <div id='about' className=' overflow-hidden relative w-screen '>
 
                 <div ref={aboutref} className=" overflow-hidden   relative    w-screen z-5 ">
 

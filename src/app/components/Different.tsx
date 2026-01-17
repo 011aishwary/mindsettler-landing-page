@@ -30,8 +30,9 @@ const Different = () => {
 
     return (
         <section
+        id='different'
             ref={containerRef}
-            className="relative bg-gradient-to-b from-cloudy-AppleRev via-white to-white py-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
+            className="relative bg-gradient-to-b from-cloudy-AppleRev via-white to-white pt-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
         >
             {/* Background Ambient Glows */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">

@@ -144,7 +144,7 @@ const Process = () => {
     // }, []);
 
     return (
-        <div ref={sectionRef} className='desktop-steps bg-cloudy-Apple relative min-h-screen lg:h-180'>
+        <div ref={sectionRef} id='process' className='desktop-steps bg-cloudy-Apple relative min-h-screen lg:h-180'>
 
             <motion.div 
               className="relative top-0 pt-6 sm:pt-8 lg:pt-10 text-center text-pink-600 font-medium tracking-wider uppercase text-xs sm:text-sm lg:text-base my-6 sm:my-8 lg:my-10"

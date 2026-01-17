@@ -28,7 +28,7 @@ export const CorporateSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section className="py-16 lg:py-24 relative overflow-hidden">
+    <section id="corporate" className="pb-16 pt-10 lg:pb-24 lg:pt-16 relative overflow-hidden">
       <div className="container mx-auto px-6 lg:px-8 relative z-10" ref={ref}>
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Content */}

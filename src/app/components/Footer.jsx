@@ -5,7 +5,7 @@ import Link from 'next/link'
 const Footer = () => {
     return (
         <>
-            <footer className="footer relative flex items-start  sm:footer-horizontal bg-Primary-purple text-blueGray p-10">
+            <footer id='address' className="footer relative flex items-start  sm:footer-horizontal bg-Primary-purple text-blueGray p-10">
                 <nav className='flex flex-col  w-[30vw] gap-2'>
                     <h6 className="text-xl  font-semibold">Services</h6>
                     
@@ -28,6 +28,10 @@ const Footer = () => {
                     <Link href="/" className="link link-hover">Privacy policy</Link>
                     <Link href="/" className="link link-hover">Cookie policy</Link>
                 </nav>
+                <nav className='flex flex-col  w-[20vw] gap-2'>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3720.6213013647402!2d72.78249027497944!3d21.16746398300065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04d002ebc63c3%3A0x4947cdf510882b9a!2sSVNIT%20Gate%201!5e0!3m2!1sen!2sin!4v1768642783682!5m2!1sen!2sin" width="250" height="200" style={{ border: 0 , borderRadius: "8px" }} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+
+                    </nav>
             </footer>
             <footer className="footer relative bg-Primary-purple text-blueGray border-base-300 border-t px-10 py-4">
                 <aside className="grid-flow-col items-center">
@@ -43,7 +47,7 @@ const Footer = () => {
                         Providing authentic psycho education 
                     </p>
                 </aside>
-                <nav className="md:place-self-center md:justify-self-end">
+                <nav className="md:place-self-center md:justify-self-end md:self-start">
                     <div className="grid grid-flow-col gap-4">
                         <Link href="https://twitter.com/mind_settler" target="_blank" rel="noopener noreferrer">
                         

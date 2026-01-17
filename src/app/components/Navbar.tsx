@@ -8,8 +8,10 @@ import { Button } from "./ui/Button";
 import { logout } from "../../../lib/actions/patient.actions";
 import FetchUser from "./FetchUser";
 import Link from "next/link";
+import { getCurrentUser } from "../../../lib/actions/user.actions";
 import { ChevronDown, User2Icon, Menu as MenuIcon, X } from "lucide-react"
 import { motion } from "framer-motion";
+// import { useRouter } from "next/router";
 
 export const  fetchUserData = async () => {
   const userData =await  FetchUser()
@@ -27,6 +29,7 @@ export function NavbarDemo() {
 }
 
 function Navbar({ className }: { className?: string }) {
+  // const route = useRouter();
 
   const path = usePathname();
   // const [userDetails, setUserDetails] = useState<any>(null);
@@ -78,16 +81,20 @@ function Navbar({ className }: { className?: string }) {
             </Link>
           </div>
 
-
-
-          <MenuItem setActive={setActive} active={active} item="Services">
+        {path && path == "/" ?<MenuItem setActive={setActive} active={active} item="Quick view">
             <div className="flex flex-col space-y-4 text-sm">
-              <HoveredLink href="/web-dev">Login</HoveredLink>
-              <HoveredLink href="/interface-design">ContactUs</HoveredLink>
-              <HoveredLink href="/seo">Address</HoveredLink>
-              <HoveredLink href="/branding">Branding</HoveredLink>
+              <HoveredLink href="#about">About us</HoveredLink>
+              <HoveredLink href="#process">Steps to book an appointment</HoveredLink>
+              <HoveredLink href="#different">What make us Different</HoveredLink>
+              <HoveredLink href="#address">Address</HoveredLink>
             </div>
-          </MenuItem>
+          </MenuItem>:
+          <HoveredLink href="/">Home</HoveredLink>
+          }
+
+          
+          <HoveredLink href="/contact-us">Contact Us</HoveredLink>
+          
           <MenuItem setActive={setActive} active={active} item="Products">
             <div className="  text-sm grid grid-cols-2 gap-10 p-4">
               <ProductItem
@@ -116,21 +123,22 @@ function Navbar({ className }: { className?: string }) {
               />
             </div>
           </MenuItem>
-          <MenuItem setActive={setActive} active={active} item="Pricing">
+          <HoveredLink href="/MyDiary">My Diary</HoveredLink>
+          <MenuItem setActive={setActive} active={active} item="Explore">
             <div className="flex flex-col space-y-4 text-sm">
-              <HoveredLink href="/hobby">Hobby</HoveredLink>
-              <HoveredLink href="/individual">Individual</HoveredLink>
-              <HoveredLink href="/team">Team</HoveredLink>
-              <HoveredLink href="/enterprise">Enterprise</HoveredLink>
+              <HoveredLink href="/resources">Blogs</HoveredLink>
+              <HoveredLink href="/faq">FAQs</HoveredLink>
+              <HoveredLink href="/engagement">Resources</HoveredLink>
+              {path && path == "/" ? <HoveredLink href="/#corporate">Corporate Section</HoveredLink> :""}
+              
             </div>
           </MenuItem>
-          <div className="absolute right-0 mr-4  ">
+          <div className="absolute right-0 mr-4 ">
             {!user ? (
-              <div className={`flex flex-col space-y-4  text-sm `}>
-                <div className="rounded-xl border border-white/30 px-4 py-2">
+              <div className="flex items-center justify-center text-sm">
+                <div className="rounded-xl border border-white/30 relative px-4 py-2">
                   <Link href="/Login">Login</Link>
                 </div>
-
               </div>
             ) : (
               <div className="text-center flex items-center mr-4">
@@ -145,7 +153,6 @@ function Navbar({ className }: { className?: string }) {
                     <div className="">
                       <Button onClick={logoutButton}>Logout</Button>
                     </div>
-                    {/* <div>Dashboard</div> */}
                   </div>
                 </MenuItem>
                 <ChevronDown className="w-4 h-4 text-white ml-1" />

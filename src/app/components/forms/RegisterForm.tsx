@@ -2,30 +2,24 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { int, set, z } from "zod"
+import { z } from "zod"
 import Image from "next/image"
-import { createUser, getUser } from "../../../../lib/actions/patient.actions"
-import { Button } from "../ui/Button"
+import { getUser, registerPatient } from "../../../../lib/actions/patient.actions"
 import { Form, FormControl } from "../ui/Form"
-import { Input } from "../ui/Input"
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "../ui/SubmitButton"
-import { use, useState } from "react"
+import { useState, useEffect } from "react"
 import { PatientFormValidation } from "../../../../lib/validation"
 import { useRouter } from "next/navigation"
 import { FormFeildType } from "@/app/Signup/page"
 import { RadioGroup } from "@radix-ui/react-radio-group"
-import { GenderOptions, PatientFormDefaultValues } from "../../../../constants"
+import { GenderOptions } from "../../../../constants"
 import { RadioGroupItem } from "../ui/radio-group"
 import { Label } from "../ui/Label"
 import { SelectItem } from "../ui/select"
 import FileUploader from "../ui/FileUploader"
-import { registerPatient } from "../../../../lib/actions/patient.actions";
-import { useQRCode } from "next-qrcode";
-import { useEffect } from "react"
-import {User} from "../../../../types"
-
-
+import { User } from "../../../../types"
+import { motion } from "framer-motion"
 
 const RegisterForm = ({ user }: { user: User }) => {
     const form = useForm<z.infer<typeof PatientFormValidation>>({
@@ -49,25 +43,14 @@ const RegisterForm = ({ user }: { user: User }) => {
         },
     })
 
-
-    
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
-    const [userDetails, setUserDetails] = useState<User | null>(null);  // State for user data
-    const [isLoadingUser, setIsLoadingUser] = useState(true);  // Optional: Track loading state
-    // if (isLoading== ) {
-    //     console.log("Loading user profile..." , userDetails);
-    //     return (
-    //         <div className="flex h-screen w-full items-center justify-center">
-    //             <p>Loading your profile...</p>
-    //         </div>
-    //     );
-    // }
+    const [userDetails, setUserDetails] = useState<User | null>(null);
+    const [isLoadingUser, setIsLoadingUser] = useState(true);
 
     const fetchUserData = async (userId: string) => {
         try {
             const fetchedUser = await getUser(userId);
-            // console.log("Fetched user data:", fetchedUser);
             setUserDetails(fetchedUser);
         } catch (error) {
             console.error("Error fetching user data:", error);
@@ -81,7 +64,7 @@ const RegisterForm = ({ user }: { user: User }) => {
         if (user?.$id) {
             fetchUserData(user.$id);
         }
-    }, []);
+    }, [user]);
 
     useEffect(() => {
         if (userDetails) {
@@ -92,12 +75,6 @@ const RegisterForm = ({ user }: { user: User }) => {
             });
         }
     }, [userDetails, form]);
-
-
-
-
-
-
 
     async function onSubmit(values: z.infer<typeof PatientFormValidation>) {
         setIsLoading(true);
@@ -110,8 +87,9 @@ const RegisterForm = ({ user }: { user: User }) => {
             formData.append('blobFile', blobFile);
             formData.append("fileName", values.identificationDocument[0].name);
         }
-        if (values.identificationDocument && values.identificationDocument[0].size > 1024 * 1024) {  // 1 MB limit
+        if (values.identificationDocument && values.identificationDocument[0]?.size > 1024 * 1024) {
             alert('File size exceeds 1 MB. Please choose a smaller file.');
+            setIsLoading(false); 
             return;
         }
 
@@ -121,226 +99,355 @@ const RegisterForm = ({ user }: { user: User }) => {
                 userId: user.$id,
                 birthDate: new Date(values.birthDate),
                 identificationDocument: formData,
-                allergies: values.allergies || "",  // Provide default if optional in schema but required in API
+                allergies: values.allergies || "",
                 pastMedicalHistory: values.pastMedicalHistory || "",
                 phone: parseInt(values.phone.replace(/\D/g, '')),
             }
 
             await registerPatient(patientData);
-
-            // if (patient) {
             router.push(`/patient/${user.$id}/new-appointment`);
             console.log("User created successfully");
-            // }
-
 
         } catch (error) {
             console.log(error);
-
+            setIsLoading(false);
         }
     }
+
     return (
-        <div>
+        <div className="w-full h-full flex items-center justify-center bg-white">
             {!isLoadingUser && (
-
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 relative flex h-[80vh] overflow-y-visible  my-10   mx-10 flex-col mb-10  md:max-w-[40vw] ">
-                        <section className="flex flex-col items-start mb-5">
-                            <h1 className="text-Primary-purple font-semibold">Welcome</h1>
-                            <h2 className="text-purple4 text-sm">Let us know more about yourself</h2>
-                        </section>
-                        <section className="flex flex-col items-start mb-5">
+                    <motion.form 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.8 }}
+                        onSubmit={form.handleSubmit(onSubmit)} 
+                        className="space-y-6 h-[90vh] mt-24 px-16 flex flex-col w-full  py-6"
+                    >
+                        <motion.section 
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.1 }}
+                            className="flex flex-col items-start mb-6 w-full"
+                        >
+                            <h1 className="text-Primary-purple font-bold text-3xl md:text-4xl mb-1">Welcome</h1>
+                            <h2 className="text-purple4 text-base md:text-lg">Let us know more about yourself</h2>
+                        </motion.section>
 
-                            <h2 className="text-purple4 text-xl">Personal Information</h2>
-                        </section>
-                        <CustomFormField
-                            fieldtype={FormFeildType.INPUT}
-                            control={form.control}
-                            name="name"
-                            label="Full name"
-                            placeholder="Enter your full name"
-                            iconSrc="/assets/login.svg"
-                            iconAlt="login"
-                        />
-                        <div className="flex flex-col gap-6 lg:flex-row ">
+                        <motion.section 
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.5, delay: 0.2 }}
+                            className="w-full"
+                        >
+                           <h2 className="text-purple4 text-xl font-semibold mb">Personal Information</h2>
+                        </motion.section>
 
+                        <motion.div 
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.4, delay: 0.3 }}
+                            className="w-full"
+                        >
                             <CustomFormField
-                                disabled={true}
                                 fieldtype={FormFeildType.INPUT}
                                 control={form.control}
-                                name="email"
-                                label="Email"
-                                placeholder="email@gmail.com"
+                                name="name"
+                                label="Full name"
+                                placeholder="Enter your full name"
                                 iconSrc="/assets/login.svg"
-                                iconAlt="email"
+                                iconAlt="login"
                             />
-                            <CustomFormField
-                                // disabled={true}
-                                fieldtype={FormFeildType.PHONE_INPUT}
-                                control={form.control}
-                                name="phone"
-                                label="Phone Number"
-                                placeholder="+91 0123456789"
-                            />
-                        </div>
-                        <div className="flex flex-col lg:flex-row gap-6">
-                            <CustomFormField
-                                fieldtype={FormFeildType.DATE_PICKER}
-                                control={form.control}
-                                name="birthDate"
-                                label="Date of Birth"
-                                // placeholder=""
-                                iconSrc="/assets/login.svg"
-                                iconAlt="email"
+                        </motion.div>
 
+                        <div className="flex flex-col md:flex-row gap-6 w-full">
+                            <motion.div 
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.4, delay: 0.4 }}
+                                className="flex-1 w-full"
+                            >
+                                <CustomFormField
+                                    disabled={true}
+                                    fieldtype={FormFeildType.INPUT}
+                                    control={form.control}
+                                    name="email"
+                                    label="Email"
+                                    placeholder="email@gmail.com"
+                                    iconSrc="/assets/login.svg"
+                                    iconAlt="email"
+                                />
+                            </motion.div>
+                            <motion.div 
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.4, delay: 0.4 }}
+                                className="flex-1 w-full"
+                            >
+                                <CustomFormField
+                                    fieldtype={FormFeildType.PHONE_INPUT}
+                                    control={form.control}
+                                    name="phone"
+                                    label="Phone Number"
+                                    placeholder="+91 0123456789"
+                                />
+                            </motion.div>
+                        </div>
+
+                        <div className="flex flex-col md:flex-row gap-6 w-full">
+                            <motion.div 
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.4, delay: 0.5 }}
+                                className="flex-1 w-full"
+                            >
+                                <CustomFormField
+                                    fieldtype={FormFeildType.DATE_PICKER}
+                                    control={form.control}
+                                    name="birthDate"
+                                    label="Date of Birth"
+                                    iconSrc="/assets/login.svg"
+                                    iconAlt="email"
+                                />
+                            </motion.div>
+                            <motion.div 
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.4, delay: 0.5 }}
+                                className="flex-1 w-full"
+                            >
+                                <CustomFormField
+                                    fieldtype={FormFeildType.SKELETON}
+                                    control={form.control}
+                                    name="gender"
+                                    label="Gender"
+                                    renderSkeleton={(field) => (
+                                        <FormControl>
+                                            <RadioGroup 
+                                                className="flex h-11 gap-4 xl:justify-between items-center"
+                                                onValueChange={(value) => field.onChange(value)}
+                                                defaultValue={field.value}
+                                            >
+                                                {GenderOptions.map((option) => (
+                                                    <div key={option} className="flex items-center space-x-2">
+                                                        <RadioGroupItem value={option} id={option} className="text-purple-600 bg-white" />
+                                                        <Label htmlFor={option} className="cursor-pointer text-gray-700 font-medium">
+                                                            { option}
+                                                        </Label>
+                                                    </div>
+                                                ))}
+                                            </RadioGroup>
+                                        </FormControl>
+                                    )}
+                                />
+                            </motion.div>
+                        </div>
+
+                        <div className="flex flex-col md:flex-row gap-6 w-full">
+                            <motion.div 
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.4, delay: 0.6 }}
+                                className="flex-1 w-full"
+                            >
+                                <CustomFormField
+                                    fieldtype={FormFeildType.INPUT}
+                                    control={form.control}
+                                    name="address"
+                                    label="Address"
+                                    placeholder="123 Main St, City, Country"
+                                    iconSrc="/assets/buildings.svg"
+                                    iconAlt="add"
+                                />
+                            </motion.div>
+                            <motion.div 
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.4, delay: 0.6 }}
+                                className="flex-1 w-full"
+                            >
+                                <CustomFormField
+                                    fieldtype={FormFeildType.INPUT}
+                                    control={form.control}
+                                    name="occupation"
+                                    label="Occupation"
+                                    placeholder="Your occupation"
+                                    iconSrc="/assets/buildings.svg"
+                                    iconAlt="buil"
+                                />
+                            </motion.div>
+                        </div>
+
+                        <motion.section 
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.4, delay: 0.7 }}
+                            className="pt-4 w-full"
+                        >
+                            <h2 className="text-purple4 text-xl font-semibold mb-4">Medical Information</h2>
+                        </motion.section>
+
+                        <div className="flex flex-col md:flex-row gap-6 w-full">
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, delay: 0.8 }}
+                                className="flex-1 w-full"
+                            >
+                                <CustomFormField
+                                    fieldtype={FormFeildType.TEXTAREA}
+                                    control={form.control}
+                                    name="allergies"
+                                    label="Allergies (if any)"
+                                    placeholder="Peanuts, Pollen, etc."
+                                    iconSrc="/assets/shield.svg"
+                                    iconAlt="call"
+                                />
+                            </motion.div>
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, delay: 0.8 }}
+                                className="flex-1 w-full"
+                            >
+                                <CustomFormField
+                                    fieldtype={FormFeildType.TEXTAREA}
+                                    control={form.control}
+                                    name="pastMedicalHistory"
+                                    label="Past Medical History"
+                                    placeholder="Describe any past medical conditions"
+                                    iconSrc="/assets/stack.svg"
+                                    iconAlt="medical history"
+                                />
+                            </motion.div>
+                        </div>
+
+                        <motion.section 
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.4, delay: 0.9 }}
+                            className="pt-4 w-full"
+                        >
+                            <h2 className="text-purple4 text-xl font-semibold mb-4">Identification and Verification</h2>
+                        </motion.section>
+
+                        <motion.div 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.4, delay: 1.0 }}
+                            className="w-full"
+                        >
+                            <CustomFormField
+                                fieldtype={FormFeildType.SELECT}
+                                control={form.control}
+                                name="identificationType"
+                                label="Identification Type"
+                                placeholder="Select identification type"
+                            >
+                                {["Aadhaar", "Passport", "Driver's License", "Voter ID"].map((idType, i) => (
+                                    <SelectItem key={idType + i} value={idType} className="text-purple3 cursor-pointer">
+                                        {idType}
+                                    </SelectItem>
+                                ))}
+                            </CustomFormField>
+                        </motion.div>
+
+                        <motion.div 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.4, delay: 1.1 }}
+                            className="w-full"
+                        >
+                            <CustomFormField
+                                fieldtype={FormFeildType.INPUT}
+                                control={form.control}
+                                name="identificationNumber"
+                                label="Identification Number"
+                                placeholder="Enter your ID number"
+                                iconSrc="/assets/chat.svg"
+                                iconAlt="call"
                             />
+                        </motion.div>
+
+                        <motion.div 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.4, delay: 1.2 }}
+                            className="w-full"
+                        >
                             <CustomFormField
                                 fieldtype={FormFeildType.SKELETON}
                                 control={form.control}
-                                name="gender"
-                                label="Gender"
-                                renderSkeleton={(field) => {
-                                    return <FormControl>
-                                        <RadioGroup className="flex h-8 gap-6 lg:justify-between"
-                                            onValueChange={(value) => field.onChange(value)}
-                                            defaultValue={field.value}>
-                                            {GenderOptions.map((option) => (
-                                                <div key={option} className="flex items-center">
-                                                    <RadioGroupItem value={option} id={option} />
-                                                    <Label htmlFor={option} className="cursor-pointer">{option}</Label>
-                                                </div>
-                                            ))}
-                                        </RadioGroup>
+                                name="identificationDocument"
+                                label="Upload your Identification Document"
+                                renderSkeleton={(field) => (
+                                    <FormControl>
+                                        <FileUploader files={field.value} onChange={field.onChange} />
                                     </FormControl>
-
-                                }}
+                                )}
                             />
-                        </div>
+                        </motion.div>
 
-                        <div className="flex flex-col gap-6 lg:flex-row ">
-
-                            <CustomFormField
-                                fieldtype={FormFeildType.INPUT}
-                                control={form.control}
-                                name="address"
-                                label="Address"
-                                placeholder="123 Main St, City, Country"
-                                iconSrc="/assets/buildings.svg"
-                                iconAlt="add"
-                            />
-                            <CustomFormField
-                                fieldtype={FormFeildType.INPUT}
-                                control={form.control}
-                                name="occupation"
-                                label="Occupation"
-                                placeholder="Your occupation"
-                                iconSrc="/assets/buildings.svg"
-                                iconAlt="buil"
-                            />
-
-                        </div>
-                        <section className="flex flex-col items-start my-2">
-
-                            <h2 className="text-purple4 text-xl">Medical Information</h2>
-                        </section>
-                        <div className="flex flex-col gap-6 lg:flex-row ">
-
-                            <CustomFormField
-                                fieldtype={FormFeildType.TEXTAREA}
-                                control={form.control}
-                                name="allergies"
-                                label="Allergies (if any)"
-                                placeholder="Peanuts, Pollen, etc."
-                                iconSrc="/assets/shield.svg"
-
-                                iconAlt="call"
-                            />
-                            <CustomFormField
-                                fieldtype={FormFeildType.TEXTAREA}
-                                control={form.control}
-                                name="pastMedicalHistory"
-                                label="Past Medical History"
-                                placeholder="Describe any past medical conditions"
-                                iconSrc="/assets/stack.svg"
-                                iconAlt="medical history"
-                            />
-
-                        </div>
-                        <section className="flex flex-col items-start my-2">
-
-                            <h2 className="text-purple4 text-xl">Identification and Verification</h2>
-                        </section>
-                        <CustomFormField
-                            fieldtype={FormFeildType.SELECT}
-                            control={form.control}
-                            name="identificationType"
-                            label="Identification Type"
-                            placeholder="Aadhaar, Passport, etc."
-                        // iconSrc="/assets/id-card.svg"
-                        // iconAlt="id"
+                        <motion.section 
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.4, delay: 1.3 }}
+                            className="pt-4 w-full"
                         >
-                            {["Aadhaar", "Passport", "Driver's License", "Voter ID"].map((idType, i) =>
-                            (
-                                <SelectItem key={idType + i} value={idType} className="text-purple3 flex cursor-pointer items-center gap-2 relative !important">
+                            <h2 className="text-purple4 text-xl font-semibold mb-4">Consent and Privacy</h2>
+                        </motion.section>
 
-                                    {idType}
+                        <motion.div 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.5, delay: 1.4 }}
+                            className="space-y-4 w-full"
+                        >
+                            <CustomFormField
+                                fieldtype={FormFeildType.CHECKBOX}
+                                control={form.control}
+                                name="treatmentConsent"
+                                label="I consent to treatment"
+                            />
+                            <CustomFormField
+                                fieldtype={FormFeildType.CHECKBOX}
+                                control={form.control}
+                                name="disclosureConsent"
+                                label="I consent to disclosure of information"
+                            />
+                            <CustomFormField
+                                fieldtype={FormFeildType.CHECKBOX}
+                                control={form.control}
+                                name="privacyConsent"
+                                label="I consent to privacy policy"
+                            />
+                        </motion.div>
 
-                                </SelectItem>
-                            ))}
-                        </CustomFormField>
-                        <CustomFormField
-                            fieldtype={FormFeildType.INPUT}
-                            control={form.control}
-                            name="identificationNumber"
-                            label="Identification Number"
-                            placeholder="Enter your ID number"
-                            iconSrc="/assets/chat.svg"
-                            iconAlt="call"
-                        />
+                        <motion.div 
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 1.5, type: "spring", stiffness: 120 }}
+                            className="pt-6 w-full"
+                        >
+                            <SubmitButton className="w-full bg-Primary-purple hover:bg-purple2 transition-colors h-12 text-lg" isLoading={isLoading}>
+                                Getting Started
+                            </SubmitButton>
+                        </motion.div>
 
-                        <CustomFormField
-                            fieldtype={FormFeildType.SKELETON}
-                            control={form.control}
-                            name="identificationDocument"
-                            label="Upload your Identification Document"
-                            renderSkeleton={(field) => (
-                                <FormControl>
-                                    <FileUploader files={field.value} onChange={field.onChange} />
-                                </FormControl>
-
-                            )}
-                        />
-                        <section className="flex flex-col items-start my-2">
-
-                            <h2 className="text-purple4 text-xl">Consent and Privacy</h2>
-                        </section>
-                        <CustomFormField
-                            fieldtype={FormFeildType.CHECKBOX}
-                            control={form.control}
-                            name="treatmentConsent"
-                            label="I consent to treatment"
-                        />
-                        <CustomFormField
-                            fieldtype={FormFeildType.CHECKBOX}
-                            control={form.control}
-                            name="disclosureConsent"
-                            label="I consent to disclosure of information"
-                        />
-                        <CustomFormField
-                            fieldtype={FormFeildType.CHECKBOX}
-                            control={form.control}
-                            name="privacyConsent"
-                            label="I consent to privacy policy"
-                        />
-                        <SubmitButton className="" isLoading={false} > Getting Started </SubmitButton>
-                        <div className="h-40 w-full bg-white text-white ">
+                        <motion.div 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.5, delay: 1.6 }}
+                            className="pb-8 pt-4 text-center text-sm text-gray-500 w-full"
+                        >
                             MindSettler all rights reserved.
-                        </div>
-                    </form>
-                </Form>)}
+                        </motion.div>
+                    </motion.form>
+                </Form>
+            )}
         </div>
     )
 }
-
 
 export default RegisterForm

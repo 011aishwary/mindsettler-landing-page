@@ -1,4 +1,5 @@
 "use client"
+import { MessageSquareQuoteIcon } from 'lucide-react'
 import React, { useState, useEffect, useRef } from 'react'
 
 const Chatbot = () => {
@@ -39,16 +40,6 @@ const Chatbot = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: input }),
       });
-      // const res = await fetch('/api/Chatbot', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({ message: input }), // Adjust key as needed
-      // })
-      //   const data = await res.json();
-      //   console.log("Fetch response:", data);
-      //   console.log("Fetch response:", res.ok);
 
       if (res.ok) {
         const data = await res.json()
@@ -76,23 +67,35 @@ const Chatbot = () => {
       {/* Chat Toggle Button */}
       <button
         onClick={toggleChat}
-        className="fixed bottom-4 cursor-pointer right-4 bg-Primary-purple text-white p-4 rounded-full shadow-lg hover:bg-Primary-purple/80 hover:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-purple3 focus:ring-offset-1 z-50"
+        className="fixed bottom-4 cursor-pointer right-4 bg-Primary text-white  rounded-full shadow-lg hover:bg-Primary- hover:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-gradient-sky focus:ring-offset-1 z-50"
         aria-label="Toggle Chatbot"
       >
         {isOpen ? (
-          <div className='flex'>
-            <svg className="w-fit h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-            <span className="text-center">Assistant</span>
+          <div className=" group z-50">
+            {/* The Glow Effect behind */}
+            <div className="absolute inset-0 rounded-full bg-Primary-pink blur-lg opacity-40 group-hover:opacity-60 transition-opacity duration-500 animate-pulse" />
+
+            {/* The Button Itself */}
+            <div className="relative bg-white/80 backdrop-blur-md border border-white/50 p-2 rounded-full shadow-xl transform transition-transform duration-300 group-hover:scale-98 ">
+              <MessageSquareQuoteIcon
+                className="w-6 h-6 text-Primary-purple group-hover:rotate-12 transition-transform duration-300"
+                strokeWidth={2.5}
+              />
+            </div>
           </div>
 
         ) : (
-          <div className='flex'>
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
-            <span className="text-center">Assistant</span>
+          <div className=" group z-50">
+            {/* The Glow Effect behind */}
+            <div className="absolute inset-0 rounded-full bg-Primary-pink blur-lg opacity-40 group-hover:opacity-60 transition-opacity duration-500 animate-pulse" />
+
+            {/* The Button Itself */}
+            <div className="relative bg-white/80 backdrop-blur-md border border-white/50 p-2  rounded-full shadow-xl transform transition-transform duration-300 group-hover:scale-98">
+              <MessageSquareQuoteIcon
+                className="w-6 h-6 text-purple2 group-hover:rotate-10 transition-transform duration-300"
+                strokeWidth={2.5}
+              />
+            </div>
           </div>
         )}
       </button>
@@ -101,7 +104,7 @@ const Chatbot = () => {
       {isOpen && (
         <div className="fixed bottom-16 right-4 w-80 h-96 bg-[#f1f1f1] border border-gray-200 rounded-lg shadow-xl z-40 flex flex-col">
           {/* Header */}
-          <div className="bg-gradient-to-r from-purple-400  to-purple-700 text-white px-4 py-3 rounded-t-lg flex justify-between items-center">
+          <div className="bg-gradient-to-bl from-Primary-purple via-purple3 to-Primary-purple text-white px-4 py-3 rounded-t-lg flex justify-between items-center">
             <h1 className="text-lg font-semibold">MindSettler Assistant</h1>
             <button
               onClick={toggleChat}
@@ -123,8 +126,8 @@ const Chatbot = () => {
               >
                 <div
                   className={`max-w-[70%] px-3 py-2 hover:purple3/90 hover:scale-97 rounded-lg text-sm ${message.sender === 'user'
-                      ? 'bg-purple3 text-white'
-                      : 'bg-gray-100 text-gray-800'
+                    ? 'bg-purple3 text-white'
+                    : 'bg-gray-100 text-gray-800'
                     }`}
                 >
                   {message.text}
@@ -159,7 +162,7 @@ const Chatbot = () => {
               <button
                 type="submit"
                 disabled={loading || !input.trim()}
-                className="px-4 py-2 bg-purple3 cursor-pointer text-white rounded-lg hover:bg-pruple3 hover:scale-97 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
+                className="px-4 py-2 bg-Primary-purple cursor-pointer text-white rounded-lg hover:bg-pruple3 hover:scale-97 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
               >
                 Send
               </button>
