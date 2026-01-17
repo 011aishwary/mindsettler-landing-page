@@ -32,6 +32,7 @@ export async function logout() {
 
       // 4. Delete the session on Appwrite's server
       await account.deleteSession('current');
+      
     } catch (error) {
       // Ignore error if session is already invalid
       console.error("Logout error (Appwrite):", error);
@@ -42,7 +43,7 @@ export async function logout() {
   cookieStore.delete(cookieName);
 
   // 6. Redirect to login page
-  redirect("/");
+  redirect("/?logout=true");
 }
 
 export const createCookieSession = async (userLog: any) => {

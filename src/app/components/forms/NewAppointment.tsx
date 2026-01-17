@@ -5,9 +5,7 @@ import { useForm } from "react-hook-form"
 import { any, email, int, set, z } from "zod"
 import Image from "next/image"
 import { createUser, getPatient } from "../../../../lib/actions/patient.actions"
-// import { Button } from "../ui/Button"
 import { Form, FormControl } from "../ui/Form"
-
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "../ui/SubmitButton"
 import { Dispatch, SetStateAction, useState } from "react"
@@ -17,9 +15,7 @@ import { FormFeildType } from "@/app/Signup/page"
 import { createAppointment, getRecentAppointmentList, updateAppointment } from "../../../../lib/actions/appointment.actions"
 import { Appointment } from "../../../../types/appwrite.types"
 import { Status } from "../../../../types/appwrite.types"
-
 import sendMail from "../MailSender"
-
 import { SelectItem } from "../ui/select"
 import FileUploader from "../ui/FileUploader"
 import { useQRCode } from "next-qrcode";
@@ -29,16 +25,15 @@ import { AppointmentBooking } from "../AppointmentBooking"
 import { toast } from "../../../../hooks/use-toast"
 import { useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { format, sub } from "date-fns";
+import { format} from "date-fns";
 import { CalendarDays, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { BookingCalendar } from "../BookingCalendar";
 import { TimeSlotPicker } from "../TimeSlotPicker";
 import { BookingForm } from "../BookingForm";
 import { BookingSummary } from "../BookingSummary";
 import { Button } from "../ui/button1";
-import { time } from "console"
 import GradientQRCode from "../Qrcodegenerator"
-// import { toast } from "../../../hooks/use-toast";
+
 
 interface FormData {
     fullName: string;
@@ -176,13 +171,22 @@ export const AppointmentForm = ({
             setErrors((prev) => ({ ...prev, [key]: undefined }));
         });
     };
+    useEffect(() => {
+
+        if(type !== "create"){
+            setSelectedDate(appointment ? appointment.schedule : null);
+            setSelectedTime(appointment ? appointment.time : null);
+    
+                }
+    }, []);
+
 
 
     const form = useForm<z.infer<typeof AppointmentFormValidation>>({
 
         resolver: zodResolver(AppointmentFormValidation),
         defaultValues: {
-            //   primaryPhysician: appointment ? appointment?.primaryPhysician : "",
+            
             schedule: selectedDate ? format(selectedDate, "yyyy-MM-dd") : "",
             time: selectedTime ? selectedTime : "",
             reason: appointment ? appointment.reason : "",

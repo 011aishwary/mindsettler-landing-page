@@ -1,18 +1,20 @@
 "use client";
 
-
+// // import { motion } from "framer-motion";
+// import MindsettlerHero from "./StoryJourney";
 import ScrollPage from "./ScrollPage";
 
-
+import { useSearchParams, useRouter, redirect } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Play } from "lucide-react";
 import { Button } from "../components/ui/button1";
 import heroJourney from "@/assets/hero-journey.jpg";
-import { useRef } from "react";
+import { use, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import FetchUser from "./FetchUser";
+import { s } from "framer-motion/client";
 
 export const fetchUserData = async () => {
   const userData = await FetchUser()
@@ -71,6 +73,8 @@ const generateBurstParticles = (circleColor: string): BurstParticle[] => {
 };
 
 export default function HeroSection() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const sectionRef = useRef<HTMLElement>(null);
   const [user, setUser] = useState<any>(null);
   const [floatingCircles, setFloatingCircles] = useState<FloatingCircle[]>([]);
@@ -78,12 +82,15 @@ export default function HeroSection() {
   const [burstParticles, setBurstParticles] = useState<BurstParticle[]>([]);
 
   useEffect(() => {
+    if(searchParams.get('logout')==='true'){
+      redirect('/');
+    }
     fetchUserData().then(setUser);
     if (user) {
       console.log("User data fetched on home page:", user);
       console.log("User email:", user.$id);
     }
-  }, []);
+  }, [searchParams]);
 
   // Initialize floating circles
   useEffect(() => {

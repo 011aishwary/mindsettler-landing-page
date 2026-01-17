@@ -59,9 +59,13 @@ export const columns: ColumnDef<Appointment>[] = [
     cell: ({ row }) => {
       const appointment = row.original;
       return (
-        <p className="text-14-regular min-w-[100px]">
-          {formatDateTime(appointment.schedule).dateTime}
+        <span className="flex min-w-[100px] gap-1">
+
+          {formatDateTime(appointment.schedule).dateOnly}
+        <p className="text-14-regular ">
+          {appointment.time}
         </p>
+        </span>
       );
     },
   },

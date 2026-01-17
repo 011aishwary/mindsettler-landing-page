@@ -33,7 +33,7 @@ const PasskeyModal = () => {
 
     useEffect(() => {
         const admin_passkey = encryptedKey && decryptKey(encryptedKey);
-        if (admin_passkey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY) {
+        if (admin_passkey === process.env.ADMIN_PASSKEY) {
             setOpen(false);
             router.push('/admin/true/panel');
         }
@@ -49,7 +49,7 @@ const PasskeyModal = () => {
 
         // This should be securely handled in a real application
 
-        if (passkey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY) {
+        if (passkey === process.env.ADMIN_PASSKEY) {
             // Grant access to admin features
             const ecryptedPasskey = encryptKey(passkey); // Simple encoding for demonstration
             console.log('Encrypted Passkey:', ecryptedPasskey);

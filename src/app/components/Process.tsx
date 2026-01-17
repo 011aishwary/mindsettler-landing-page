@@ -124,24 +124,24 @@ const Process = () => {
         return () => ctx.revert();
     }, []);
 
-    useEffect(() => {
-        const crtx2 = gsap.context(() => {
-            gsap.to(sectionRef.current, {
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "bottom 100%",
-                    end: "bottom 70%",
-                    scrub: 0.5,
-                },
-                // scale:0.5,
-                // borderRadius: "20px",
-                y: -200,
-                ease: "none",
-            });
-        }, sectionRef);
+    // useEffect(() => {
+    //     const crtx2 = gsap.context(() => {
+    //         gsap.to(sectionRef.current, {
+    //             scrollTrigger: {
+    //                 trigger: sectionRef.current,
+    //                 start: "bottom 100%",
+    //                 end: "bottom 70%",
+    //                 scrub: 0.5,
+    //             },
+    //             // scale:0.5,
+    //             // borderRadius: "20px",
+    //             y: -200,
+    //             ease: "none",
+    //         });
+    //     }, sectionRef);
 
-        return () => crtx2.revert();
-    }, []);
+    //     return () => crtx2.revert();
+    // }, []);
 
     return (
         <div ref={sectionRef} className='desktop-steps bg-cloudy-Apple relative min-h-screen lg:h-180'>
