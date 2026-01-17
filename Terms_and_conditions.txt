@@ -1,0 +1,57 @@
+"MindSettler Terms & Conditions",
+  
+Overview
+These Terms & Conditions govern your use of the MindSettler website and services. By accessing or using our Platform, you agree to comply with these Terms. If you do not agree, please discontinue use immediately.
+
+Eligibility
+- Services are available only to users aged 5+ with parental consent for minors.
+- Users under 18 require parental guidance to use the Platform responsibly.
+
+Account & Privacy
+- Users must provide accurate information to create accounts.
+- Your privacy is protected under our Privacy Policy.
+- Users can delete their accounts at any time; local data and credentials will be purged.
+
+Payments & Refunds
+- Payment may be required for therapy sessions (chat, audio, video, in-person).
+- Prime & Essential Packages have specific refund policies.
+- No refunds for no-shows, completed sessions, or dissatisfaction; therapist reassignment may be offered.
+- Payments are processed via authorized methods; MindSettler is not responsible for third-party banking issues.
+
+Service Use
+- Only lawful purposes are allowed.
+- Users may not post abusive, illegal, offensive, or infringing content.
+- MindSettler may remove content violating Terms at its discretion.
+
+User Content
+- Users retain ownership of content they post.
+- By posting, you grant MindSettler a worldwide, royalty-free license to use and display the content.
+- Users are responsible for their own content; MindSettler is a passive conduit.
+
+Third-Party Services
+- MindSettler may link to external websites. These are not endorsed, and the company is not liable for their content or services.
+
+Disclaimers
+- Information provided is for educational purposes, not a substitute for professional medical advice.
+- MindSettler is not a suicide helpline; for emergencies, contact local authorities or helplines immediately.
+- Services are used at your own risk.
+
+Limitation of Liability
+- MindSettler is not liable for direct or indirect damages from use of the Platform or third-party content.
+- Users accept responsibility for their actions and decisions while using the Platform.
+
+Termination
+- MindSettler may suspend or terminate access at any time without notice.
+- Certain obligations and rights survive termination.
+
+Governing Law & Jurisdiction
+- These Terms are governed by the laws of India.
+- Courts in Delhi have exclusive jurisdiction over disputes.
+
+
+
+Miscellaneous
+- Terms may be modified at any time; continued use constitutes acceptance.
+- Users must periodically review Terms for updates.
+- Account deletion and data usage follow strict privacy and security guidelines.
+`
