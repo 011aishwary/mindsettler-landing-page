@@ -14,7 +14,7 @@ const defaultPreferences: DiaryPreferences = {
   paper_color: "#fffef9",
   ink_color: "#2d2d2d",
   font_family: "handwriting",
-  sound_enabled: true,
+  sound_enabled: false,
 };
 
 export const useDiaryPreferences = () => {

@@ -94,7 +94,8 @@ export const CreateAppointmentSchema = z.object({
   note: z.string().optional(),
   cancellationReason: z.string().optional(),
   paymentType: z.string(),
-  paymentProof: z.custom<File[]>(),
+  paymentProof: z.custom<File[]>()
+    .refine((files) => files && files.length > 0, "Payment proof is required"),
 });
 
 export const ScheduleAppointmentSchema = z.object({

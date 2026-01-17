@@ -13,46 +13,77 @@ const AdminPanel = async () => {
     
     const appointments = await getRecentAppointmentList()
   return (
-    <div className='mx-auto bg-[#f1f1f1] **: pb-10 max-w-7xl flex flex-col space-y-14'>
-        <header className="sticky bg-Primary-purple   z-20  flex w-screen items-center justify-between  bg-dark-200 px-[5%] py-2 shadow-lg xl:px-12">
-            <Link href={"/"} className='cursor-pointer'>
-            <Image src={"/Mindsettler_logoFinal.png"} alt="MindSettler Logo" width={150} height={50}/>
-            </Link>
-            <h2 className="">Admin Dashboard</h2>
+    <div className='min-h-screen w-full bg-[#f8f9fa]'>
+        <header className="sticky top-0 z-30 w-full backdrop-blur-md bg-Primary-purple/80 border-b border-gray-200 shadow-sm transition-all duration-300">
+            <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3 max-w-7xl mx-auto">
+                <Link href={"/"} className='cursor-pointer transform hover:scale-105 transition-transform duration-200'>
+                    <Image 
+                        src={"/Mindsettler_logoFinal.png"} 
+                        alt="MindSettler Logo" 
+                        width={140} 
+                        height={45}
+                        className="w-32 sm:w-40 h-auto"
+                    />
+                </Link>
+                <div className="flex items-center space-x-4">
+                    <div className="hidden sm:block">
+                        <p className="text-md text-blueGray font-bold">Hello, Admin</p>
+                    </div>
+                    <div className="h-8 w-8 rounded-full bg-pink4 flex items-center justify-center border border-Primary-purple/20">
+                         <span className="text-Primary-purple text-sm font-bold">P</span>
+                    </div>
+                </div>
+            </div>
         </header>
 
-        <main className=" flex flex-col items-center space-y-6 px-[5%] pb-12 xl:space-y-12 xl:px-12">
-            <section className="w-full space-y-2">
-                <h1 className="text-2xl text-purple2 md:text-3xl font-bold">Welcome 👋 </h1>
-                <p className="text-purple3/70 text-sm">Start the day with managing new appointments </p>
+        <main className="flex flex-col space-y-8 px-4 sm:px-6 lg:px-8 py-8 sm:py-12 max-w-7xl mx-auto">
+            <section className="w-full space-y-3">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
+                    Dashboard Overview
+                </h1>
+                <p className="text-gray-500 text-sm sm:text-base font-medium">
+                    Welcome back! Here's what's happening with your appointments today.
+                </p>
             </section>
 
-            <section className="flex w-full flex-col justify-between gap-5 sm:flex-row xl:gap-10">
-                <StatCard
-                type="appointments"
-                count={appointments.scheduledCount}
-                countcs={'text-teal-950'}
-                label="Schedduled Appointments"
-                icon={<CalendarCheck2 size={24} className="text-Primary-purple"/>}
-                />
-                <StatCard
-                type="pending"
-                count={appointments.pendingCount}
-                countcs={'text-slate-800'}
-                label="Pending Appointments"
-                icon={<Hourglass size={24} className="text-blue-400"/>}
-                />
-                <StatCard
-                type="cancelled"
-                count={appointments.cancelledCount}
-                countcs={'text-red-700'}
-                label="Cancelled Appointments"
-                icon={<TriangleAlert size={24} className="text-red-400"/>}
-                />
+            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+                <div className="transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out">
+                    <StatCard
+                        type="appointments"
+                        count={appointments.scheduledCount}
+                        countcs={'text-emerald-700'}
+                        label="Scheduled Appointments"
+                        icon={<CalendarCheck2 size={24} className="text-emerald-600"/>}
+                    />
+                </div>
+                <div className="transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out">
+                    <StatCard
+                        type="pending"
+                        count={appointments.pendingCount}
+                        countcs={'text-blue-700'}
+                        label="Pending Requests"
+                        icon={<Hourglass size={24} className="text-blue-600"/>}
+                    />
+                </div>
+                <div className="transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out">
+                    <StatCard
+                        type="cancelled"
+                        count={appointments.cancelledCount}
+                        countcs={'text-rose-700'}
+                        label="Cancelled Appointments"
+                        icon={<TriangleAlert size={24} className="text-rose-600"/>}
+                    />
+                </div>
             </section>
 
-            <DataTable columns={columns} data= {appointments.documents} />
-            {/* <DataTable  columns={columns} data= {data} /> */}
+            <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-1 overflow-hidden hover:shadow-md transition-shadow duration-300">
+                 <div className="p-4 sm:p-6 border-b border-gray-100 mb-4">
+                    <h2 className="text-lg font-semibold text-gray-900">Recent Appointments</h2>
+                 </div>
+                 <div className="overflow-x-auto px-8">
+                    <DataTable columns={columns} data= {appointments.documents} />
+                 </div>
+            </section>
         </main>
       
     </div>

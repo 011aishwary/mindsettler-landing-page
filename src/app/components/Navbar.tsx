@@ -8,7 +8,7 @@ import { Button } from "./ui/Button";
 import { logout } from "../../../lib/actions/patient.actions";
 import FetchUser from "./FetchUser";
 import Link from "next/link";
-import { getCurrentUser } from "../../../lib/actions/user.actions";
+import {acc} from "../../app/appwrite/appwriteconfig";
 import { ChevronDown, User2Icon, Menu as MenuIcon, X } from "lucide-react"
 import { motion } from "framer-motion";
 // import { useRouter } from "next/router";
@@ -47,10 +47,27 @@ function Navbar({ className }: { className?: string }) {
     await logout();
 
   }
+
   const [user, setUser] = useState<any>(null);
   useEffect(() => {
     fetchUserData().then(setUser);
   }, [path]);
+  // useEffect(() => {
+  //   const getUser = async () => {
+  //     try {
+  //       // This fetches the currently logged-in user's session
+  //       const userData = await acc.get();
+        
+  //       console.log("Full User Data:", userData); // Check console to see everything
+  //       setUser(userData);
+  //     } catch (error) {
+  //       console.error("Not logged in", error);
+  //       // Optional: Redirect back to login if fetch fails
+      
+  //   };
+  // }
+  //   getUser();
+  // }, []);
 
 
   const [active, setActive] = useState<string | null>(null);

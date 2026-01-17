@@ -15,7 +15,7 @@ export const PageFlipAnimation = ({
     <AnimatePresence>
       {isFlipping && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none"
+          className="fixed ml-80 mt-40 inset-0 z-50 flex items-center justify-center pointer-events-none"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -25,7 +25,7 @@ export const PageFlipAnimation = ({
         >
           {/* Book container */}
           <div
-            className="relative"
+            className="relative "
             style={{
               perspective: "1500px",
               transformStyle: "preserve-3d",
@@ -35,8 +35,8 @@ export const PageFlipAnimation = ({
             <motion.div
               className="relative rounded-r-lg shadow-2xl"
               style={{
-                width: "min(400px, 80vw)",
-                height: "min(550px, 70vh)",
+                width: "min(650px, 90vw)",
+                height: "min(500px, 65vh)",
                 backgroundColor: paperColor,
                 transformOrigin: "left center",
                 transformStyle: "preserve-3d",
@@ -56,7 +56,7 @@ export const PageFlipAnimation = ({
             >
               {/* Front of page */}
               <div
-                className="absolute inset-0 rounded-r-lg"
+                className="absolute  inset-0 rounded-r-lg"
                 style={{
                   backgroundColor: paperColor,
                   backfaceVisibility: "hidden",

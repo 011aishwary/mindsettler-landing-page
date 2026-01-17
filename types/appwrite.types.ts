@@ -22,7 +22,7 @@ export interface Patient extends Models.Document {
   pastMedicalHistory: string | undefined;
   identificationType: string | undefined;
   identificationNumber: string | undefined;
-  identificationDocument: FormData | undefined;
+  identificationDocument: string | undefined;
   privacyConsent: boolean;
   disclosureConsent: boolean;
   treatmentConsent: boolean;
@@ -39,7 +39,7 @@ export interface Appointment extends Models.Document {
   note: string;
   userId: string;
   paymentType: string;
-  paymentProof: FormData | undefined;
+  paymentProof: string | undefined;
   cancellationReason: string | null;
 }
 export type Status = "pending" | "scheduled" | "cancelled";

@@ -7,11 +7,13 @@ import Image from "next/image";
 import { formatDateTime } from "../../../../lib/utils";
 import { Appointment } from "../../../../types/appwrite.types";
 import { getPatient } from "../../../../lib/actions/patient.actions";
+// import { Image } from "next/image";
 
 
 
 import { AppointmentModal } from "../../components/AppointmenModal";
 import {StatusBadge} from "../../components/StatusBadge"
+import Link from "next/link";
 const fetchPatient = async (userId: string): Promise<string> => {
   try {
     const patient = await getPatient(userId);
@@ -99,4 +101,26 @@ export const columns: ColumnDef<Appointment>[] = [
       );
     },
   },
+  {
+    accessorKey: "paymentProof",
+    header: "Payment Proof",
+    cell: ({ row }) => {
+      const appointment = row.original;
+      return(
+        // <Image
+        //   src={appointment.paymentProof ? `${appointment.paymentProof.toString()}&mode=admin` : '/no-image.png'}
+        //   alt="Payment Proof"
+        //   width={50}
+        //   height={50}
+        //   className="rounded-md object-cover"
+        // />
+        <Link href={`${appointment.paymentProof?.toString()}&mode=admin`} target="_blank" >
+
+        
+        <p className="text-14-regular bg-gradient-sky px-2 text text-center py-2 rounded-xl ">Proof Image</p>
+        </Link>
+      ) 
+    },
+
+  }
 ];

@@ -74,6 +74,7 @@ const Diary = () => {
   return (
     <>
       {/* Page Flip Animation */}
+      <div className="bg-gradient-sky min-h-screen mt-14 relative">
       <PageFlipAnimation
         isFlipping={isPageFlipping}
         paperColor={preferences.paper_color}
@@ -111,14 +112,14 @@ const Diary = () => {
               <div className="container mx-auto px-4 py-3 flex items-center justify-between">
                 {/* Left */}
                 <div className="flex items-center gap-4">
-                  <Link href="/">
+                  {/* <Link href="/">
                     <motion.img
                       src={"/Mindsettler_logoFinal.png"}
                       alt="MindSettler"
                       className="h-8 w-auto"
                       whileHover={{ scale: 1.05 }}
                     />
-                  </Link>
+                  </Link> */}
                   <div
                     className="hidden md:block h-6 w-px opacity-20"
                     style={{ backgroundColor: preferences.ink_color }}
@@ -315,6 +316,7 @@ const Diary = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
     </>
   );
 };

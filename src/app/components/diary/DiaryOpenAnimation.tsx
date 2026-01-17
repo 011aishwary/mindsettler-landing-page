@@ -16,8 +16,8 @@ export const DiaryOpenAnimation = ({
     <AnimatePresence>
       {!isOpen && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center"
-          style={{ backgroundColor: "hsl(var(--background))" }}
+          className="fixed inset-0 pt-20  z-50 flex items-center justify-center"
+          style={{ backgroundColor: "#bfb6d3" }}
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, delay: 1.5 }}
@@ -59,9 +59,9 @@ export const DiaryOpenAnimation = ({
 
             {/* Front Cover */}
             <motion.div
-              className="relative w-80 h-[420px] rounded-lg shadow-2xl flex flex-col items-center justify-center gap-6"
+              className="relative bg-gradient-sage w-80 h-[420px] rounded-lg shadow-2xl flex flex-col items-center justify-center gap-6"
               style={{
-                background: `linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.9) 100%)`,
+                // background: ``,
                 transformOrigin: "left center",
                 transformStyle: "preserve-3d",
               }}
@@ -72,7 +72,7 @@ export const DiaryOpenAnimation = ({
             >
               {/* Cover Content */}
               <motion.div
-                className="text-center text-primary-foreground"
+                className="text-center text-Primary-purple"
                 initial={{ opacity: 1 }}
                 animate={{ opacity: 0 }}
                 transition={{ duration: 0.3, delay: 0.8 }}
@@ -84,18 +84,18 @@ export const DiaryOpenAnimation = ({
 
               {/* Binding Detail */}
               <div
-                className="absolute left-0 top-0 bottom-0 w-4 rounded-l-lg"
-                style={{
-                  background: "linear-gradient(90deg, rgba(0,0,0,0.2) 0%, transparent 100%)",
-                }}
+                className="absolute bg-blueGray/30 left-0 top-0 bottom-0 w-4 rounded-l-lg"
+                // style={{
+                //   background: "linear-gradient(90deg, rgba(0,0,0,0.2) 0%, transparent 100%)",
+                // }}
               />
             </motion.div>
 
             {/* Spine */}
             <motion.div
-              className="absolute left-0 top-0 w-6 h-[420px] rounded-l-md"
+              className="absolute  left-0 top-0 w-6 h-[420px] rounded-l-md"
               style={{
-                background: `linear-gradient(90deg, hsl(var(--primary) / 0.7) 0%, hsl(var(--primary)) 100%)`,
+                // background: `linear-gradient(90deg, hsl(var(--primary) / 0.7) 0%, hsl(var(--primary)) 100%)`,
                 transformOrigin: "left center",
               }}
             />
@@ -103,7 +103,7 @@ export const DiaryOpenAnimation = ({
 
           {/* Opening Text */}
           <motion.p
-            className="absolute bottom-20 text-muted-foreground font-heading"
+            className="absolute bottom-20 text-black/80 font-heading"
             initial={{ opacity: 0 }}
             animate={{ opacity: [0, 1, 1, 0] }}
             transition={{ duration: 2, times: [0, 0.2, 0.8, 1] }}

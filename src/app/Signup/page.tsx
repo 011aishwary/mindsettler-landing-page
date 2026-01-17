@@ -17,6 +17,8 @@ import { Lock } from "lucide-react"
 import { account } from "../../../lib/appwrite.config"
 import Link from "next/link"
 import { motion } from "framer-motion"
+import { acc } from "../../app/appwrite/appwriteconfig"
+import { OAuthProvider } from "node-appwrite"
 // import { User } from "node-appwrite/types/user"
 export enum FormFeildType {
   INPUT = 'input',
@@ -41,8 +43,32 @@ const page = () => {
   //       .then(setUser)
   //       .catch(() => router.push("/Login"));
   //   }, []);
-  
+
   //   if (!user) return <p>Loading...</p>;
+  async function signupgoogle() {
+    try {
+      // FIX: Force localhost:3000 to prevent 127.0.0.1 cookie mismatches
+      const origin = "http://localhost:3000"; 
+      
+      const res = await acc.createOAuth2Session(
+        OAuthProvider.Google,
+        `${origin}/auth-callback`,
+        `${origin}/Signup`
+      );
+      console.log("Google Sign-In Response:", res);
+    }
+    catch (error) {
+      console.log("Google Sign-In Error:", error);
+    }
+  }
+  useEffect(() => {
+    const getUser = async () => {
+      const user = await account.get();
+      console.log("User ID is:", user.$id);
+      // Now you have the ID and can redirect to dynamic routes if needed
+    };
+    getUser();
+  }, []);
 
   const form = useForm<z.infer<typeof UserFormValidation>>({
     resolver: zodResolver(UserFormValidation),
@@ -75,7 +101,7 @@ const page = () => {
 
   }
   return (
-    <div className="flex relative flex-col lg:flex-row w-full min-h-screen bg-gradient-to-br from-white via-pink-50 to-purple-50 overflow-hidden">
+    <div className="flex relative lg:h-screen  flex-col lg:flex-row w-full min-h-screen bg-gradient-to-br from-white via-pink-50 to-purple-50 overflow-hidden">
       {/* Animated Background Elements - Fixed Position, No Pointer Events */}
       <motion.div
         className="fixed top-0 left-0 w-96 h-96 bg-gradient-to-br from-pink-200 to-purple-200 rounded-full opacity-20 blur-3xl pointer-events-none"
@@ -104,12 +130,12 @@ const page = () => {
 
       {/* Left Side - Form */}
       <motion.div
-        className="w-full lg:w-1/2 flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 py-8 sm:py-12 lg:py-0 relative z-20"
+        className="w-full lg:w-1/2 lg:mt-2 lg:overflow-scroll lg:h-[98vh] flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 py-8 sm:py-12 lg:py-0 relative z-20"
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        <div className="w-full max-w-md">
+        <div className="w-full mt-48 max-w-md">
           {/* Header */}
           <motion.div
             className="mb-8 sm:mb-10"
@@ -205,6 +231,16 @@ const page = () => {
                 <SubmitButton isLoading={isLoading}>Create Account</SubmitButton>
               </motion.div>
 
+              <button
+                onClick={signupgoogle}
+                type="button"
+                className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-Primary-purple transition-colors duration-300"
+              >
+                <Lock className="w-5 h-5 mr-2 text-Primary-purple" />
+                Sign up with Google
+
+              </button>
+
               {/* Divider */}
               <motion.div
                 className="relative my-6 sm:my-8 z-30"
@@ -276,7 +312,7 @@ const page = () => {
       >
         {/* Decorative Elements */}
         <motion.div
-          className="absolute inset-0 pointer-events-none"
+          className="absolute  inset-0 pointer-events-none"
           animate={{
             background: [
               'radial-gradient(circle at 20% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 50%)',
@@ -292,22 +328,22 @@ const page = () => {
 
         {/* Image with Hover Animation */}
         <motion.div
-          className="relative z-10 w-4/5 h-4/5"
+          className="relative z-10 w-full h-full "
           whileHover={{ scale: 1.05 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
         >
           <Image
-            src="/signup.png"
+            src="/Signup.jpg"
             alt="Start Your Journey"
             fill
-            className="object-contain pointer-events-none"
+            className="object-cover pointer-events-none"
             priority
           />
         </motion.div>
 
         {/* Floating Cards Animation */}
         <motion.div
-          className="absolute top-10 left-10 bg-white/80 backdrop-blur-md rounded-lg p-4 shadow-lg pointer-events-none"
+          className="absolute top-10 z-12 left-10 bg-white/80 backdrop-blur-md rounded-lg p-4 shadow-lg pointer-events-none"
           animate={{
             y: [0, -10, 0],
             rotate: [-2, 2, -2],
@@ -323,7 +359,7 @@ const page = () => {
         </motion.div>
 
         <motion.div
-          className="absolute bottom-10 right-10 bg-white/80 backdrop-blur-md rounded-lg p-4 shadow-lg pointer-events-none"
+          className="absolute bottom-10 z-12 right-10 bg-white/80 backdrop-blur-md rounded-lg p-4 shadow-lg pointer-events-none"
           animate={{
             y: [0, 10, 0],
             rotate: [2, -2, 2],
