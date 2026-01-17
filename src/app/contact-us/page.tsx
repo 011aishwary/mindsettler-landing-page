@@ -2,8 +2,10 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Instagram, Twitter, Mail, Check, Loader2, Send, Heart } from "lucide-react";
+import { createContactMessage } from "../../../lib/actions/contact.actions";
+import { toast } from "../../../hooks/use-toast"; // Assuming you have a toast hook
 
-type FormState = "idle" | "loading" | "success";
+type FormState = "idle" | "loading" | "success" | "error";
 
 const AbstractMascot = () => {
   const shouldReduceMotion = useReducedMotion();
@@ -298,19 +300,33 @@ const Contact = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (formState !== "idle") return;
     
     setFormState("loading");
     
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      await createContactMessage(formData);
       setFormState("success");
+      
+      // Reset form after delay
       setTimeout(() => {
         setFormState("idle");
         setFormData({ name: "", email: "", message: "" });
       }, 2000);
-    }, 1500);
+    } catch (error) {
+       console.error("Failed to submit contact form", error);
+       setFormState("error");
+       // Reset to idle so they can try again
+       setTimeout(() => setFormState("idle"), 3000);
+       
+       // Optional: Show toast error
+       toast({
+         title: "Error",
+         description: "Failed to send message. Please try again.",
+         variant: "destructive",
+       });
+    }
   };
 
   return (
