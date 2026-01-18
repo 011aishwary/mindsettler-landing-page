@@ -1,13 +1,35 @@
 "use server";
 
-import { ID, Query } from "node-appwrite";
+import { AppwriteException, ID, Query } from "node-appwrite";
 import { parseStringify } from "../utils";
 import {
   DATABASE_ID,
   DIARY_COLLECTION_ID,
+  ENDPOINT,
   databases,
 } from "../appwrite.config";
 import { DiaryEntry } from "../../types/appwrite.types";
+
+const ensureAppwriteConfig = () => {
+  const missing: string[] = [];
+  if (!ENDPOINT) missing.push("NEXT_PUBLIC_ENDPOINT");
+  if (!DATABASE_ID) missing.push("DATABASE_ID");
+  if (!DIARY_COLLECTION_ID) missing.push("DIARY_COLLECTION_ID");
+
+  if (missing.length) {
+    throw new Error(`Missing Appwrite env vars: ${missing.join(", ")}`);
+  }
+};
+
+const formatActionError = (error: unknown, action: string) => {
+  if (error instanceof AppwriteException) {
+    return `${action}: ${error.message} (code ${error.code})`;
+  }
+  if (error instanceof Error) {
+    return `${action}: ${error.message}`;
+  }
+  return `${action}: unknown error`;
+};
 
 // CREATE DIARY ENTRY
 export const createDiaryEntry = async (entry: {
@@ -18,6 +40,8 @@ export const createDiaryEntry = async (entry: {
   entry_date: Date;
 }) => {
   try {
+    ensureAppwriteConfig();
+
     const newEntry = await databases.createDocument(
       DATABASE_ID!,
       DIARY_COLLECTION_ID!,
@@ -30,14 +54,16 @@ export const createDiaryEntry = async (entry: {
 
     return parseStringify(newEntry);
   } catch (error) {
-    console.error("An error occurred while creating a diary entry:", error);
-    throw error;
+    console.error("createDiaryEntry failed:", error);
+    throw new Error(formatActionError(error, "Failed to create diary entry"));
   }
 };
 
 // GET USER DIARY ENTRIES
 export const getUserDiaryEntries = async (userId: string) => {
   try {
+    ensureAppwriteConfig();
+
     const entries = await databases.listDocuments(
       DATABASE_ID!,
       DIARY_COLLECTION_ID!,
@@ -49,7 +75,7 @@ export const getUserDiaryEntries = async (userId: string) => {
 
     return parseStringify(entries.documents);
   } catch (error) {
-    console.error("An error occurred while fetching diary entries:", error);
+    console.error("getUserDiaryEntries failed:", error);
     return [];
   }
 };
@@ -60,6 +86,8 @@ export const updateDiaryEntry = async (
   updates: Partial<Pick<DiaryEntry, "title" | "content" | "privacy">>
 ) => {
   try {
+    ensureAppwriteConfig();
+
     const updatedEntry = await databases.updateDocument(
       DATABASE_ID!,
       DIARY_COLLECTION_ID!,
@@ -69,14 +97,16 @@ export const updateDiaryEntry = async (
 
     return parseStringify(updatedEntry);
   } catch (error) {
-    console.error("An error occurred while updating the diary entry:", error);
-    throw error;
+    console.error("updateDiaryEntry failed:", error);
+    throw new Error(formatActionError(error, "Failed to update diary entry"));
   }
 };
 
 // DELETE DIARY ENTRY
 export const deleteDiaryEntry = async (entryId: string) => {
   try {
+    ensureAppwriteConfig();
+
     await databases.deleteDocument(
       DATABASE_ID!,
       DIARY_COLLECTION_ID!,
@@ -85,14 +115,16 @@ export const deleteDiaryEntry = async (entryId: string) => {
 
     return true;
   } catch (error) {
-    console.error("An error occurred while deleting the diary entry:", error);
-    throw error;
+    console.error("deleteDiaryEntry failed:", error);
+    throw new Error(formatActionError(error, "Failed to delete diary entry"));
   }
 };
 
 // GET ALL SHARED DIARY ENTRIES (For Admin)
 export const getSharedDiaryEntries = async () => {
   try {
+    ensureAppwriteConfig();
+
     const entries = await databases.listDocuments(
       DATABASE_ID!,
       DIARY_COLLECTION_ID!,
@@ -104,7 +136,7 @@ export const getSharedDiaryEntries = async () => {
 
     return parseStringify(entries.documents);
   } catch (error) {
-    console.error("An error occurred while fetching shared diary entries:", error);
+    console.error("getSharedDiaryEntries failed:", error);
     return [];
   }
 };
@@ -112,6 +144,8 @@ export const getSharedDiaryEntries = async () => {
 // GET PATIENT SHARED ENTRIES (Specific User)
 export const getPatientSharedEntries = async (userId: string) => {
   try {
+    ensureAppwriteConfig();
+
     const entries = await databases.listDocuments(
       DATABASE_ID!,
       DIARY_COLLECTION_ID!,
@@ -124,7 +158,7 @@ export const getPatientSharedEntries = async (userId: string) => {
 
     return parseStringify(entries.documents);
   } catch (error) {
-    console.error("An error occurred while fetching patient diary entries:", error);
+    console.error("getPatientSharedEntries failed:", error);
     return [];
   }
 };

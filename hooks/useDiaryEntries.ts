@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useCallback, useEffect } from "react";
 import { toast } from "../hooks/use-toast";
 import { 
@@ -102,10 +104,11 @@ export const useDiaryEntries = () => {
       setCurrentEntry(newEntry);
       return newEntry;
     } catch (error) {
+      const description = error instanceof Error ? error.message : "Failed to create new entry";
       console.error("Error creating entry:", error);
       toast({
         title: "Error",
-        description: "Failed to create new entry",
+        description,
         variant: "destructive",
       });
       return null;
