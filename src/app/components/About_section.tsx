@@ -385,15 +385,11 @@ const AboutMindSettler = () => {
          
                             <div className="flex flex-col lg:flex-row items-center justify-between relative h-fit gap-12 lg:min-h-150 max-sm:gap-2  lg:gap-20">
 
-                                {/* ============ LEFT SIDE: IMAGE ============ */}
-                                {/* We use w-full lg:w-1/2 to take half space on desktop */}
+
                                 <div className="w-full lg:w-1/2  relative flex justify-center lg:justify-end">
 
-                                    {/* Optional Decorative Blur behind image for depth */}
                                     <div className="portrait1 absolute -inset-4 bg-purple-200/50 blur-3xl rounded-[50px] -z-10 transform rotate-3"></div>
 
-                                    {/* The Image Container with Arch Shape */}
-                                    {/* aspect-[3/4] forces a portrait ratio. rounded-t-[4rem] creates the arch top. */}
                                     <div className="portrait1 relative w-full max-w-md aspect-[3/4] rounded-t-[4rem] rounded-b-3xl overflow-hidden shadow-2xl border-4 border-white z-10">
                                         <img
 
@@ -405,10 +401,8 @@ const AboutMindSettler = () => {
                                 </div>
 
 
-                                {/* ============ RIGHT SIDE: CONTENT ============ */}
                                 <div className="w-full max-sm:w-full max-sm:h-auto sm:min-h-100 lg:h-fit relative h-[-webkit-fill-available] flex flex-col justify-around items-start max-sm:py-10 max-sm:px-4">
 
-                                    {/* Small Overline Tag */}
                                     <span ref={mainHead} className="max-md:hidden absolute sm:top-0 mx-auto max-sm:-top-10 lg:-top-10 sm text-pink-600 font-medium tracking-wider uppercase text-sm mb-4">
                                         About MindSettler
                                     </span>
@@ -423,10 +417,10 @@ const AboutMindSettler = () => {
                                             ref={(el) => { panelsRef.current[i] = el; }}
                                             className="absolute max-sm:relative max-sm:w-full max-sm:mb-8 max-sm:top-4 max-sm:left-0"
                                         >
-                                            <h2 className="text-2xl sm:text-3xl lg:text-5xl font-serif font-bold text-purple-900 mb-4 sm:mb-6 leading-tight">
+                                            <h2 className="text-2xl sm:text-3xl lg:text-5xl  font-bold text-purple-900 mb-4 sm:mb-6 leading-tight">
                                                 {step.title}
                                             </h2>
-                                            <div className="space-y-1 relative text-base sm:text-lg text-gray-600 leading-relaxed font-sans">
+                                            <div className="space-y-1 relative text-base sm:text-lg text-gray-600 leading-relaxed ">
                                                 <p>
                                                     {step.content}
                                                 </p>
@@ -439,7 +433,6 @@ const AboutMindSettler = () => {
                                     ))}
 
 
-                                    {/* Optional subtle call to action or signature area */}
                                     <div ref={bottomHead} className="mt-2 pt-4 border-t absolute max-sm:relative max-sm:top-auto max-sm:border-t-2 max-sm:mt-8 -bottom-10  border-purple-100 flex flex-col max-sm:flex-col items-start max-sm:items-start gap-2">
                                         <span className="text-purple-800 font-medium text-sm sm:text-base">Are you ready to find clarity?</span>
                                         <a href="#contact" className="text-pink-600 hover:text-pink-700 font-semibold underline-offset-4 hover:underline transition-all text-sm sm:text-base">
@@ -462,7 +455,7 @@ const AboutMindSettler = () => {
                         <div className=" relative top-0 pt-10 text-center  text-pink-600 font-medium tracking-wider uppercase text-sm mb-2">
                             Your Journey
                         </div>
-                        <h2 className="text-3xl relative  text-center lg:text-5xl font-serif font-bold text-purple-900 mb-2 leading-tight">
+                        <h2 className="text-3xl relative  text-center lg:text-5xl  font-bold text-purple-900 mb-2 leading-tight">
                             The Path to Mental Clarity
                         </h2>
                         <div className="text-blueGray text-center max-w-[60vw] mx-auto mb-12 text-md font-medium leading-relaxed">
@@ -557,13 +550,9 @@ const AboutMindSettler = () => {
             {/* for tabs and mobiles  */}
             <section className="sec2 md:hidden relative w-full h-auto overflow-visible flex items-center justify-center bg-white">
 
-                {/* --- 1. BACKGROUND IMAGES (Parallax Layers) --- */}
-                {/* absolute inset-0 ensures it fills the entire section behind the text */}
                 <div className="absolute inset-0 w-full h-full z-0">
-                    {/* Base Background Color */}
                     <div className="absolute inset-0 bg-[#3a6d70]" />
 
-                    {/* Layer 1 */}
                     <Image
                         src="/Parallax/mountainsfulll1.png"
                         alt="Mountains Layer 1"
@@ -573,7 +562,6 @@ const AboutMindSettler = () => {
                         data-speed="0.3"
                     />
 
-                    {/* Layer 2 (Sun/Light) */}
                     <Image
                         src="/Parallax/mountainsfulllastsun.png"
                         alt="Mountains Sun"
@@ -583,7 +571,6 @@ const AboutMindSettler = () => {
                         data-speed="0.4"
                     />
 
-                    {/* Layer 3 */}
                     <Image
                         src="/Parallax/mountainsfulllast5.png"
                         alt="Mountains Layer 5"
@@ -593,7 +580,6 @@ const AboutMindSettler = () => {
                         data-speed="0.5"
                     />
 
-                    {/* Layer 4 */}
                     <Image
                         src="/Parallax/mountainsfulllast4.png"
                         alt="Mountains Layer 4"
@@ -603,7 +589,6 @@ const AboutMindSettler = () => {
                         data-speed="0.6"
                     />
 
-                    {/* Layer 5 */}
                     <Image
                         src="/Parallax/mountainsfulllast3.png"
                         alt="Mountains Layer 3"
@@ -633,7 +618,7 @@ const AboutMindSettler = () => {
                         <div className="text-pink-600 font-medium tracking-wider uppercase text-sm mb-2">
                             Your Journey
                         </div>
-                        <h2 className="text-2xl sm:text-3xl lg:text-5xl font-serif font-bold text-purple-900 mb-3 leading-tight">
+                        <h2 className="text-2xl sm:text-3xl lg:text-5xl  font-bold text-purple-900 mb-3 leading-tight">
                             The Path to Mental Clarity
                         </h2>
                         <p className="text-blueGray max-w-2xl mx-auto text-sm sm:text-md font-medium leading-relaxed px-2">

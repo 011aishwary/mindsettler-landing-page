@@ -27,7 +27,7 @@ const Booking = () => {
             <div className=" relative top-0 pt-10 text-center  text-pink-600 font-medium tracking-wider uppercase text-sm mb-2">
                 Sessions & Booking
             </div>
-            <h2 className="text-3xl relative  text-center lg:text-5xl font-serif font-bold text-purple-900 mb-2 leading-tight">
+            <h2 className="text-3xl relative  text-center lg:text-5xl  font-bold text-purple-900 mb-2 leading-tight">
                 Begin Your Healing Journey
             </h2>
             <div className="text-purple3 relative  text-center max-w-[60vw] mx-auto mb-12 text-md font-medium leading-relaxed">

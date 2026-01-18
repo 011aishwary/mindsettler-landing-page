@@ -262,10 +262,10 @@ const ShatterSection = forwardRef<HTMLDivElement>((props, ref) => {
 
       <div ref={section2} className="relative inset-0 h-full lg:h-fit flex flex-col items-center justify-start  z-30">
         
-        <div className="Heading1 relative top-0 pt-6 sm:pt-8 lg:pt-10 text-center text-pink-600 font-medium tracking-wider uppercase text-xs sm:text-sm lg:text-base mb-2">
+        <div className="Heading1  relative top-0 pt-6 sm:pt-8 lg:pt-10 text-center text-pink-600 font-medium tracking-wider uppercase text-xs sm:text-sm lg:text-base mb-2">
           What is MindSettler
         </div>
-        <h2 className="SubHeading1 text-xl sm:text-2xl md:text-4xl lg:text-5xl relative text-center font-serif font-bold text-purple-900 mb-2 lg:mb-4 leading-tight px-4 sm:px-0">
+        <h2 className="SubHeading1 text-xl sm:text-2xl md:text-4xl lg:text-5xl relative text-center font-bold text-purple-900 mb-2 lg:mb-4 leading-tight px-4 sm:px-0">
           First Step is Awareness
         </h2>
         <div className="text-blueGray text-center max-w-ful  sm:max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg font-medium leading-relaxed px-4 sm:px-6 mb-6 sm:mb-8">

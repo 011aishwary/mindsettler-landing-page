@@ -54,7 +54,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${nunito.variable} nunito-font antialiased `}
+        className={`${nunito.className} antialiased `}
       >
         <NavbarDemo  />
         <Chatbot />

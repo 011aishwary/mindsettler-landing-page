@@ -62,8 +62,14 @@ const page = () => {
   }
   useEffect(() => {
     const getUser = async () => {
-      const user = await account.get();
-      console.log("User ID is:", user.$id);
+      try {
+        const user = await account.get();
+        
+      } catch (error) {
+        console.log("No user logged in:", error);
+        return;
+      }
+      // console.log("User ID is:", user.$id);
       // Now you have the ID and can redirect to dynamic routes if needed
     };
     getUser();

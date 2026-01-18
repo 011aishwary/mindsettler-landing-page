@@ -67,9 +67,10 @@ const Chatbot = () => {
       {/* Chat Toggle Button */}
       <button
         onClick={toggleChat}
-        className="fixed bottom-4 cursor-pointer right-4 bg-Primary text-white  rounded-full shadow-lg hover:bg-Primary- hover:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-gradient-sky focus:ring-offset-1 z-50"
+        className="fixed bottom-10 group cursor-pointer right-4 bg-Primary text-white  rounded-full shadow-lg hover:bg-Primary- hover:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-gradient-sky focus:ring-offset-1 z-50"
         aria-label="Toggle Chatbot"
       >
+        <span className="group-hover:flex hidden fixed -left-16 top-2 transform  z-96  font-semibold transition-all duration-300 text-Primary-purple">ChatBot</span>
         {isOpen ? (
           <div className=" group z-50">
             {/* The Glow Effect behind */}

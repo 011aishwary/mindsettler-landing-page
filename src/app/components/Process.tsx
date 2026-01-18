@@ -157,7 +157,7 @@ const Process = () => {
             </motion.div>
             
             <motion.h2 
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl relative text-center font-serif font-bold text-purple-900 mb-4 sm:mb-6 lg:mb-8 leading-tight px-4 sm:px-0"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl relative text-center  font-bold text-purple-900 mb-4 sm:mb-6 lg:mb-8 leading-tight px-4 sm:px-0"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}

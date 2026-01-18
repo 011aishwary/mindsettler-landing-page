@@ -1,19 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 @import "tailwindcss";
-
-.nunito-font {
-  font-family: "Nunito", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 200 400 600 800 900;
-  font-style: normal;
-}
-
-body {
-  font-family: nunito-font, sans-serif;
-}
-
 
 
 /* EmailSubscription.css */
@@ -178,8 +165,8 @@ body {
   --color-pink-soft: #fcebf3;
   /* converted from 338 60% 95% */
   --color-pink-medium: #f7d9e6;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono); */
   /* Gradients */
   --gradient-soft-calm: linear-gradient(to top, #bfb6d3 0%, #f2bfc9 100%);
   --gradient-calm-soft: linear-gradient(to top, #f2bfc9 0%, #bfb6d3 100%);

@@ -8,7 +8,7 @@ import { InputFile } from "node-appwrite/file";
 
 export const createAppointment = async ({ paymentProof, ...appointment }: CreateAppointmentParams) => {
   try {
-    console.log("Creating appointment with data:", paymentProof);
+
     let file;
     if (paymentProof) {
       
