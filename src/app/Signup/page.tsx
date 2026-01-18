@@ -16,7 +16,6 @@ import { useRouter } from "next/navigation"
 import { Lock } from "lucide-react"
 import { account } from "../../../lib/appwrite.config"
 import Link from "next/link"
-import { motion } from "framer-motion"
 import { acc } from "../../app/appwrite/appwriteconfig"
 import { OAuthProvider } from "node-appwrite"
 // import { User } from "node-appwrite/types/user"
@@ -103,29 +102,11 @@ const page = () => {
   return (
     <div className="flex relative lg:h-screen  flex-col lg:flex-row w-full min-h-screen bg-gradient-to-br from-white via-pink-50 to-purple-50 overflow-hidden">
       {/* Animated Background Elements - Fixed Position, No Pointer Events */}
-      <motion.div
-        className="fixed top-0 left-0 w-96 h-96 bg-gradient-to-br from-pink-200 to-purple-200 rounded-full opacity-20 blur-3xl pointer-events-none"
-        animate={{
-          x: [0, 30, 0],
-          y: [0, -30, 0],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+      <div
+        className="fixed top-0 left-0 w-96 h-96 bg-gradient-to-br from-pink-200 to-purple-200 rounded-full opacity-20 blur-3xl pointer-events-none animate-blob"
       />
-      <motion.div
-        className="fixed bottom-0 right-0 w-96 h-96 bg-gradient-to-br from-purple-200 to-pink-200 rounded-full opacity-20 blur-3xl pointer-events-none"
-        animate={{
-          x: [0, -30, 0],
-          y: [0, 30, 0],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+      <div
+        className="fixed bottom-0 right-0 w-96 h-96 bg-gradient-to-br from-purple-200 to-pink-200 rounded-full opacity-20 blur-3xl pointer-events-none animate-blob animation-delay-2000"
       />
 
       {/* Left Side - Form (No Framer MotionWrapper) */}
@@ -238,34 +219,16 @@ const page = () => {
       </div>
 
       {/* Right Side - Image (Hidden on Mobile, Visible on LG) */}
-      <motion.div
-        className="hidden lg:flex w-1/2 items-center justify-center relative overflow-hidden bg-gradient-to-br from-Primary-purple/10 to-pink-200/20 z-10"
-        initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+      <div
+        className="hidden lg:flex w-1/2 items-center justify-center relative overflow-hidden bg-gradient-to-br from-Primary-purple/10 to-pink-200/20 z-10 animate-in fade-in slide-in-from-right-10 duration-700"
       >
         {/* Decorative Elements */}
-        <motion.div
-          className="absolute  inset-0 pointer-events-none"
-          animate={{
-            background: [
-              'radial-gradient(circle at 20% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 50%)',
-              'radial-gradient(circle at 80% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 50%)',
-              'radial-gradient(circle at 20% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 50%)',
-            ],
-          }}
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-          }}
+        <div
+          className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_50%,rgba(168,85,247,0.1)_0%,transparent_50%)] animate-pulse"
         />
 
         {/* Image with Hover Animation */}
-        <motion.div
-          className="relative z-10 w-full h-full "
-          whileHover={{ scale: 1.05 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        >
+        <div className="relative z-10 w-full h-full transition-transform duration-500 ease-out hover:scale-105">
           <Image
             src="/Signup.jpg"
             alt="Start Your Journey"
@@ -273,42 +236,24 @@ const page = () => {
             className="object-cover pointer-events-none"
             priority
           />
-        </motion.div>
+        </div>
 
         {/* Floating Cards Animation */}
-        <motion.div
-          className="absolute top-10 z-12 left-10 bg-white/80 backdrop-blur-md rounded-lg p-4 shadow-lg pointer-events-none"
-          animate={{
-            y: [0, -10, 0],
-            rotate: [-2, 2, -2],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+        <div
+          className="absolute top-10 z-12 left-10 bg-white/80 backdrop-blur-md rounded-lg p-4 shadow-lg pointer-events-none float hover:shadow-glow transition-shadow duration-300"
         >
           <p className="text-sm font-semibold text-Primary-purple">Get Started Today</p>
           <p className="text-xs text-gray-600">Your wellness awaits</p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          className="absolute bottom-10 z-12 right-10 bg-white/80 backdrop-blur-md rounded-lg p-4 shadow-lg pointer-events-none"
-          animate={{
-            y: [0, 10, 0],
-            rotate: [2, -2, 2],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 0.5,
-          }}
+        <div
+          className="absolute bottom-10 z-12 right-10 bg-white/80 backdrop-blur-md rounded-lg p-4 shadow-lg pointer-events-none float hover:shadow-glow transition-shadow duration-300"
+          style={{ animationDelay: "2s" }}
         >
           <p className="text-sm font-semibold text-Primary-purple">Free Consultation</p>
           <p className="text-xs text-gray-600">Book your first session</p>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </div>
   )
 }
