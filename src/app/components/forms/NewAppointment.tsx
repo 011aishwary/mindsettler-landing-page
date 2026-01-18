@@ -21,7 +21,7 @@ import { usePathname } from "next/navigation"
 import { toast } from "../../../../hooks/use-toast"
 import { useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { format} from "date-fns";
+import { format } from "date-fns";
 import { CalendarDays, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { BookingCalendar } from "../BookingCalendar";
 import { TimeSlotPicker } from "../TimeSlotPicker";
@@ -170,11 +170,11 @@ export const AppointmentForm = ({
     };
     useEffect(() => {
 
-        if(type !== "create"){
+        if (type !== "create") {
             setSelectedDate(appointment ? appointment.schedule : null);
             setSelectedTime(appointment ? appointment.time : null);
-    
-                }
+
+        }
     }, []);
 
 
@@ -183,7 +183,7 @@ export const AppointmentForm = ({
 
         resolver: zodResolver(AppointmentFormValidation),
         defaultValues: {
-            
+
             schedule: selectedDate ? format(selectedDate, "yyyy-MM-dd") : "",
             time: selectedTime ? selectedTime : "",
             reason: appointment ? appointment.reason : "",
@@ -274,10 +274,7 @@ export const AppointmentForm = ({
                 };
                 // setAppointments((prev) => [...prev, appointment]);
                 setSubmitStatus("success");
-                toast({
-                    title: "Appointment Booked!",
-                    description: `Your appointment on ${selectedDate ? format(selectedDate, "MMMM d, yyyy") : "selected date"} at ${selectedTime || "selected time"} has been confirmed.`,
-                });
+
                 setTimeout(() => {
                     setSelectedDate(null);
                     setSelectedTime(null);
@@ -289,6 +286,10 @@ export const AppointmentForm = ({
 
                 if (newAppointment) {
                     form.reset();
+                    toast({
+                        title: "Appointment Booked!",
+                        description: `Your appointment on ${selectedDate ? format(selectedDate, "MMMM d, yyyy") : "selected date"} at ${selectedTime || "selected time"} has been confirmed.`,
+                    });
                     try {
                         console.log("Attempting to send email notification...", type);
                         const patientData = await getPatient(userId);
@@ -365,7 +366,7 @@ export const AppointmentForm = ({
                     console.log("Fetched patient data for email:", patientData);
                     const email = patientData.email;
                     const date = selectedDate ? format(selectedDate, " dd, mm, yyyy") : "";
-                    const time = selectedTime ;
+                    const time = selectedTime;
                     const mode = paymentType;
                     const name = patientData.name;
                     const mailData = { "email": email, "name": name, "date": date, "time": time, "mode": mode, status: type };
@@ -441,12 +442,12 @@ export const AppointmentForm = ({
                                             transition={{ delay: 0.1, duration: 0.5 }}
                                             className="w-full sm:w-80 md:w-96 lg:w-96 mx-auto lg:mx-0"
                                             whileHover={{ y: -4 }}
-                                            // transition={{ type: "spring", stiffness: 200 }}
+                                        // transition={{ type: "spring", stiffness: 200 }}
                                         >
                                             <motion.div
                                                 className="gradient-card rounded-2xl p-4 sm:p-6 shadow-card border border-border/50 h-full"
                                                 whileHover={{ boxShadow: "0 20px 40px rgba(168, 85, 247, 0.15)" }}
-                                                transition={{ duration: 0.3 , type: "spring", stiffness: 200 }}
+                                                transition={{ duration: 0.3, type: "spring", stiffness: 200 }}
                                             >
                                                 <BookingCalendar
                                                     selectedDate={selectedDate}
