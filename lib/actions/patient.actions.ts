@@ -5,55 +5,55 @@ import { parseStringify } from "../utils"
 import { InputFile } from "node-appwrite/file";
 import { string } from "zod";
 import { cookies } from "next/headers";
-import {  CreateUserParams, RegisterUserParams  } from "../../types"
+import { CreateUserParams, RegisterUserParams } from "../../types"
 
 
 import { Client, Account } from "node-appwrite";
 import { redirect } from "next/navigation";
 
 export async function logout() {
-  // 1. Get the session cookie name
-  const projectId = process.env.PROJECT_ID;
-  const cookieName = `a_session_${projectId?.toLowerCase()}`;
-  
-  // 2. Get the session token from the cookie
-  const cookieStore = await cookies();
-  const sessionToken = cookieStore.get(cookieName)?.value;
+    // 1. Get the session cookie name
+    const projectId = process.env.PROJECT_ID;
+    const cookieName = `a_session_${projectId?.toLowerCase()}`;
 
-  if (sessionToken) {
-    try {
-      // 3. Create a Session Client (to tell Appwrite we are logging out)
-      const client = new Client()
-        .setEndpoint(process.env.NEXT_PUBLIC_ENDPOINT!)
-        .setProject(projectId!)
-        .setSession(sessionToken); // <--- Authenticate as the user
+    // 2. Get the session token from the cookie
+    const cookieStore = await cookies();
+    const sessionToken = cookieStore.get(cookieName)?.value;
 
-      const account = new Account(client);
+    if (sessionToken) {
+        try {
+            // 3. Create a Session Client (to tell Appwrite we are logging out)
+            const client = new Client()
+                .setEndpoint(process.env.NEXT_PUBLIC_ENDPOINT!)
+                .setProject(projectId!)
+                .setSession(sessionToken); // <--- Authenticate as the user
 
-      // 4. Delete the session on Appwrite's server
-      await account.deleteSession('current');
-      
-    } catch (error) {
-      // Ignore error if session is already invalid
-      console.error("Logout error (Appwrite):", error);
+            const account = new Account(client);
+
+            // 4. Delete the session on Appwrite's server
+            await account.deleteSession('current');
+
+        } catch (error) {
+            // Ignore error if session is already invalid
+            console.error("Logout error (Appwrite):", error);
+        }
     }
-  }
 
-  // 5. CRITICAL: Delete the cookie from the browser
-  cookieStore.delete(cookieName);
+    // 5. CRITICAL: Delete the cookie from the browser
+    cookieStore.delete(cookieName);
 
-  // 6. Redirect to login page
-  redirect("/?logout=true");
+    // 6. Redirect to login page
+    redirect("/?logout=true");
 }
 
 export const createCookieSession = async (userLog: any) => {
     (await cookies()).set("a_session_" + process.env.PROJECT_ID?.toLowerCase(), userLog.secret, {
-            path: "/",
-            httpOnly: true,
-            sameSite: "strict",
-            secure: true,
-        });
-    }
+        path: "/",
+        httpOnly: true,
+        sameSite: "strict",
+        secure: true,
+    });
+}
 
 
 export const createUser = async (user: CreateUserParams) => {
@@ -110,21 +110,47 @@ export const getPatient = async (userId: string) => {
         }
         return parseStringify(patients.documents[0]);
     } catch (error) {
-        console.log("Error fetching patient:", error);
-        throw error;
+        redirect("/patient/" + userId + "/register");
+        // console.log("Error fetching patient:", error);
+        // throw error;
     }
 }
 
 export const registerPatient = async ({ identificationDocument, ...patient }: RegisterUserParams) => {
     try {
+      
         let file;
         if (identificationDocument) {
-            const inputFIle = InputFile.fromBuffer(
-                identificationDocument?.get('BlobFile') as Blob,
-                identificationDocument?.get('fileName') as string,
-            )
-            file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFIle);
+            console.log("Creating appointment with data:", identificationDocument);
+            
+            if (identificationDocument) {
+
+
+                const buffer = Buffer.from(
+                    await identificationDocument.arrayBuffer()
+                );
+
+
+                // Create Appwrite InputFile
+                const inputFIle = InputFile.fromBuffer(
+                    buffer,
+                    identificationDocument.name,
+                );
+
+
+
+                // Optional: Additional check via filename extension (fallback)
+                const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp' ,'.pdf'];
+                const fileExtension = inputFIle.name.toLowerCase().substring(inputFIle.name.lastIndexOf('.'));
+                if (!allowedExtensions.includes(fileExtension)) {
+                    throw new Error('Invalid file extension. Only image files are allowed.');
+                }
+                console.log("Uploading identification document...", inputFIle.name);
+                file = await storage.createFile(process.env.NEXT_PUBLIC_BUCKET_ID!, ID.unique(), inputFIle);
+                console.log("Uploaded file ID:", file.$id);
+            }
         }
+
 
 
         const newPatient = await databases.createDocument(
@@ -145,7 +171,7 @@ export const registerPatient = async ({ identificationDocument, ...patient }: Re
                 identificationType: patient.identificationType,
                 identificationNumber: patient.identificationNumber,
                 identificationDocumentId: file?.$id || null,
-                identificationDocumentUrl: `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}`,
+                identificationDocumentUrl: `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}&admin=true`,
                 treatmentConsent: patient.treatmentConsent,
                 disclosureConsent: patient.disclosureConsent,
                 privacyConsent: patient.privacyConsent,

@@ -103,7 +103,7 @@ const page = () => {
     <div className="flex relative lg:h-screen  flex-col lg:flex-row w-full min-h-screen bg-gradient-to-br from-white via-pink-50 to-purple-50 overflow-hidden">
       {/* Animated Background Elements - Fixed Position, No Pointer Events */}
       <div
-        className="fixed top-0 left-0 w-96 h-96 bg-gradient-to-br from-pink-200 to-purple-200 rounded-full opacity-20 blur-3xl pointer-events-none animate-blob"
+        className="fixed top-0 left-0 w-96  h-96 bg-gradient-to-br from-pink-200 to-purple-200 rounded-full opacity-20 blur-3xl pointer-events-none animate-blob"
       />
       <div
         className="fixed bottom-0 right-0 w-96 h-96 bg-gradient-to-br from-purple-200 to-pink-200 rounded-full opacity-20 blur-3xl pointer-events-none animate-blob animation-delay-2000"
@@ -111,9 +111,9 @@ const page = () => {
 
       {/* Left Side - Form (No Framer MotionWrapper) */}
       <div
-        className="w-full lg:w-1/2 lg:mt-8 lg:overflow-scroll lg:h-[98vh] flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 py-8 sm:py-12 lg:py-0 relative z-20"
+            className="w-full lg:w-1/2 lg:pt-50 lg:overflow-scroll lg:h-full  flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 py-8 sm:py-12 lg:py-0 relative z-20"
       >
-        <div className="w-full max-w-md">
+        <div className="w-full my-10 max-w-md">
           {/* Header */}
           <div className="mb-8 sm:mb-10">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-Primary-purple mb-2">Begin Your Journey</h1>

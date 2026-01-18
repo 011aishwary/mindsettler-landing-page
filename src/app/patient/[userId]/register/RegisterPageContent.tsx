@@ -10,7 +10,7 @@ const RegisterPageContent = ({ user }: { user: User }) => {
         <div className="flex w-full h-screen overflow-hidden bg-white">
             {/* Left Side - Form Container */}
             <div 
-                className="w-full md:w-[50%] lg:w-[60%] flex flex-col justify-center items-center h-full relative z-10 bg-white animate-in fade-in slide-in-from-left-8 duration-700 ease-out"
+                className="w-full lg:w-[60%] max-md:px-10 flex flex-col justify-center items-center h-full relative z-10 bg-white animate-in fade-in slide-in-from-left-8 duration-700 ease-out"
             >
                 {/* Scrollable Form Area */}
                 <div className="w-full h-full overflow-y-auto custom-scrollbar flex justify-center py-6">
@@ -20,7 +20,7 @@ const RegisterPageContent = ({ user }: { user: User }) => {
 
             {/* Right Side - Image Container */}
             <div 
-                className="hidden md:flex md:w-[50%] lg:w-[40%] h-full relative animate-in fade-in slide-in-from-right-8 duration-1000 ease-out delay-200 fill-mode-backwards"
+                className="hidden lg:flex lg:w-[40%]  h-full relative animate-in fade-in slide-in-from-right-8 duration-1000 ease-out delay-200 fill-mode-backwards"
             >
                 <div className="relative w-full h-full group overflow-hidden">
                     <Image

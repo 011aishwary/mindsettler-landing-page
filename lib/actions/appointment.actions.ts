@@ -5,9 +5,6 @@ import { APPOINTMENTS_COLLECTION_ID, DATABASE_ID, databases, messaging, storage 
 import { CreateAppointmentParams, UpdateAppointmentParams } from "../../types"
 import { revalidatePath } from "next/cache";
 import { InputFile } from "node-appwrite/file";
-import { input } from "framer-motion/client";
-import fs from "fs";
-import path from "path";
 
 export const createAppointment = async ({ paymentProof, ...appointment }: CreateAppointmentParams) => {
   try {
@@ -19,13 +16,12 @@ export const createAppointment = async ({ paymentProof, ...appointment }: Create
       const buffer = Buffer.from(
         await paymentProof.arrayBuffer()
       );
+      
 
       // Create Appwrite InputFile
       const inputFIle = InputFile.fromBuffer(
         buffer,
-        // paymentProof[0].name,
         paymentProof.name,
-        // "image/png"
       );
 
 

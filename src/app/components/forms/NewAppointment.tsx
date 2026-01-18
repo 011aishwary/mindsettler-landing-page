@@ -93,34 +93,40 @@ export const AppointmentForm = ({
     const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
-    // Fetch booked appointments on mount
-    // useEffect(() => {
-    //     const fetchAppointments = async () => {
-    //         setIsLoading(true);
-    //         try {
-    //             // Simulate API call - replace with actual Appwrite/Supabase fetch
-    //             await new Promise((resolve) => setTimeout(resolve, 1000));
-    //             // setAppointments(MOCK_BOOKED_APPOINTMENTS);
-    //         } catch (error) {
-    //             console.error("Failed to fetch appointments:", error);
-    //             toast({
-    //                 title: "Error",
-    //                 description: "Failed to load appointments. Please refresh the page.",
-    //                 variant: "destructive",
-    //             });
-    //         } finally {
-    //             setIsLoading(false);
-    //         }
-    //     };
 
-    //     fetchAppointments();
-    // }, []);
+
+    useEffect(() => {
+        const checkPatientRegistration = async () => {
+            if (type === "create" && userId) {
+                try {
+                    const patientData = await getPatient(userId);
+                    if (!patientData) {
+                        toast({
+                            title: "Registration Required",
+                            description: "Please complete your registration before booking an appointment.",
+                            variant: "destructive",
+                        });
+                        router.push(`/patient/${userId}/register`);
+                    }
+                } catch (error) {
+                    toast({
+                        title: "Registration Required",
+                        description: "Please complete your registration before booking an appointment.",
+                        variant: "destructive",
+                    });
+                    router.push(`/patient/${userId}/register`);
+                }
+            }
+        };
+        
+        checkPatientRegistration();
+    }, [userId, type, router]);
 
     useEffect(() => {
         const fetchAppointments = async () => {
             try {
                 const response = await getRecentAppointmentList();
-                console.log("Fetched appointments:", response.documents);
+
 
                 setAppointments(response.documents as Appointment[]);
             } catch (error) {
@@ -148,7 +154,6 @@ export const AppointmentForm = ({
                 // Only consider scheduled appointments
                 if (apt.status !== "scheduled") return false;
 
-                // Handle timezone issues by creating a Date object from the string
                 const aptDateObj = new Date(apt.schedule);
                 const aptDateString = format(aptDateObj, "yyyy-MM-dd");
                 return aptDateString === dateString;
@@ -207,11 +212,15 @@ export const AppointmentForm = ({
             return;
         }
 
-        console.log("Uploading payment proof:", values.paymentProof?.[0]);
+        if (values.paymentProof && values.paymentProof.length > 0 && values.paymentProof[0].size > 1024 * 1024) {
+            toast({
+                title: "Error",
+                description: "File size exceeds 1MB. Please choose a smaller file.",
+                variant: "destructive",
+            });
+            return;
+        }
 
-        // let formData;
-
-        // console.log("Payment proof set in state:", proof);
         setIsSubmitting(true);
         setSubmitStatus("idle");
 
@@ -229,17 +238,7 @@ export const AppointmentForm = ({
 
         try {
             if (type === "create" && patientId) {
-                // const field = await setProof(values.paymentProof?.[0] || null );
                 const patient = await getPatient(userId);
-                console.log("Fetched patient data:", proof);
-                console.log("Creating appointment for patientId:", patientId);
-                console.log('Raw schedule value:', values.schedule);
-                // console.log('Parsed date:', new Date(values.schedule));
-                // console.log('file type:', formData);  // Removed: formData no longer exists  
-                if ('paymentProof' in values && values.paymentProof) {
-                    // console.log('Payment proof file:', values.paymentProof[0]?.name);  // Example: Log file name if present
-                }
-                // const paymentFormData = new FormData();
                 if (!selectedDate) {
                     toast({
                         title: "Error",

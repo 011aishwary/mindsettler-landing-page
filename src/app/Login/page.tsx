@@ -12,7 +12,7 @@ import { LoginFormValidation } from "../../../lib/validation"
 import { useRouter } from "next/navigation"
 import { account } from "../../../lib/appwrite.config"
 import Link from "next/link"
-import { createCookieSession } from "../../../lib/actions/patient.actions"
+import { createCookieSession, getPatient } from "../../../lib/actions/patient.actions"
 import { useToast } from "../../../hooks/use-toast"
 
 export enum FormFeildType {
@@ -35,13 +35,6 @@ const page = () => {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 const [user, setUser] = useState<any>(null);
-//   useEffect(() => {
-//     account.get()
-//       .then((res) => setUser(res) )
-//       .catch(() => router.push("/Login"));
-//   }, []);
-
-//   if (!user) return <p className="bg-Primary-purple w-100 h-100">Loading...</p>;
 
   const form = useForm<z.infer<typeof LoginFormValidation>>({
     resolver: zodResolver(LoginFormValidation),
@@ -67,9 +60,19 @@ const [user, setUser] = useState<any>(null);
     //               sameSite: "strict",
     //               secure: true,
     //           });
-    //   console.log("User logged in successfully:", userLog.userId);
-    //   if (userLog) router.push(`/patient/${userLog.userId}/register`);
-      if (userLog) router.push("/");
+      console.log("User logged in successfully:", userLog.userId);
+      
+      try {
+        const patient = await getPatient(userLog.userId);
+        if (patient) {
+          router.push(`/`);
+        }
+      } catch (error) {
+        // Patient not found, redirect to register
+        router.push(`/patient/${userLog.userId}/register`);
+      }
+
+      // if (userLog) router.push("/");
     //   router.push("/dashboard");
     } catch (err: any) {
       console.log(err);

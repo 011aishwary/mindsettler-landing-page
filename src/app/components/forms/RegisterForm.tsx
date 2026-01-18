@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import Image from "next/image"
 import { getUser, registerPatient } from "../../../../lib/actions/patient.actions"
 import { Form, FormControl } from "../ui/Form"
 import CustomFormField from "../CustomFormField"
@@ -19,7 +18,7 @@ import { Label } from "../ui/Label"
 import { SelectItem } from "../ui/select"
 import FileUploader from "../ui/FileUploader"
 import { User } from "../../../../types"
-import { motion } from "framer-motion"
+
 
 const RegisterForm = ({ user }: { user: User }) => {
     const form = useForm<z.infer<typeof PatientFormValidation>>({
@@ -98,7 +97,7 @@ const RegisterForm = ({ user }: { user: User }) => {
                 ...values,
                 userId: user.$id,
                 birthDate: new Date(values.birthDate),
-                identificationDocument: formData,
+                identificationDocument: values.identificationDocument ? values.identificationDocument[0] : undefined,
                 allergies: values.allergies || "",
                 pastMedicalHistory: values.pastMedicalHistory || "",
                 phone: parseInt(values.phone.replace(/\D/g, '')),
