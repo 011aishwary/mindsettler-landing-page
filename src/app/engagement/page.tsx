@@ -22,7 +22,7 @@ const featureCards = [
     title: "Safe Harbor",
     description: "Connect with us whenever you need support",
     icon: Heart,
-    path: "/contact",
+    path: "/contact-us",
     gradient: "from-gradient-cream to-gradient-sage",
   },
 ];

@@ -3,9 +3,8 @@ import React, { use, useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
-import { title } from 'process';
-import { desc } from 'framer-motion/client';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 const journeySteps = [
     {
@@ -382,7 +381,7 @@ const AboutMindSettler = () => {
                     <section className=" py-10 h-auto lg:min-h-150 md:min-h-170 max-sm:mt-20 min-h-screen bg-white relative z-20">
                         <div className="container mx-auto lg:min-h-150 md:min-h-170 relative px-6 md:px-12">
 
-         
+
                             <div className="flex flex-col lg:flex-row items-center justify-between relative h-fit gap-12 lg:min-h-150 max-sm:gap-2  lg:gap-20">
 
 
@@ -435,7 +434,7 @@ const AboutMindSettler = () => {
 
                                     <div ref={bottomHead} className="mt-2 pt-4 border-t absolute max-sm:relative max-sm:top-auto max-sm:border-t-2 max-sm:mt-8 -bottom-10  border-purple-100 flex flex-col max-sm:flex-col items-start max-sm:items-start gap-2">
                                         <span className="text-purple-800 font-medium text-sm sm:text-base">Are you ready to find clarity?</span>
-                                        <a href="#contact" className="text-pink-600 hover:text-pink-700 font-semibold underline-offset-4 hover:underline transition-all text-sm sm:text-base">
+                                        <a href="/resources" className="text-pink-600 hover:text-pink-700 font-semibold underline-offset-4 hover:underline transition-all text-sm sm:text-base">
                                             Read Our Full Story &rarr;
                                         </a>
                                     </div>
@@ -448,7 +447,7 @@ const AboutMindSettler = () => {
                 </div>
 
             </div>
-            <div   className="bg-white inset-0 z-0 absolute"></div>
+            <div className="bg-white inset-0 z-0 absolute"></div>
             <section id='howitworks' className=" sec2 overflow-hidden max-md:hidden bg-white h-full   md:h-325 lg:h-180    flex items-center justify-center min-h-screen w-screen relative ">
                 <div className="bgwiteabout  h-full overflow-hidden  md:h-325 lg:h-180  relative self-center w-screen">
                     <div className="bg-white/70 absolute w-screen md:h-325 lg:h-180  h-full z-96">
@@ -467,7 +466,7 @@ const AboutMindSettler = () => {
                             {journeySteps.map((step) => (
                                 <div key={step.id} className=" lg:w-1/5 w-full relative flex flex-col items-center text-center p-4 lg:p-6 m-2 rounded-2xl  transition ">
 
-                                    <div  className="relative card hover:-translate-y-4 transition-all duration-500 flex   flex-col items-center text-center ">
+                                    <div className="relative card hover:-translate-y-4 transition-all duration-500 flex   flex-col items-center text-center ">
                                         <div className="bg-white icon  transition duration-300 relative  text-xl text-white rounded-full w-fit mb-4 p-3">
                                             <span className="absolute top-0 bg-Primary-pink w-5 px-2 h-5 self-center flex items-center justify-center text-center  text-sm rounded-full right-0">{step.id}</span>
                                             <Image src={step.icon} alt={step.title} width={40} height={40} className='p-2' />
@@ -481,8 +480,10 @@ const AboutMindSettler = () => {
                             ))}
                         </div>
                         <div className="mt-10 flex relative  font-light items-center justify-center space-x-2  cursor-pointer">
+                            <Link href={"/engagement"}>
                             <span className="text-Primary-pink hover:underline transition-all duration-300  ">Start your journey today</span>
                             <span className="text-Primary-pink font-extrabold calmLR">→</span>
+                            </Link>
                         </div>
                     </div>
                     <div className="bg-[#3a6d70] absolute w-screen h-full z-0">
@@ -506,7 +507,7 @@ const AboutMindSettler = () => {
                             width={500}
                             data-speed="0.4"
                         />
-                     
+
 
                         <Image
                             src="/Parallax/mountainsfulllast5.png"
@@ -540,7 +541,7 @@ const AboutMindSettler = () => {
                             width={500}
                             data-speed="0.5"
                         />
-                        
+
                     </div>
                 </div>
             </section>
@@ -629,8 +630,8 @@ const AboutMindSettler = () => {
                     {/* Journey Steps Cards */}
                     <div className="flex flex-col relative lg:flex-row items-stretch justify-center w-full max-w-full gap-4 lg:gap-6">
                         {journeySteps.map((step, index) => (
-                            <motion.div 
-                                key={step.id} 
+                            <motion.div
+                                key={step.id}
                                 className="w-full lg:w-1/5 relative group"
                                 initial={{ opacity: 0, scale: 0.7, rotateY: -90 }}
                                 whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
@@ -673,12 +674,14 @@ const AboutMindSettler = () => {
 
                     {/* CTA Button */}
                     <div className="mt-4 flex relative items-center justify-center space-x-2 group cursor-pointer  ">
-                        <span className="text-Primary-pink font-semibold text-sm sm:text-base group-hover:underline transition-all duration-300">
-                            Start your journey today
-                        </span>
+                        <Link href={"/engagement"}>
+                            <span className="text-Primary-pink z-20 font-semibold text-sm sm:text-base group-hover:underline transition-all duration-300">
+                                Start your journey today
+                            </span>
                         <span className="text-Primary-pink font-extrabold group-hover:translate-x-1 transition-transform duration-300">
                             →
                         </span>
+                        </Link>
                     </div>
 
                 </div>
