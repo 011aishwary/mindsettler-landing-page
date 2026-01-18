@@ -10,7 +10,7 @@ import CustomFormField from "../CustomFormField"
 import { Dispatch, SetStateAction, useState } from "react"
 import { getAppointmentSchema } from "../../../../lib/validation"
 import { useRouter } from "next/navigation"
-import { FormFeildType } from "@/app/Signup/page"
+import { FormFeildType } from "../../../../types"
 import { createAppointment, getRecentAppointmentList, updateAppointment } from "../../../../lib/actions/appointment.actions"
 import { Appointment } from "../../../../types/appwrite.types"
 import { Status } from "../../../../types/appwrite.types";

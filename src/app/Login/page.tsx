@@ -15,19 +15,7 @@ import Link from "next/link"
 import { createCookieSession } from "../../../lib/actions/patient.actions"
 import { motion } from "framer-motion"
 import { useToast } from "../../../hooks/use-toast"
-
-export enum FormFeildType {
-  INPUT ='input',
-  TEXTAREA= 'textarea',
-  CHECKBOX= 'checkbox',
-  PHONE_INPUT= 'phoneInput',
-  SELECT = 'select',
-  DATE_PICKER= 'datePicker',
-  DATE_TIME_PICKER= 'dateTimePicker',
-  SKELETON= 'skeleton',
-}
-
-
+import { FormFeildType } from "../../../types"
 
 const page = () => {
   // ...
