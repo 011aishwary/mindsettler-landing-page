@@ -60,7 +60,7 @@ export const DiaryEntriesList = ({
       </div>
 
       {/* Entries List */}
-      <div className="flex-1 overflow-y-auto space-y-2 pr-2">
+      <div className="flex-1 overflow-y-auto space-y-2 pr-2 px-2 py-2">
         {entries.length === 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
@@ -98,7 +98,7 @@ export const DiaryEntriesList = ({
             >
               {/* Title */}
               <h3
-                className="font-medium text-sm line-clamp-1 mb-1"
+                className="font-medium text-Primary-purple text-sm line-clamp-1 mb-1"
                 style={{
                   color: currentEntry?.id === entry.id ? inkColor : undefined,
                 }}

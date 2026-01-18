@@ -15,7 +15,7 @@ const Register = async ({ params }: { params: Promise<{ userId: string }> }) => 
     }
 
     if (patient) {
-        redirect(`/patient/${userId}/new-appointment`);
+        redirect(`/`);
     }
     
     return <RegisterPageContent user={user} />;

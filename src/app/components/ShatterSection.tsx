@@ -232,9 +232,10 @@ const ShatterSection = forwardRef<HTMLDivElement>((props, ref) => {
       ref={ref}
       className="relative h-fit  lg:h-fit w-full gradient-hero overflow-hidden z-10"
     >
+      
       <div ref={section2} className="bgwite bg-pink5/1 backdrop-blur-[2px] z-20 h-full w-full absolute" />
       <div
-        className="grid absolute w-full h-screen"
+        className="grid absolute w-full h-full"
         style={{
           gridTemplateColumns: `repeat(${cols}, 1fr)`,
           gridTemplateRows: `repeat(${rows}, 1fr)`
@@ -257,7 +258,10 @@ const ShatterSection = forwardRef<HTMLDivElement>((props, ref) => {
           );
         })}
       </div>
+      
+
       <div ref={section2} className="relative inset-0 h-full lg:h-fit flex flex-col items-center justify-start  z-30">
+        
         <div className="Heading1 relative top-0 pt-6 sm:pt-8 lg:pt-10 text-center text-pink-600 font-medium tracking-wider uppercase text-xs sm:text-sm lg:text-base mb-2">
           What is MindSettler
         </div>
@@ -286,14 +290,14 @@ const ShatterSection = forwardRef<HTMLDivElement>((props, ref) => {
 
           ))}
         </div>
-      
+        
       <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0}}
           transition={{ duration: 0.3, delay: 0.2 }}
           whileHover={{ scale: 1.04 }}
           className="mt-16 p-8 mb-10 max-md:mx-5 lg:p-12 rounded-3xl bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-medium relative overflow-hidden"
-        >
+          >
           {/* Animated background pattern */}
           <motion.div
             animate={{ 

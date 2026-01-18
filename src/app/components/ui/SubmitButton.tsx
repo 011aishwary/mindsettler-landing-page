@@ -12,7 +12,7 @@ const SubmitButton = ( {isLoading , className , children} : buttonProps ) => {
   return (
     <Button
       type="submit"
-      className={className ?? 'bg-purple4 w-full text-white hover:bg-purple4/90 hover:scale-98'}
+      className={className ?? 'bg-purple2 w-full text-white hover:bg-purple2/80 hover:scale-98'}
         disabled={isLoading}
     
     >

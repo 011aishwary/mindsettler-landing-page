@@ -106,7 +106,7 @@ export const getPatient = async (userId: string) => {
 
         );
         if (!patients.documents || patients.documents.length === 0) {
-            throw new Error("Patient not found");
+            return null;
         }
         return parseStringify(patients.documents[0]);
     } catch (error) {

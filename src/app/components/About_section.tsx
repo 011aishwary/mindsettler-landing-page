@@ -382,7 +382,7 @@ const AboutMindSettler = () => {
                     <section className=" py-10 h-auto lg:min-h-150 md:min-h-170 max-sm:mt-20 min-h-screen bg-white relative z-20">
                         <div className="container mx-auto lg:min-h-150 md:min-h-170 relative px-6 md:px-12">
 
-                            {/* Flex Container: Stacks on mobile (col), Side-by-side on desktop (row) */}
+         
                             <div className="flex flex-col lg:flex-row items-center justify-between relative h-fit gap-12 lg:min-h-150 max-sm:gap-2  lg:gap-20">
 
                                 {/* ============ LEFT SIDE: IMAGE ============ */}
@@ -455,8 +455,8 @@ const AboutMindSettler = () => {
                 </div>
 
             </div>
-            <div className="bg-white inset-0 z-0 absolute"></div>
-            <section className=" sec2 overflow-hidden max-md:hidden bg-white h-full   md:h-325 lg:h-180    flex items-center justify-center min-h-screen w-screen relative ">
+            <div   className="bg-white inset-0 z-0 absolute"></div>
+            <section id='howitworks' className=" sec2 overflow-hidden max-md:hidden bg-white h-full   md:h-325 lg:h-180    flex items-center justify-center min-h-screen w-screen relative ">
                 <div className="bgwiteabout  h-full overflow-hidden  md:h-325 lg:h-180  relative self-center w-screen">
                     <div className="bg-white/70 absolute w-screen md:h-325 lg:h-180  h-full z-96">
                         <div className=" relative top-0 pt-10 text-center  text-pink-600 font-medium tracking-wider uppercase text-sm mb-2">

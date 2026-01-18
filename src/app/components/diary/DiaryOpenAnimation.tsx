@@ -17,7 +17,7 @@ export const DiaryOpenAnimation = ({
       {!isOpen && (
         <motion.div
           className="fixed inset-0 pt-20  z-50 flex items-center justify-center"
-          style={{ backgroundColor: "#bfb6d3" }}
+          style={{ backgroundColor: "#f1f1f1" }}
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, delay: 1.5 }}
@@ -45,7 +45,7 @@ export const DiaryOpenAnimation = ({
             {[...Array(5)].map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute w-80 h-[420px] rounded-r-md"
+                className="absolute w-80 h-[420px] rounded-lg"
                 style={{
                   backgroundColor: paperColor,
                   transformOrigin: "left center",
@@ -59,7 +59,7 @@ export const DiaryOpenAnimation = ({
 
             {/* Front Cover */}
             <motion.div
-              className="relative bg-gradient-sage w-80 h-[420px] rounded-lg shadow-2xl flex flex-col items-center justify-center gap-6"
+              className="relative bg-gradient-sky w-80 h-[420px] rounded-lg shadow-2xl flex flex-col items-center justify-center gap-6"
               style={{
                 // background: ``,
                 transformOrigin: "left center",
