@@ -34,6 +34,8 @@ export const useDiaryEntries = () => {
     updated_at: doc.$updatedAt,
   });
 
+  
+
   // Fetch Session User
   useEffect(() => {
     const init = async () => {
