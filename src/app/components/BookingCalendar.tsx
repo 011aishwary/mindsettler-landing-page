@@ -115,6 +115,7 @@ export function BookingCalendar({ selectedDate, onSelectDate, bookedDates, isLoa
                   !disabled && !isSelected && "hover:bg-purple4 hover:shadow-md",
                   isSelected && "gradient-accent text-Primary-purple  shadow-primary",
                   today && !isSelected && "ring ring-black/2 bg-purple5",
+                  isDateFullyBooked(date) && "bg-red-500/10 text-red-600 border border-red-600",
                   isLoading && "animate-pulse"
                 )}
                 aria-label={format(date, "MMMM d, yyyy")}

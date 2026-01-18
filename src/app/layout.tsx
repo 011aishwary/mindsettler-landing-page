@@ -6,6 +6,7 @@ import { Poppins, Inter } from "next/font/google";
 import { NavbarDemo } from "./components/Navbar";
 import React from "react";
 import Chatbot from "./components/Chatbot";
+import { Toaster } from "./components/ui/toaster";
 
 
 
@@ -60,6 +61,7 @@ export default function RootLayout({
         <div className="overflow-x-clip max-h-screen">
         {children}
         </div>
+        <Toaster />
       </body>
     </html>
   );

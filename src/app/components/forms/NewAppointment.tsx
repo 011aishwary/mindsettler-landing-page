@@ -7,21 +7,17 @@ import Image from "next/image"
 import { createUser, getPatient } from "../../../../lib/actions/patient.actions"
 import { Form, FormControl } from "../ui/Form"
 import CustomFormField from "../CustomFormField"
-import SubmitButton from "../ui/SubmitButton"
 import { Dispatch, SetStateAction, useState } from "react"
 import { getAppointmentSchema } from "../../../../lib/validation"
 import { useRouter } from "next/navigation"
 import { FormFeildType } from "@/app/Signup/page"
 import { createAppointment, getRecentAppointmentList, updateAppointment } from "../../../../lib/actions/appointment.actions"
 import { Appointment } from "../../../../types/appwrite.types"
-import { Status } from "../../../../types/appwrite.types"
-import sendMail from "../MailSender"
+import { Status } from "../../../../types/appwrite.types";
 import { SelectItem } from "../ui/select"
 import FileUploader from "../ui/FileUploader"
 import { useQRCode } from "next-qrcode";
-import GoogleCalendarButton from "../GoogleCalendarButton"
 import { usePathname } from "next/navigation"
-import { AppointmentBooking } from "../AppointmentBooking"
 import { toast } from "../../../../hooks/use-toast"
 import { useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -29,10 +25,10 @@ import { format} from "date-fns";
 import { CalendarDays, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { BookingCalendar } from "../BookingCalendar";
 import { TimeSlotPicker } from "../TimeSlotPicker";
-import { BookingForm } from "../BookingForm";
 import { BookingSummary } from "../BookingSummary";
 import { Button } from "../ui/button1";
 import GradientQRCode from "../Qrcodegenerator"
+import sendMail from "../../../app/components/MialSender"
 
 
 interface FormData {
@@ -149,12 +145,13 @@ export const AppointmentForm = ({
         const dateString = format(selectedDate, "yyyy-MM-dd");
         return appointments
             .filter((apt) => {
-                // Convert schedule Date to string, then extract date portion
-                const scheduleString = apt.schedule instanceof Date
-                    ? format(apt.schedule, "yyyy-MM-dd'T'HH:mm:ss")
-                    : apt.schedule;
-                const aptDate = scheduleString.split("T")[0];
-                return aptDate === dateString;
+                // Only consider scheduled appointments
+                if (apt.status !== "scheduled") return false;
+
+                // Handle timezone issues by creating a Date object from the string
+                const aptDateObj = new Date(apt.schedule);
+                const aptDateString = format(aptDateObj, "yyyy-MM-dd");
+                return aptDateString === dateString;
             })
             .map((apt) => apt.time);
     }, [selectedDate, appointments]);

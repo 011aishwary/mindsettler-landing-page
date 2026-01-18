@@ -1,31 +1,17 @@
-import smtplib
-from email.message import EmailMessage
-import ssl
-import sys
-import time
-import random
-import os
-from dotenv import load_dotenv
-import json
-import traceback
-# ============ CONFIGURATION ============
-load_dotenv()
-SMTP_SERVER = "smtp.gmail.com"
-SMTP_PORT = 465
-
-SENDER_EMAIL = os.getenv("MINDSETTLER_EMAIL")
-SENDER_PASSWORD = os.getenv("MINDSETTLER_PASS")
- # App password
-
-SUBJECT1 = "Your MindSettler Session is Confirmed"
-SUBJECT2 = "Important: Cancellation & Rescheduling your MindSettler Session"
-SUBJECT3 = "We’ve received your request | MindSettler"
+export const getEmailTemplate = (status: string, userName: string , date: string, mode: string, time: string) => {
+    // Common styles to keep emails looking consistent
 
 
-# ============ EMAIL TEMPLATE ============
+    // Define your 3 Templates here
+    switch (status.toLowerCase()) {
 
-EMAIL_TEMPLATE1 = """
-<!DOCTYPE html>
+        // TEMPLATE 1: PENDING
+        case 'schedule':
+            return {
+                subject: "Your MindSettler Session is Confirmed",
+
+                html: `
+          <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -45,7 +31,7 @@ EMAIL_TEMPLATE1 = """
     <!-- Content -->
     <div style="padding:30px; line-height:1.6;">
 
-        <p>Dear <strong>{name}</strong>,</p>
+        <p>Dear <strong>${userName}</strong>,</p>
 
         <p>
             We’re happy to inform you that your session with MindSettler has been successfully confirmed.
@@ -57,9 +43,9 @@ EMAIL_TEMPLATE1 = """
             <h3 style="margin-top:0; color:#769fcd; font-size:18px;">Session Details:</h3>
 
             <ul style="list-style:none; padding:0; margin:0;">
-                <li style="margin-bottom:8px;"><strong>Date:</strong> {date}</li>
-                <li style="margin-bottom:8px;"><strong>Time:</strong> {time}</li>
-                <li style="margin-bottom:8px;"><strong>Mode:</strong> {mode}</li>
+                <li style="margin-bottom:8px;"><strong>Date:</strong> ${date}</li>
+                <li style="margin-bottom:8px;"><strong>Time:</strong> ${time}</li>
+                <li style="margin-bottom:8px;"><strong>Mode:</strong> ${mode}</li>
                 <li style="margin-bottom:8px;"><strong>Therapist:</strong> Parnika Bajaj</li>
             </ul>
 
@@ -102,10 +88,16 @@ EMAIL_TEMPLATE1 = """
 
 </body>
 </html>
+        `
+            };
 
-"""
-EMAIL_TEMPLATE2 = """
-<!DOCTYPE html>
+        // TEMPLATE 2: SCHEDULED (Success)
+        case 'cancel':
+            return {
+                subject: "Important: Cancellation & Rescheduling your MindSettler Session",
+
+                html: `
+          <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -125,11 +117,11 @@ EMAIL_TEMPLATE2 = """
     <!-- Content -->
     <div style="padding:30px; line-height:1.6;">
 
-        <p>Dear <strong>{name}</strong>,</p>
+        <p>Dear <strong>${userName}</strong>,</p>
 
         <p>
             We are reaching out to inform you that, due to an unexpected conflict, we have had to cancel your session
-            scheduled for <strong>{date}</strong> at <strong>{time}</strong>. Please accept our sincerest apologies for this change.
+            scheduled for <strong>${date}</strong> at <strong>${time}</strong>. Please accept our sincerest apologies for this change.
         </p>
 
         <p>
@@ -184,10 +176,15 @@ EMAIL_TEMPLATE2 = """
 </body>
 </html>
 
-"""
+        `
+            };
 
-EMAIL_TEMPLATE3 = """
-<!DOCTYPE html>
+        // TEMPLATE 3: CANCELLED (Rejected)
+        case 'create':
+            return {
+                subject: "We’ve received your request | MindSettler",
+                html: `
+         <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -207,7 +204,7 @@ EMAIL_TEMPLATE3 = """
     <!-- Content -->
     <div style="padding:30px; line-height:1.6;">
 
-        <p>Dear <strong>{name}</strong>,</p>
+        <p>Dear <strong>${userName}</strong>,</p>
 
         <p>
             Thank you for reaching out to MindSettler. We have successfully received your application for an appointment.
@@ -224,9 +221,9 @@ EMAIL_TEMPLATE3 = """
             <h3 style="margin-top:0; color:#769fcd; font-size:18px;">Your Requested Details:</h3>
 
             <ul style="list-style:none; padding:0; margin:0;">
-                <li style="margin-bottom:8px;"><strong>Preferred Date:</strong> {date}</li>
-                <li style="margin-bottom:8px;"><strong>Preferred Time:</strong> {time}</li>
-                <li style="margin-bottom:8px;"><strong>Mode:</strong> {mode}</li>
+                <li style="margin-bottom:8px;"><strong>Preferred Date:</strong> ${date}</li>
+                <li style="margin-bottom:8px;"><strong>Preferred Time:</strong> ${time}</li>
+                <li style="margin-bottom:8px;"><strong>Mode:</strong> ${mode}</li>
             </ul>
 
         </div>
@@ -272,125 +269,14 @@ EMAIL_TEMPLATE3 = """
 
 </body>
 </html>
+        `
+            };
 
-"""
-
-
-
-# ============ HELPER ============
-
-def create_email(to_email, name, date, time, mode, status):
-    
-    if status == "schedule":
-        msg = EmailMessage()
-        msg["Subject"] = SUBJECT1
-        msg["From"] = SENDER_EMAIL
-        msg["To"] = to_email
-        msg.set_content(
-            EMAIL_TEMPLATE1.format(
-                name=name,
-                date=date,
-                time=time,
-                mode=mode
-            ),
-            subtype = "html"
-        )
-    elif status == "cancel":
-        msg = EmailMessage()
-        msg["Subject"] = SUBJECT2
-        msg["From"] = SENDER_EMAIL
-        msg["To"] = to_email
-        msg.set_content(
-            EMAIL_TEMPLATE2.format(
-                name=name,
-                date=date,
-                time=time,
-                mode=mode
-            ),
-            subtype = "html"
-        )
-    elif status == "create":
-        msg = EmailMessage()
-        msg["Subject"] = SUBJECT3
-        msg["From"] = SENDER_EMAIL
-        msg["To"] = to_email
-        msg.set_content(
-            EMAIL_TEMPLATE3.format(
-                name=name,
-                date=date,
-                time=time,
-                mode=mode
-            ),
-            subtype = "html"
-        )
-    else:
-        raise ValueError(f"Invalid status: {status}. Must be 'schedule', 'cancel', or 'create'.")
-    return msg
-
-
-def main(email, name, date, timee, mode, status):
-    print("=== MindSettler Email Sender ===")
-
-    
-    context = ssl.create_default_context()
-    server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, context=context)
-    server.login(SENDER_EMAIL, SENDER_PASSWORD)
-    
-
-    
-
-    try:
-        msg = create_email(email, name, date, timee, mode, status)
-
-        
-        server.send_message(msg)
-        print(f"   ✅ Sent email to {name} <{email}>")
-
-        
-
-    finally:
-        if server:
-            server.quit()
-
-    # print(f"\n✅ DONE: {count} emails processed")
-
-
-
-if __name__ == "__main__":
-
-    # main()
-    try:
-        input_msg = sys.argv[1] if len(sys.argv) > 1 else "{}"
-        # input_data = {
-        #     "email": "doodle1boogle@gmail.com",
-        #     "name": "Aishwary G",
-        #     "date": "2024-06-30",
-        #     "time": "10:00 AM",
-        #     "mode": "Online"
-        # }
-        
-        try:
-            input_data = json.loads(input_msg)
-        except json.JSONDecodeError as e:
-            print(json.dumps({"error": f"Invalid JSON input: {str(e)}"}))
-            sys.exit(1)
-        email = input_data.get("email", "").strip()
-        name = input_data.get("name", "").strip()
-        date = input_data.get("date", "").strip()
-        timee = input_data.get("time", "").strip()
-        mode = input_data.get("mode", "").strip()
-        status = input_data.get("status", "").strip()
-        print(email)
-        print(f"Preparing email for {name} <{email}> on {date} at {timee} ({mode}) and status: {status}")
-
-        main(email, name, date, timee, mode, status)
-
-        print(f"\nSending to {email}...")
-        # result = query_chatbot(input_msg)
-        # response = {"Reply": result}
-        print( json.dumps(input_data) )
-    except Exception as e:
-        error_response = {"error": str(e)}
-        print(json.dumps(error_response)) 
-        traceback.print_exc()
-        sys.exit(1)
+        // Fallback for unknown status
+        default:
+            return {
+                subject: 'Notification from MindSettler',
+                html: `<div><p>Hello ${userName}, you have a new notification.</p></div>`
+            };
+    }
+};

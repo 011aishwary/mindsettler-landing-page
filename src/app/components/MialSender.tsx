@@ -5,7 +5,7 @@ interface MailData {
 const sendMail = async (mailData: MailData): Promise<{ success: boolean; message?: string }> => {
   try {
 
-    const response = await fetch('/api/mail', {
+    const response = await fetch('/api/Mail', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

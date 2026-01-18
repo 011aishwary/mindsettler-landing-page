@@ -14,6 +14,7 @@ import { account } from "../../../lib/appwrite.config"
 import Link from "next/link"
 import { createCookieSession } from "../../../lib/actions/patient.actions"
 import { motion } from "framer-motion"
+import { useToast } from "../../../hooks/use-toast"
 
 export enum FormFeildType {
   INPUT ='input',
@@ -31,6 +32,8 @@ export enum FormFeildType {
 const page = () => {
   // ...
   const  [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast()
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 const [user, setUser] = useState<any>(null);
 //   useEffect(() => {
@@ -52,6 +55,7 @@ const [user, setUser] = useState<any>(null);
   // 2. Define a submit handler.
   async function onSubmit({email,password}: z.infer<typeof LoginFormValidation>) {
     setIsLoading(true);
+    setError(null);
     console.log("Form submitted with:", {email, password});
     // preventDefault();
 
@@ -68,8 +72,15 @@ const [user, setUser] = useState<any>(null);
     //   if (userLog) router.push(`/patient/${userLog.userId}/register`);
       if (userLog) router.push("/");
     //   router.push("/dashboard");
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
+      setError("Invalid email or password. Please try again.");
+      toast({
+        variant: "destructive",
+        title: "Login Failed",
+        description: err.message || "Invalid email or password. Please try again.",
+      });
+      setIsLoading(false);
     }
 
     // try {
@@ -170,6 +181,16 @@ const [user, setUser] = useState<any>(null);
                   iconAlt="password"
                 />
               </motion.div>
+
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-red-500 text-sm text-center bg-red-50 p-2 rounded-md border border-red-200"
+                >
+                  {error}
+                </motion.div>
+              )}
 
               {/* Submit Button */}
               <motion.div

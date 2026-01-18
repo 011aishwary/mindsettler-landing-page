@@ -1,66 +1,36 @@
-import path from 'path';
-import { PythonShell } from 'python-shell';
+import { NextResponse } from 'next/server';
+import nodemailer from 'nodemailer';
+import { getEmailTemplate } from '../../../../lib/emailTemplate'; 
 
+export async function POST(request) {
+  try {
+    const { email, name, date , mode , time ,status } = await request.json();
 
-export async function POST(req) {
-    const msg = await req.json();
-
-    const inp_msg = JSON.stringify(msg);
-    console.log("Received message:", msg);
-    try {
-        // const pythonOptions = {
-        //     mode:"text",
-        //     pythonPath: "python",
-        //     scriptPath: path.join(process.cwd() , 'Mindsettler_agent'),
-        //     args: [inp_msg],
-        //     timeout:100000
-        // };
-        console.log("Running Python script with options:", inp_msg);
-        const pythonRes = await fetch("/api/mail.py",
-            {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(body),
-            }
-        );
-        const data = await pythonRes.json();
-        return NextResponse.json(data);
-
-        // const output = await new Promise((resolve, reject) => {
-        //     console.log("Starting PythonShell...");
-        //     const pyshell = new PythonShell('mail.py', pythonOptions);
-
-        //     // Send imput to the Python script
-        //     pyshell.send(inp_msg);
-        //     pyshell.end();
-
-        //     let result = [];
-
-        //     pyshell.on('message', (message) => {
-        //         result.push(message);
-        //     })
-        //     pyshell.on('close', () => {
-        //         resolve(result.join(''));
-        //     })
-        //     pyshell.on('error', (error) => {
-        //         reject(error);
-        //     })
-        // })
-        // const out = output
-
-        // console.log("Python script output:", output);
-
-        // return new Response(output, {
-        //     status: 200,
-        //     headers: { 'Content-Type': 'application/json' }
-        // });
-
-    } catch (error) {
-        console.error(error);
-        return new Response(JSON.stringify({
-            error: "API error",
-            details: error.message,
-            type: "test ROute"
-        }))
+    if (!email || !name || !status || !date || !mode || !time) {
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
+    const { subject, html } = getEmailTemplate(status, name , date , mode , time );
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail', // or your SMTP provider
+      auth: {
+        user: process.env.MINDSETTLER_EMAIL,
+        pass: process.env.MINDSETTLER_PASS, 
+      },
+    });
+
+    //  Send the Email
+    await transporter.sendMail({
+      from: `"MindSettler Team" <${process.env.MINDSETTLER_EMAIL}>`,
+      to: email,
+      subject: subject,
+      html: html,
+    });
+
+    return NextResponse.json({ success: true, message: "Email sent successfully" });
+
+  } catch (error) {
+    console.error("Email Error:", error);
+    return NextResponse.json({ error: "Failed to send email" }, { status: 500 });
+  }
 }
