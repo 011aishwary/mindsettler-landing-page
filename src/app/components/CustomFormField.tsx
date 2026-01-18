@@ -12,7 +12,7 @@ import {
     FormMessage,
 } from "../components/ui/Form"
 import { Input } from "../components/ui/Input"
-import { FormFeildType } from "../../../types"
+import { FormFeildType } from "../Signup/page"
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import React, { useState } from "react"
@@ -44,7 +44,7 @@ interface CustomProps {
 
 const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
     const { control, fieldtype, name, label, placeholder, dateFormat, showTimeSelect, iconSrc, iconAlt } = props;
-    // const [startDate, setStartDate] = useState(new Date()); // Removed unused and potentially problematic state
+    const [startDate, setStartDate] = useState(new Date());
     switch (props.fieldtype) {
         case FormFeildType.INPUT:
             return (
@@ -69,7 +69,7 @@ const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
                 </div>
             );
         case FormFeildType.PHONE_INPUT: {
-            // const [value, setValue] = useState() // Removed illegal hook usage inside switch
+            const [value, setValue] = useState()
             return (
                 <FormControl>
                     <PhoneInput

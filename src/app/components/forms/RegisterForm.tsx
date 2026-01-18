@@ -118,37 +118,25 @@ const RegisterForm = ({ user }: { user: User }) => {
         <div className="w-full h-full flex items-center justify-center bg-white">
             {!isLoadingUser && (
                 <Form {...form}>
-                    <motion.form 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.8 }}
+                    <form 
                         onSubmit={form.handleSubmit(onSubmit)} 
-                        className="space-y-6 h-[90vh] mt-24 px-16 flex flex-col w-full  py-6"
+                        className="space-y-6 h-[90vh] mt-24 px-16 max-sm:px-0 flex flex-col w-full py-6"
                     >
-                        <motion.section 
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.1 }}
+                        <section 
                             className="flex flex-col items-start mb-6 w-full"
                         >
-                            <h1 className="text-Primary-purple font-bold text-3xl md:text-4xl mb-1">Welcome</h1>
+                            <h1 className="text-Primary-purple font-bold text-3xl md:text-4xl mb-1 drop-shadow-sm">Welcome</h1>
                             <h2 className="text-purple4 text-base md:text-lg">Let us know more about yourself</h2>
-                        </motion.section>
+                        </section>
 
-                        <motion.section 
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.5, delay: 0.2 }}
+                        <section 
                             className="w-full"
                         >
                            <h2 className="text-purple4 text-xl font-semibold mb">Personal Information</h2>
-                        </motion.section>
+                        </section>
 
-                        <motion.div 
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.4, delay: 0.3 }}
-                            className="w-full"
+                        <div 
+                            className="w-full hover:shadow-sm transition-all duration-300 rounded-md"
                         >
                             <CustomFormField
                                 fieldtype={FormFeildType.INPUT}
@@ -159,14 +147,11 @@ const RegisterForm = ({ user }: { user: User }) => {
                                 iconSrc="/assets/login.svg"
                                 iconAlt="login"
                             />
-                        </motion.div>
+                        </div>
 
                         <div className="flex flex-col md:flex-row gap-6 w-full">
-                            <motion.div 
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.4, delay: 0.4 }}
-                                className="flex-1 w-full"
+                            <div 
+                                className="flex-1 w-full hover:shadow-sm transition-all duration-300 rounded-md"
                             >
                                 <CustomFormField
                                     disabled={true}
@@ -178,12 +163,9 @@ const RegisterForm = ({ user }: { user: User }) => {
                                     iconSrc="/assets/login.svg"
                                     iconAlt="email"
                                 />
-                            </motion.div>
-                            <motion.div 
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.4, delay: 0.4 }}
-                                className="flex-1 w-full"
+                            </div>
+                            <div 
+                                className="flex-1 w-full hover:shadow-sm transition-all duration-300 rounded-md"
                             >
                                 <CustomFormField
                                     fieldtype={FormFeildType.PHONE_INPUT}
@@ -192,15 +174,12 @@ const RegisterForm = ({ user }: { user: User }) => {
                                     label="Phone Number"
                                     placeholder="+91 0123456789"
                                 />
-                            </motion.div>
+                            </div>
                         </div>
 
                         <div className="flex flex-col md:flex-row gap-6 w-full">
-                            <motion.div 
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.4, delay: 0.5 }}
-                                className="flex-1 w-full"
+                            <div 
+                                className="flex-1 w-full hover:shadow-sm transition-all duration-300 rounded-md"
                             >
                                 <CustomFormField
                                     fieldtype={FormFeildType.DATE_PICKER}
@@ -210,12 +189,9 @@ const RegisterForm = ({ user }: { user: User }) => {
                                     iconSrc="/assets/login.svg"
                                     iconAlt="email"
                                 />
-                            </motion.div>
-                            <motion.div 
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.4, delay: 0.5 }}
-                                className="flex-1 w-full"
+                            </div>
+                            <div 
+                                className="flex-1 w-full hover:shadow-sm transition-all duration-300 rounded-md"
                             >
                                 <CustomFormField
                                     fieldtype={FormFeildType.SKELETON}
@@ -241,15 +217,12 @@ const RegisterForm = ({ user }: { user: User }) => {
                                         </FormControl>
                                     )}
                                 />
-                            </motion.div>
+                            </div>
                         </div>
 
                         <div className="flex flex-col md:flex-row gap-6 w-full">
-                            <motion.div 
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.4, delay: 0.6 }}
-                                className="flex-1 w-full"
+                            <div 
+                                className="flex-1 w-full hover:shadow-sm transition-all duration-300 rounded-md"
                             >
                                 <CustomFormField
                                     fieldtype={FormFeildType.INPUT}
@@ -260,12 +233,9 @@ const RegisterForm = ({ user }: { user: User }) => {
                                     iconSrc="/assets/buildings.svg"
                                     iconAlt="add"
                                 />
-                            </motion.div>
-                            <motion.div 
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.4, delay: 0.6 }}
-                                className="flex-1 w-full"
+                            </div>
+                            <div 
+                                className="flex-1 w-full hover:shadow-sm transition-all duration-300 rounded-md"
                             >
                                 <CustomFormField
                                     fieldtype={FormFeildType.INPUT}
@@ -276,24 +246,18 @@ const RegisterForm = ({ user }: { user: User }) => {
                                     iconSrc="/assets/buildings.svg"
                                     iconAlt="buil"
                                 />
-                            </motion.div>
+                            </div>
                         </div>
 
-                        <motion.section 
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.4, delay: 0.7 }}
+                        <section 
                             className="pt-4 w-full"
                         >
                             <h2 className="text-purple4 text-xl font-semibold mb-4">Medical Information</h2>
-                        </motion.section>
+                        </section>
 
                         <div className="flex flex-col md:flex-row gap-6 w-full">
-                            <motion.div 
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.4, delay: 0.8 }}
-                                className="flex-1 w-full"
+                            <div 
+                                className="flex-1 w-full hover:shadow-sm transition-all duration-300 rounded-md"
                             >
                                 <CustomFormField
                                     fieldtype={FormFeildType.TEXTAREA}
@@ -304,12 +268,9 @@ const RegisterForm = ({ user }: { user: User }) => {
                                     iconSrc="/assets/shield.svg"
                                     iconAlt="call"
                                 />
-                            </motion.div>
-                            <motion.div 
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.4, delay: 0.8 }}
-                                className="flex-1 w-full"
+                            </div>
+                            <div 
+                                className="flex-1 w-full hover:shadow-sm transition-all duration-300 rounded-md"
                             >
                                 <CustomFormField
                                     fieldtype={FormFeildType.TEXTAREA}
@@ -320,23 +281,17 @@ const RegisterForm = ({ user }: { user: User }) => {
                                     iconSrc="/assets/stack.svg"
                                     iconAlt="medical history"
                                 />
-                            </motion.div>
+                            </div>
                         </div>
 
-                        <motion.section 
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.4, delay: 0.9 }}
+                        <section 
                             className="pt-4 w-full"
                         >
                             <h2 className="text-purple4 text-xl font-semibold mb-4">Identification and Verification</h2>
-                        </motion.section>
+                        </section>
 
-                        <motion.div 
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.4, delay: 1.0 }}
-                            className="w-full"
+                        <div 
+                            className="w-full hover:shadow-sm transition-all duration-300 rounded-md"
                         >
                             <CustomFormField
                                 fieldtype={FormFeildType.SELECT}
@@ -351,13 +306,10 @@ const RegisterForm = ({ user }: { user: User }) => {
                                     </SelectItem>
                                 ))}
                             </CustomFormField>
-                        </motion.div>
+                        </div>
 
-                        <motion.div 
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.4, delay: 1.1 }}
-                            className="w-full"
+                        <div 
+                            className="w-full hover:shadow-sm transition-all duration-300 rounded-md"
                         >
                             <CustomFormField
                                 fieldtype={FormFeildType.INPUT}
@@ -368,13 +320,10 @@ const RegisterForm = ({ user }: { user: User }) => {
                                 iconSrc="/assets/chat.svg"
                                 iconAlt="call"
                             />
-                        </motion.div>
+                        </div>
 
-                        <motion.div 
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.4, delay: 1.2 }}
-                            className="w-full"
+                        <div 
+                            className="w-full hover:shadow-sm transition-all duration-300 rounded-md"
                         >
                             <CustomFormField
                                 fieldtype={FormFeildType.SKELETON}
@@ -387,22 +336,16 @@ const RegisterForm = ({ user }: { user: User }) => {
                                     </FormControl>
                                 )}
                             />
-                        </motion.div>
+                        </div>
 
-                        <motion.section 
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.4, delay: 1.3 }}
+                        <section 
                             className="pt-4 w-full"
                         >
                             <h2 className="text-purple4 text-xl font-semibold mb-4">Consent and Privacy</h2>
-                        </motion.section>
+                        </section>
 
-                        <motion.div 
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.5, delay: 1.4 }}
-                            className="space-y-4 w-full"
+                        <div 
+                            className="space-y-4 w-full p-4 rounded-lg hover:bg-purple-50/30 transition-colors duration-300"
                         >
                             <CustomFormField
                                 fieldtype={FormFeildType.CHECKBOX}
@@ -422,28 +365,25 @@ const RegisterForm = ({ user }: { user: User }) => {
                                 name="privacyConsent"
                                 label="I consent to privacy policy"
                             />
-                        </motion.div>
+                        </div>
 
-                        <motion.div 
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 1.5, type: "spring", stiffness: 120 }}
+                        <div 
                             className="pt-6 w-full"
                         >
-                            <SubmitButton className="w-full bg-Primary-purple hover:bg-purple2 transition-colors h-12 text-lg" isLoading={isLoading}>
+                            <SubmitButton 
+                                className="w-full bg-Primary-purple hover:bg-purple2 hover:shadow-lg hover:shadow-purple-200 active:scale-[0.99] transition-all duration-300 h-12 text-lg" 
+                                isLoading={isLoading}
+                            >
                                 Getting Started
                             </SubmitButton>
-                        </motion.div>
+                        </div>
 
-                        <motion.div 
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.5, delay: 1.6 }}
+                        <div 
                             className="pb-8 pt-4 text-center text-sm text-gray-500 w-full"
                         >
                             MindSettler all rights reserved.
-                        </motion.div>
-                    </motion.form>
+                        </div>
+                    </form>
                 </Form>
             )}
         </div>

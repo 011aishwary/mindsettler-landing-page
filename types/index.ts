@@ -17,18 +17,6 @@ declare type SearchParamProps = {
 
 export type Status = "scheduled" | "pending" | "cancelled";
 export type Gender = "male" | "female" | "other";
-
-export enum FormFeildType {
-  INPUT = 'input',
-  TEXTAREA = 'textarea',
-  CHECKBOX = 'checkbox',
-  PHONE_INPUT = 'phoneInput',
-  SELECT = 'select',
-  DATE_PICKER = 'datePicker',
-  DATE_TIME_PICKER = 'dateTimePicker',
-  SKELETON = 'skeleton',
-}
-
 export declare interface CreateUserParams {
   name: string;
   email: string;

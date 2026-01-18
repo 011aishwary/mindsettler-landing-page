@@ -128,34 +128,20 @@ const page = () => {
         }}
       />
 
-      {/* Left Side - Form */}
-      <motion.div
-        className="w-full lg:w-1/2 lg:mt-2 lg:overflow-scroll lg:h-[98vh] flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 py-8 sm:py-12 lg:py-0 relative z-20"
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+      {/* Left Side - Form (No Framer MotionWrapper) */}
+      <div
+        className="w-full lg:w-1/2 lg:mt-8 lg:overflow-scroll lg:h-[98vh] flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 py-8 sm:py-12 lg:py-0 relative z-20"
       >
-        <div className="w-full mt-48 max-w-md">
+        <div className="w-full max-w-md">
           {/* Header */}
-          <motion.div
-            className="mb-8 sm:mb-10"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
+          <div className="mb-8 sm:mb-10">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-Primary-purple mb-2">Begin Your Journey</h1>
             <p className="text-sm sm:text-base text-purple4">Create your account and start your mental wellness journey today</p>
-          </motion.div>
+          </div>
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 sm:space-y-6">
-              {/* Name Field */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="relative z-30"
-              >
+              
                 <CustomFormField
                   fieldtype={FormFeildType.INPUT}
                   control={form.control}
@@ -165,15 +151,9 @@ const page = () => {
                   iconSrc="/assets/login.svg"
                   iconAlt="name"
                 />
-              </motion.div>
+             
 
-              {/* Email Field */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.25 }}
-                className="relative z-30"
-              >
+              
                 <CustomFormField
                   fieldtype={FormFeildType.INPUT}
                   control={form.control}
@@ -183,15 +163,8 @@ const page = () => {
                   iconSrc="/assets/login.svg"
                   iconAlt="email"
                 />
-              </motion.div>
+           
 
-              {/* Phone Field */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="relative z-30"
-              >
                 <CustomFormField
                   fieldtype={FormFeildType.PHONE_INPUT}
                   control={form.control}
@@ -199,15 +172,7 @@ const page = () => {
                   label="Phone Number"
                   placeholder="+91 98765 43210"
                 />
-              </motion.div>
-
-              {/* Password Field */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.35 }}
-                className="relative z-30"
-              >
+             
                 <CustomFormField
                   fieldtype={FormFeildType.INPUT}
                   control={form.control}
@@ -217,37 +182,22 @@ const page = () => {
                   iconSrc="/assets/login.svg"
                   iconAlt="password"
                 />
-              </motion.div>
-
-              {/* Submit Button */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="relative z-30 pt-2"
-              >
-                <SubmitButton isLoading={isLoading}>Create Account</SubmitButton>
-              </motion.div>
+             
+                <div className="hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200">
+                  <SubmitButton isLoading={isLoading}>Create Account</SubmitButton>
+                </div>
 
               <button
                 onClick={signupgoogle}
                 type="button"
-                className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-Primary-purple transition-colors duration-300"
+                className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-Primary-purple hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
               >
                 <Lock className="w-5 h-5 mr-2 text-Primary-purple" />
                 Sign up with Google
 
               </button>
 
-              {/* Divider */}
-              <motion.div
-                className="relative my-6 sm:my-8 z-30"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.45 }}
-              >
+              <div className="relative my-6 sm:my-8 z-30">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-gray-300" />
                 </div>
@@ -256,41 +206,25 @@ const page = () => {
                     Already a member?
                   </span>
                 </div>
-              </motion.div>
+              </div>
 
-              {/* Login Link */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                className="text-center relative z-30"
-              >
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-center relative z-30 text-gray-600">
                   Already have an account?{' '}
-                  <motion.span
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="inline-block"
-                  >
+                  <span className="inline-block hover:scale-105 transition-transform duration-200">
                     <Link
                       href="/Login"
                       className="text-Primary-pink font-bold hover:text-Primary-purple/80 transition-colors duration-300 hover:underline underline-offset-4"
                     >
                       Sign In
                     </Link>
-                  </motion.span>
+                  </span>
                 </p>
-              </motion.div>
+            
             </form>
           </Form>
 
           {/* Footer Text */}
-          <motion.p
-            className="text-xs sm:text-sm text-center text-gray-500 mt-6 sm:mt-8 relative z-30"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.55 }}
-          >
+          <p className="text-xs sm:text-sm text-center text-gray-500 mt-6 sm:mt-8 relative z-30">
             By creating an account, you agree to our{' '}
             <Link href="#" className="text-Primary-purple hover:underline">
               Terms of Service
@@ -299,9 +233,9 @@ const page = () => {
             <Link href="#" className="text-Primary-purple hover:underline">
               Privacy Policy
             </Link>
-          </motion.p>
+          </p>
         </div>
-      </motion.div>
+      </div>
 
       {/* Right Side - Image (Hidden on Mobile, Visible on LG) */}
       <motion.div

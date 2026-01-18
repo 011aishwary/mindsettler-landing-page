@@ -14,7 +14,7 @@ const NewAppointment = async ({ params }: { params: Promise<{ userId: string }> 
     return (
         <>
             <div className="flex absolute  inset-0 h-screen overflow-visible  bg-white justify-center items-center min gap-10 w-screen ">
-                <div className="flex flex-col mx-auto p-2 pb-10 mb-10 h-screen overflow-auto justify-center items-center self-center-safe relative lg:w-screen w-[65vw]">
+                <div className="flex flex-col mx-auto p-2 pb-10 mb-10 h-screen overflow-auto justify-center items-center self-center-safe relative lg:w-screen w-[65vw] max-sm:w-full">
 
                     <AppointmentForm type="create" patientId={patient.$id}  userId={userId} />
                     {/* <RegisterForm user={user} /> */}

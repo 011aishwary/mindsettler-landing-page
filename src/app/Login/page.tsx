@@ -15,7 +15,19 @@ import Link from "next/link"
 import { createCookieSession } from "../../../lib/actions/patient.actions"
 import { motion } from "framer-motion"
 import { useToast } from "../../../hooks/use-toast"
-import { FormFeildType } from "../../../types"
+
+export enum FormFeildType {
+  INPUT ='input',
+  TEXTAREA= 'textarea',
+  CHECKBOX= 'checkbox',
+  PHONE_INPUT= 'phoneInput',
+  SELECT = 'select',
+  DATE_PICKER= 'datePicker',
+  DATE_TIME_PICKER= 'dateTimePicker',
+  SKELETON= 'skeleton',
+}
+
+
 
 const page = () => {
   // ...
@@ -113,32 +125,23 @@ const [user, setUser] = useState<any>(null);
         }}
       />
 
-      {/* Left Side - Form */}
-      <motion.div
+      {/* Left Side - Form (No Framer MotionWrapper) */}
+      <div
         className="w-full lg:w-1/2 flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 py-8 sm:py-12 lg:py-0 relative z-20"
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <div className="w-full max-w-md">
           {/* Header */}
-          <motion.div
+          <div
             className="mb-8 sm:mb-10"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
           >
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-Primary-purple mb-2">Welcome Back</h1>
             <p className="text-sm sm:text-base text-purple4">Log in to schedule your consultation with our expert consultants</p>
-          </motion.div>
+          </div>
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 sm:space-y-6">
               {/* Email Field */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
+              <div
                 className="relative z-30"
               >
                 <CustomFormField
@@ -150,13 +153,10 @@ const [user, setUser] = useState<any>(null);
                   iconSrc="/assets/login.svg"
                   iconAlt="email"
                 />
-              </motion.div>
+              </div>
 
               {/* Password Field */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
+              <div
                 className="relative z-30"
               >
                 <CustomFormField
@@ -168,36 +168,26 @@ const [user, setUser] = useState<any>(null);
                   iconSrc="/assets/login.svg"
                   iconAlt="password"
                 />
-              </motion.div>
+              </div>
 
               {error && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
+                <div
                   className="text-red-500 text-sm text-center bg-red-50 p-2 rounded-md border border-red-200"
                 >
                   {error}
-                </motion.div>
+                </div>
               )}
 
               {/* Submit Button */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="relative z-30"
+              <div
+                className="relative z-30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
               >
                 <SubmitButton isLoading={isLoading}>Getting Started</SubmitButton>
-              </motion.div>
+              </div>
 
               {/* Divider */}
-              <motion.div
+              <div
                 className="relative my-6 sm:my-8 z-30"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
               >
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-gray-300" />
@@ -207,21 +197,16 @@ const [user, setUser] = useState<any>(null);
                     New to MindSettler?
                   </span>
                 </div>
-              </motion.div>
+              </div>
 
               {/* Sign Up Link */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
+              <div
                 className="text-center relative z-30"
               >
                 <p className="text-sm text-gray-600">
                   Don't have an account?{' '}
-                  <motion.span
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="inline-block"
+                  <span
+                    className="inline-block hover:scale-105 transition-transform duration-200"
                   >
                     <Link
                       href="/Signup"
@@ -229,18 +214,15 @@ const [user, setUser] = useState<any>(null);
                     >
                       Create Account
                     </Link>
-                  </motion.span>
+                  </span>
                 </p>
-              </motion.div>
+              </div>
             </form>
           </Form>
 
           {/* Footer Text */}
-          <motion.p
+          <p
             className="text-xs sm:text-sm text-center text-gray-500 mt-6 sm:mt-8 relative z-30"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.7 }}
           >
             By logging in, you agree to our{' '}
             <Link href="#" className="text-Primary-purple hover:underline">
@@ -250,9 +232,9 @@ const [user, setUser] = useState<any>(null);
             <Link href="#" className="text-Primary-purple hover:underline">
               Privacy Policy
             </Link>
-          </motion.p>
+          </p>
         </div>
-      </motion.div>
+      </div>
 
       {/* Right Side - Image (Hidden on Mobile, Visible on LG) */}
       <motion.div
