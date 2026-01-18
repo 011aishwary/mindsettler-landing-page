@@ -42,4 +42,18 @@ export interface Appointment extends Models.Document {
   paymentProof: string | undefined;
   cancellationReason: string | null;
 }
+export interface DiaryEntry extends Models.Document {
+  userId: string;
+  title: string;
+  content: string;
+  privacy: "private" | "shared";
+  entry_date: Date;
+}
+
+export interface ContactMessage extends Models.Document {
+  name: string;
+  email: string;
+  message: string;
+}
+
 export type Status = "pending" | "scheduled" | "cancelled";

@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { toast } from "../hooks/use-toast";
 
 export interface DiaryPreferences {
@@ -19,7 +19,20 @@ const defaultPreferences: DiaryPreferences = {
 
 export const useDiaryPreferences = () => {
   const [preferences, setPreferences] = useState<DiaryPreferences>(defaultPreferences);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // Load preferences from localStorage on mount
+  useEffect(() => {
+    const stored = localStorage.getItem('diaryPreferences');
+    if (stored) {
+      try {
+        setPreferences(JSON.parse(stored));
+      } catch (error) {
+        console.error("Failed to parse diary preferences:", error);
+      }
+    }
+    setLoading(false);
+  }, []);
 
   const updatePreferences = useCallback(async (newPrefs: Partial<DiaryPreferences>) => {
     try {

@@ -2,16 +2,23 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
-
-// import { Doctors } from "@/constants";
 import { formatDateTime } from "../../../../lib/utils";
-import { Appointment } from "../../../../types/appwrite.types";
+import { Appointment, DiaryEntry, ContactMessage } from "../../../../types/appwrite.types";
 import { getPatient } from "../../../../lib/actions/patient.actions";
-// import { Image } from "next/image";
 
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { Button } from "../ui/button1";
 
 import { AppointmentModal } from "../../components/AppointmenModal";
+import { PatientDiaryModal } from "../PatientDiaryModal";
 import {StatusBadge} from "../../components/StatusBadge"
 import Link from "next/link";
 const fetchPatient = async (userId: string): Promise<string> => {
@@ -36,10 +43,6 @@ export const columns: ColumnDef<Appointment>[] = [
     header: "Patient",
     cell:  ({ row }) => {
       const appointment = row.original;
-      // const patientName =await getPatient(appointment.patients);
-      // const patientId = appointment.patients;
-      // const pat = patientId.toString();
-      // const patient = await getPatient(pat);
       return <p className="text-14-medium ">{appointment.patname}</p>;
     },
   },
@@ -68,6 +71,19 @@ export const columns: ColumnDef<Appointment>[] = [
           {appointment.time}
         </p>
         </span>
+      );
+    },
+  },
+  {
+    accessorKey: "diary",
+    header: "Detail",
+    cell: ({ row }) => {
+      const appointment = row.original;
+      return (
+        <PatientDiaryModal 
+          userId={appointment.userId} 
+          patientName={appointment.patname} 
+        />
       );
     },
   },
@@ -107,13 +123,7 @@ export const columns: ColumnDef<Appointment>[] = [
     cell: ({ row }) => {
       const appointment = row.original;
       return(
-        // <Image
-        //   src={appointment.paymentProof ? `${appointment.paymentProof.toString()}&mode=admin` : '/no-image.png'}
-        //   alt="Payment Proof"
-        //   width={50}
-        //   height={50}
-        //   className="rounded-md object-cover"
-        // />
+        
         <Link href={`${appointment.paymentProof?.toString()}&mode=admin`} target="_blank" >
 
         
@@ -123,4 +133,99 @@ export const columns: ColumnDef<Appointment>[] = [
     },
 
   }
+  
+];
+
+export const diaryColumns: ColumnDef<DiaryEntry>[] = [
+  {
+    header: "ID",
+    cell: ({ row }) => <p className="text-14-medium">{row.index + 1}</p>,
+  },
+  {
+    accessorKey: "title",
+    header: "Title",
+    cell: ({ row }) => <p className="text-14-medium">{row.original.title}</p>,
+  },
+  {
+    accessorKey: "entry_date",
+    header: "Date",
+    cell: ({ row }) => (
+      <p className="text-14-medium">{formatDateTime(row.original.entry_date).dateTime}</p>
+    ),
+  },
+  {
+    accessorKey: "content",
+    header: "Content",
+    cell: ({ row }) => {
+      const entry = row.original;
+      if (entry.privacy === "shared") {
+        return (
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="shad-primary-btn">View Content</Button>
+            </DialogTrigger>
+            <DialogContent className="shad-dialog sm:max-w-md bg-black/30 border-dark-500 text-black">
+              <DialogHeader>
+                <DialogTitle className="text-18-bold bg-Primary-purple">{entry.title}</DialogTitle>
+                <DialogDescription className="text-14-regular text-black">
+                  Shared on {formatDateTime(entry.entry_date).dateTime}
+                </DialogDescription>
+              </DialogHeader>
+              <div className="mt-4 p-4 rounded-md bg-black/40 max-h-[60vh] overflow-y-auto">
+                <p className="whitespace-pre-wrap text-16-regular text-black">{entry.content}</p>
+              </div>
+            </DialogContent>
+          </Dialog>
+        );
+      }
+      return null;
+    },
+  },
+];
+
+export const contactColumns: ColumnDef<ContactMessage>[] = [
+  {
+    header: "Date",
+    cell: ({ row }) => (
+      <p className="text-14-medium">{formatDateTime(row.original.$createdAt).dateTime}</p>
+    ),
+  },
+  {
+    accessorKey: "name",
+    header: "Name",
+    cell: ({ row }) => <p className="text-14-medium">{row.original.name}</p>,
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+    cell: ({ row }) => <p className="text-14-medium">{row.original.email}</p>,
+  },
+  {
+    accessorKey: "message",
+    header: "Message",
+    cell: ({ row }) => {
+      const msg = row.original;
+      return (
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline" className="text-xs h-8 px-2 border-primary-500 text-Primary-purple hover:bg-primary-500 hover:text-Primary-pink">View Message</Button>
+          </DialogTrigger>
+          <DialogContent className="shad-dialog sm:max-w-md !bg-white !border-gray-200 !text-black">
+            <DialogHeader>
+              <DialogTitle className="text-18-bold !text-black">Message from {msg.name}</DialogTitle>
+              <DialogDescription className="text-14-regular !text-gray-600">
+                Received on {formatDateTime(msg.$createdAt).dateTime}
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-4 p-4 rounded-md !bg-gray-50 max-h-[60vh] overflow-y-auto !border !border-gray-200">
+              <p className="whitespace-pre-wrap text-16-regular !text-gray-800">{msg.message}</p>
+              <div className="mt-4 pt-4 border-t !border-gray-200">
+                <p className="text-12-regular !text-gray-500">Response Email: {msg.email}</p>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      );
+    },
+  },
 ];

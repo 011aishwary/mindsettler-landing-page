@@ -152,13 +152,18 @@ export const DiaryEntryEditor = ({
 
         {/* Content Area */}
         <div className="h-full p-8 md:p-12 pl-20 md:pl-24 flex flex-col">
+          <span className="text-black"
+          style={{
+              color: preferences.ink_color,
+              fontFamily: getFontFamily(preferences.font_family),
+            }}>Title</span>
           {/* Title Input */}
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Entry title..."
-            className="w-full bg-transparent border-none outline-none text-2xl md:text-3xl font-heading mb-2 placeholder:opacity-40"
+            placeholder="Title of your entry..."
+            className="w-full bg-transparent border-b-2 border-transparent hover:border-black/5 focus:border-black/10 outline-none text-2xl md:text-3xl font-bold mb-4 pb-2 placeholder:opacity-40 transition-colors"
             style={{
               color: preferences.ink_color,
               fontFamily: getFontFamily(preferences.font_family),

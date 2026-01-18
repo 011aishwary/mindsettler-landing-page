@@ -4,14 +4,17 @@ import React from 'react'
 import StatCard from '../../../components/ui/StatCard'
 import {CalendarCheck2 , Hourglass ,  TriangleAlert} from 'lucide-react'
 import { getRecentAppointmentList } from '../../../../../lib/actions/appointment.actions'
+import { getContactMessages } from '../../../../../lib/actions/contact.actions'
 import {DataTable} from '@/app/components/Tables/DataTable'
-import {columns} from '@/app/components/Tables/columns'
+import {columns, contactColumns} from '@/app/components/Tables/columns'
 
 
 
 const AdminPanel = async () => {
     
     const appointments = await getRecentAppointmentList()
+    const contactMessages = await getContactMessages()
+
   return (
     <div className='min-h-screen w-full bg-[#f8f9fa]'>
         <header className="sticky top-0 z-30 w-full backdrop-blur-md bg-Primary-purple/80 border-b border-gray-200 shadow-sm transition-all duration-300">
@@ -82,6 +85,15 @@ const AdminPanel = async () => {
                  </div>
                  <div className="overflow-x-auto px-8">
                     <DataTable columns={columns} data= {appointments.documents} />
+                 </div>
+            </section>
+
+            <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-1 overflow-hidden hover:shadow-md transition-shadow duration-300">
+                 <div className="p-4 sm:p-6 border-b border-gray-100 mb-4">
+                    <h2 className="text-lg font-semibold text-gray-900">Contact Us Messages</h2>
+                 </div>
+                 <div className="overflow-x-auto px-8">
+                    <DataTable columns={contactColumns} data={contactMessages} />
                  </div>
             </section>
         </main>
