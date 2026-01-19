@@ -52,22 +52,6 @@ function Navbar({ className }: { className?: string }) {
   useEffect(() => {
     fetchUserData().then(setUser);
   }, [path]);
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     try {
-  //       // This fetches the currently logged-in user's session
-  //       const userData = await acc.get();
-        
-  //       console.log("Full User Data:", userData); // Check console to see everything
-  //       setUser(userData);
-  //     } catch (error) {
-  //       console.error("Not logged in", error);
-  //       // Optional: Redirect back to login if fetch fails
-      
-  //   };
-  // }
-  //   getUser();
-  // }, []);
 
 
   const [active, setActive] = useState<string | null>(null);
@@ -76,6 +60,7 @@ function Navbar({ className }: { className?: string }) {
   const menuItems = [
     { label: "Home", href: "/" },
     { label: "Login", href: "/Login" },
+    { label: "My Diary", href: "/MyDiary" },
     { label: "Appointment", href: "/new-appointment" },
     { label: "Contact", href: "/contact-us" },
     { label: "Resources", href: "/resources" },
